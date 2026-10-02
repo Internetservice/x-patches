@@ -1,0 +1,48 @@
+/*
+ * Part of X Patches - https://github.com/Internetservice/x-patches
+ * Licensed under the GNU General Public License v3.0.
+ */
+
+package app.xpatches.extension.twitter.patches.hook.patch.video;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import app.xpatches.extension.twitter.patches.hook.json.BaseJsonHook;
+import app.xpatches.extension.twitter.patches.hook.json.JsonParser;
+
+/**
+ * Keeps only the highest bitrate MP4 variant of every video, so the player cannot
+ * pick a lower quality through adaptive streaming.
+ */
+public final class ForceHdVideoHook extends BaseJsonHook {
+    public static final ForceHdVideoHook INSTANCE = new ForceHdVideoHook();
+
+    private ForceHdVideoHook() {
+    }
+
+    @Override
+    public void apply(JSONObject json) {
+        JsonParser.INSTANCE.forEachObject(json, object -> {
+            JSONArray variants = object.optJSONArray("variants");
+            if (variants == null || variants.length() < 2) return;
+
+            JSONObject best = null;
+            long bestBitrate = -1;
+            for (int i = 0; i < variants.length(); i++) {
+                JSONObject variant = variants.optJSONObject(i);
+                if (variant == null || !variant.has("bit_rate") || variant.isNull("bit_rate")) continue;
+                long bitrate = variant.optLong("bit_rate", -1);
+                if (bitrate > bestBitrate) {
+                    bestBitrate = bitrate;
+                    best = variant;
+                }
+            }
+            if (best == null) return;
+
+            JSONArray replacement = new JSONArray();
+            replacement.put(best);
+            JsonParser.put(object, "variants", replacement);
+        });
+    }
+}

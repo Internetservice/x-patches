@@ -21,6 +21,15 @@ Included patches:
 - **Hide Spaces and live** - turns off Spaces and the live stream pills (off by default).
 - **Disable analytics** - drops the client event uploads about your activity (off by default).
 - **Bring back Twitter** - the Twitter bird launcher icon and app name (off by default).
+- **Hide social context** - hides "X follows", "Liked by" and similar lines above posts (off by default).
+- **Hide verified badges** - hides the verification checkmarks and affiliation badges (off by default).
+- **Hide post metrics** - hides the reply, repost, like and bookmark counts (off by default).
+- **Hide promote button** - hides the "Promote" button on your own posts.
+- **Force enable translate** - offers the translate action on every post (off by default).
+- **Force HD video** - plays videos in their highest available quality (off by default).
+- **Keep timeline position** - stops the jump to the top of "For you" when the app is reopened.
+- **Hide extra home tabs** - hides the Subscribed, ranked Following and pinned tabs (off by default).
+- **Open links externally** - always opens links in the external browser (off by default).
 - **Customize sharing link** - changes the domain used when sharing links (for example FxTwitter) and
   optionally includes the username in the link.
 - **Unlock downloads** - unlocks the ability to download any video. GIFs can be downloaded via the menu on long press.
