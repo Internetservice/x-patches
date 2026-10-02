@@ -16,12 +16,12 @@ internal const val TRENDING_LINK_PREFIX = "https://x.com/i/trending/"
 
 internal object LinkSharingDomainHelperFingerprint : Fingerprint(
     definingClass = EXTENSION_CLASS_DESCRIPTOR,
-    name = "getShareDomain",
+    name = "defaultShareDomain",
 )
 
 internal object ReturnUsernameHelperFingerprint : Fingerprint(
     definingClass = EXTENSION_CLASS_DESCRIPTOR,
-    name = "isReturnUsernameEnabled",
+    name = "defaultReturnUsername",
 )
 
 /**

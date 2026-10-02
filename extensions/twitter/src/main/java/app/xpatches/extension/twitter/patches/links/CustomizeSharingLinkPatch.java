@@ -11,6 +11,8 @@ import java.lang.reflect.Modifier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import app.xpatches.extension.twitter.settings.Settings;
+
 @SuppressWarnings("unused")
 public final class CustomizeSharingLinkPatch {
     private static final String LINK_FORMAT = "https://%s/%s/status/%s";
@@ -24,17 +26,32 @@ public final class CustomizeSharingLinkPatch {
     private static volatile Object pendingShareRequest;
 
     /**
-     * Method is modified during patching. Do not change.
+     * @return If this patch was included during patching. Modified during patching.
      */
-    private static String getShareDomain() {
-        return "";
+    public static boolean isPatchIncluded() {
+        return false;
     }
 
     /**
-     * Method is modified during patching. Do not change.
+     * The domain chosen while patching. Modified during patching.
      */
+    public static String defaultShareDomain() {
+        return "x.com";
+    }
+
+    /**
+     * The username choice made while patching. Modified during patching.
+     */
+    public static boolean defaultReturnUsername() {
+        return true;
+    }
+
+    private static String getShareDomain() {
+        return Settings.shareDomain();
+    }
+
     private static boolean isReturnUsernameEnabled() {
-        return false;
+        return Settings.shareUsername();
     }
 
     /**

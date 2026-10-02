@@ -19,7 +19,9 @@ import app.morphe.util.indexOfFirstInstructionOrThrow
 import app.morphe.util.indexOfFirstInstructionReversedOrThrow
 import app.morphe.util.indexOfFirstStringInstructionOrThrow
 import app.morphe.util.returnEarly
+import app.morphe.util.setExtensionIsPatchIncluded
 import app.xpatches.patches.twitter.misc.extension.sharedExtensionPatch
+import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
@@ -36,7 +38,7 @@ val customizeSharingLinkPatch = bytecodePatch(
 ) {
     compatibleWith(COMPATIBILITY_X)
 
-    dependsOn(sharedExtensionPatch)
+    dependsOn(sharedExtensionPatch, settingsPatch)
 
     val returnUsernameOption = booleanOption(
         key = "returnUsername",
@@ -78,11 +80,10 @@ val customizeSharingLinkPatch = bytecodePatch(
         val returnUsername = returnUsernameOption.value!!
         val domainName = domainNameOption.value!!
 
-        // Replace the isReturnUsernameEnabled in the link sharing extension methods.
+        // The patch options become the defaults of the runtime settings.
         ReturnUsernameHelperFingerprint.method.returnEarly(returnUsername)
-
-        // Replace the domain name in the link sharing extension methods.
         LinkSharingDomainHelperFingerprint.method.returnEarly(domainName)
+        setExtensionIsPatchIncluded(EXTENSION_CLASS_DESCRIPTOR)
 
         patchShareSheets()
     }

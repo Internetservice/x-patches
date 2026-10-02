@@ -17,7 +17,7 @@ import java.util.zip.GZIPInputStream;
 
 import app.xpatches.extension.twitter.Utils;
 import app.xpatches.extension.twitter.patches.hook.json.JsonHookPatch;
-import app.xpatches.extension.twitter.patches.toggles.DisableAnalyticsPatch;
+import app.xpatches.extension.twitter.settings.Settings;
 import app.xpatches.extension.twitter.utils.stream.StreamUtils;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -33,8 +33,6 @@ import okhttp3.ResponseBody;
  */
 @SuppressWarnings("unused")
 public final class CustomNetworkInterceptorPatch implements Interceptor {
-    private static final boolean DISABLE_ANALYTICS = DisableAnalyticsPatch.isPatchIncluded();
-
     /**
      * X routes its API through GraphQL.
      */
@@ -47,7 +45,7 @@ public final class CustomNetworkInterceptorPatch implements Interceptor {
         Request request = chain.request();
         String path = request.url().encodedPath();
 
-        if (DISABLE_ANALYTICS && path.contains(ANALYTICS_PATH_KEYWORD)) {
+        if (path.contains(ANALYTICS_PATH_KEYWORD) && Settings.DISABLE_ANALYTICS.get()) {
             // Pretend the upload succeeded so the app discards the queued events.
             return new Response.Builder()
                     .request(request)

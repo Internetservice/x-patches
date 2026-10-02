@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import app.xpatches.extension.twitter.patches.hook.json.BaseJsonHook;
 import app.xpatches.extension.twitter.patches.hook.json.JsonParser;
+import app.xpatches.extension.twitter.settings.Settings;
 
 /**
  * Removes the sensitive media warnings and interstitials so media is shown directly.
@@ -26,8 +27,17 @@ public final class ShowSensitiveMediaHook extends BaseJsonHook {
     private ShowSensitiveMediaHook() {
     }
 
+    /**
+     * @return If this patch was included during patching. Modified during patching.
+     */
+    public static boolean isPatchIncluded() {
+        return false;
+    }
+
     @Override
     public void apply(JSONObject json) {
+        if (!Settings.SHOW_SENSITIVE_MEDIA.get()) return;
+
         JsonParser.INSTANCE.forEachObject(json, object -> {
             if (object.has("possibly_sensitive")) {
                 JsonParser.put(object, "possibly_sensitive", false);

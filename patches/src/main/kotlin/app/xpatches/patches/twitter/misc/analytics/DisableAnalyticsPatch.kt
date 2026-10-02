@@ -9,6 +9,7 @@ import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.util.setExtensionIsPatchIncluded
 import app.xpatches.patches.twitter.misc.featureswitches.featureSwitchesHookPatch
 import app.xpatches.patches.twitter.misc.hook.okhttp.customNetworkInterceptorPatch
+import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 
 private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/toggles/DisableAnalyticsPatch;"
@@ -21,7 +22,7 @@ val disableAnalyticsPatch = bytecodePatch(
 ) {
     compatibleWith(COMPATIBILITY_X)
 
-    dependsOn(customNetworkInterceptorPatch, featureSwitchesHookPatch)
+    dependsOn(customNetworkInterceptorPatch, featureSwitchesHookPatch, settingsPatch)
 
     execute {
         setExtensionIsPatchIncluded(TOGGLE_CLASS_DESCRIPTOR)

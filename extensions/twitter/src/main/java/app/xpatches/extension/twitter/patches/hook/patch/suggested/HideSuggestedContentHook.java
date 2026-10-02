@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import app.xpatches.extension.twitter.patches.hook.json.BaseJsonHook;
 import app.xpatches.extension.twitter.patches.hook.json.JsonParser;
+import app.xpatches.extension.twitter.settings.Settings;
 
 /**
  * Strips the suggestion modules X injects between posts: communities to join,
@@ -20,8 +21,17 @@ public final class HideSuggestedContentHook extends BaseJsonHook {
     private HideSuggestedContentHook() {
     }
 
+    /**
+     * @return If this patch was included during patching. Modified during patching.
+     */
+    public static boolean isPatchIncluded() {
+        return false;
+    }
+
     @Override
     public void apply(JSONObject json) {
+        if (!Settings.HIDE_SUGGESTED_CONTENT.get()) return;
+
         JsonParser.INSTANCE.removeTimelineEntries(json, entry -> {
             String entryId = JsonParser.entryId(entry);
             String kind = JsonParser.entryKind(entryId);

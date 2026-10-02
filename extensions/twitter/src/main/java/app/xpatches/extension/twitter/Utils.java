@@ -30,6 +30,13 @@ public final class Utils {
         context = applicationContext != null ? applicationContext : appContext;
     }
 
+    /**
+     * @return The version of the patches. Modified during patching.
+     */
+    public static String getPatchesVersion() {
+        return "unknown";
+    }
+
     public static Context getContext() {
         Context current = context;
         if (current == null) {

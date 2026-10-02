@@ -12,6 +12,7 @@ import app.xpatches.patches.twitter.misc.featureswitches.featureSwitchesHookPatc
 import app.xpatches.patches.twitter.misc.hook.json.addJsonHook
 import app.xpatches.patches.twitter.misc.hook.json.jsonHook
 import app.xpatches.patches.twitter.misc.hook.json.jsonHookPatch
+import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 
 private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/toggles/RemovePremiumUpsellPatch;"
@@ -24,7 +25,7 @@ val removePremiumUpsellPatch = bytecodePatch(
 ) {
     compatibleWith(COMPATIBILITY_X)
 
-    dependsOn(featureSwitchesHookPatch, jsonHookPatch)
+    dependsOn(featureSwitchesHookPatch, jsonHookPatch, settingsPatch)
 
     execute {
         // Upsell cards and prompts controlled by feature switches.
@@ -32,6 +33,7 @@ val removePremiumUpsellPatch = bytecodePatch(
 
         // Premium prompts injected into timelines.
         addJsonHook(jsonHook(HOOK_CLASS_DESCRIPTOR))
+        setExtensionIsPatchIncluded(HOOK_CLASS_DESCRIPTOR)
 
         // Upsell sheets presented by the app.
         ShowPremiumUpsellFingerprint.method.returnEarly()

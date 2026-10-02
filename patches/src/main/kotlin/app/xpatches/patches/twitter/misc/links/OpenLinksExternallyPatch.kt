@@ -7,15 +7,20 @@ package app.xpatches.patches.twitter.misc.links
 
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.InstructionLocation.MatchAfterWithin
-import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructionsWithLabels
 import app.morphe.patcher.opcode
 import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.patcher.string
 import app.morphe.util.getReference
+import app.morphe.util.setExtensionIsPatchIncluded
+import app.xpatches.patches.twitter.misc.extension.sharedExtensionPatch
+import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.reference.FieldReference
+
+private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/toggles/OpenLinksExternallyPatch;"
 
 /**
  * Resolves the link opening mode preference to its enum value.
@@ -37,7 +42,11 @@ val openLinksExternallyPatch = bytecodePatch(
 ) {
     compatibleWith(COMPATIBILITY_X)
 
+    dependsOn(sharedExtensionPatch, settingsPatch)
+
     execute {
+        setExtensionIsPatchIncluded(TOGGLE_CLASS_DESCRIPTOR)
+
         LinkOpeningModeFingerprint.let {
             it.method.apply {
                 val externalBrowser = it.instructionMatches.last().instruction.getReference<FieldReference>()
@@ -45,11 +54,16 @@ val openLinksExternallyPatch = bytecodePatch(
 
                 if (implementation!!.registerCount - 1 < 1) throw PatchException("No free register")
 
-                addInstructions(
+                addInstructionsWithLabels(
                     0,
                     """
+                        invoke-static { }, $TOGGLE_CLASS_DESCRIPTOR->openLinksExternally()Z
+                        move-result v0
+                        if-eqz v0, :original
                         sget-object v0, ${externalBrowser.definingClass}->${externalBrowser.name}:${externalBrowser.type}
                         return-object v0
+                        :original
+                        nop
                     """,
                 )
             }

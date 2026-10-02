@@ -11,6 +11,7 @@ import app.xpatches.patches.twitter.misc.featureswitches.featureSwitchesHookPatc
 import app.xpatches.patches.twitter.misc.hook.json.addJsonHook
 import app.xpatches.patches.twitter.misc.hook.json.jsonHook
 import app.xpatches.patches.twitter.misc.hook.json.jsonHookPatch
+import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 
 private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/toggles/HideAdsPatch;"
@@ -23,11 +24,12 @@ val hideAdsHookPatch = bytecodePatch(
 ) {
     compatibleWith(COMPATIBILITY_X)
 
-    dependsOn(jsonHookPatch, featureSwitchesHookPatch)
+    dependsOn(jsonHookPatch, featureSwitchesHookPatch, settingsPatch)
 
     execute {
         // Promoted content in the responses.
         addJsonHook(jsonHook(HOOK_CLASS_DESCRIPTOR))
+        setExtensionIsPatchIncluded(HOOK_CLASS_DESCRIPTOR)
 
         // Third party ads served through the SSP, controlled by feature switches.
         setExtensionIsPatchIncluded(TOGGLE_CLASS_DESCRIPTOR)

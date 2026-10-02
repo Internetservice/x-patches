@@ -7,6 +7,8 @@ package app.xpatches.patches.twitter.misc.hook
 
 import app.morphe.patcher.patch.Compatibility
 import app.morphe.patcher.patch.bytecodePatch
+import app.morphe.util.setExtensionIsPatchIncluded
+import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.misc.hook.json.addJsonHook
 import app.xpatches.patches.twitter.misc.hook.json.jsonHook
 import app.xpatches.patches.twitter.misc.hook.json.jsonHookPatch
@@ -34,9 +36,10 @@ internal fun hookPatch(
 ) {
     compatibleWith(compatibility)
 
-    dependsOn(jsonHookPatch)
+    dependsOn(jsonHookPatch, settingsPatch)
 
     execute {
         addJsonHook(jsonHook(hookClassDescriptor))
+        setExtensionIsPatchIncluded(hookClassDescriptor)
     }
 }

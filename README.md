@@ -9,6 +9,10 @@ These patches target X 12.30 and newer (the Compose based client). They started 
 ([GitLab mirror](https://gitlab.com/revanced/revanced-patches)) to the Morphe patcher,
 so they can be applied with Morphe Manager or Morphe Desktop.
 
+Every patch can be switched off at runtime in the **X Patches settings** screen the
+*Settings* patch adds: long press the X app icon and pick "X Patches settings", or open
+`xpatches://settings`. Changes apply after restarting X.
+
 Included patches:
 
 - **Hide ads** - hides promoted posts, promoted trends, real-time-bidding ads and video pre-rolls.

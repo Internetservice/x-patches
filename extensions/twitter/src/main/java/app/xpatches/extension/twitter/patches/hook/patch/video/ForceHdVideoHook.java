@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import app.xpatches.extension.twitter.patches.hook.json.BaseJsonHook;
 import app.xpatches.extension.twitter.patches.hook.json.JsonParser;
+import app.xpatches.extension.twitter.settings.Settings;
 
 /**
  * Keeps only the highest bitrate MP4 variant of every video, so the player cannot
@@ -21,8 +22,17 @@ public final class ForceHdVideoHook extends BaseJsonHook {
     private ForceHdVideoHook() {
     }
 
+    /**
+     * @return If this patch was included during patching. Modified during patching.
+     */
+    public static boolean isPatchIncluded() {
+        return false;
+    }
+
     @Override
     public void apply(JSONObject json) {
+        if (!Settings.FORCE_HD_VIDEO.get()) return;
+
         JsonParser.INSTANCE.forEachObject(json, object -> {
             JSONArray variants = object.optJSONArray("variants");
             if (variants == null || variants.length() < 2) return;

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import app.xpatches.extension.twitter.patches.hook.json.BaseJsonHook;
 import app.xpatches.extension.twitter.patches.hook.json.JsonParser;
+import app.xpatches.extension.twitter.settings.Settings;
 
 /**
  * Removes the verification checkmarks and affiliation badges from users.
@@ -19,8 +20,17 @@ public final class HideVerifiedBadgesHook extends BaseJsonHook {
     private HideVerifiedBadgesHook() {
     }
 
+    /**
+     * @return If this patch was included during patching. Modified during patching.
+     */
+    public static boolean isPatchIncluded() {
+        return false;
+    }
+
     @Override
     public void apply(JSONObject json) {
+        if (!Settings.HIDE_VERIFIED_BADGES.get()) return;
+
         JsonParser.INSTANCE.forEachObject(json, object -> {
             JSONObject verification = object.optJSONObject("verification");
             if (verification != null) {

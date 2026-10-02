@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import app.xpatches.extension.twitter.patches.hook.json.BaseJsonHook;
 import app.xpatches.extension.twitter.patches.hook.json.JsonParser;
+import app.xpatches.extension.twitter.settings.Settings;
 
 /**
  * Strips promoted posts, promoted trends, real-time-bidding ads and video pre-rolls.
@@ -20,8 +21,17 @@ public final class HideAdsHook extends BaseJsonHook {
     private HideAdsHook() {
     }
 
+    /**
+     * @return If this patch was included during patching. Modified during patching.
+     */
+    public static boolean isPatchIncluded() {
+        return false;
+    }
+
     @Override
     public void apply(JSONObject json) {
+        if (!Settings.HIDE_ADS.get()) return;
+
         JsonParser.INSTANCE.removeTimelineEntries(json, HideAdsHook::isAd);
 
         // Video pre-roll ads are attached to regular posts.
