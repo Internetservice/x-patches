@@ -10,58 +10,18 @@ import app.morphe.patcher.patch.AppTarget
 import app.morphe.patcher.patch.Compatibility
 
 internal object Constants {
-    private const val X_PACKAGE_NAME = "com.twitter.android"
-    private const val X_APP_NAME = "X"
-    private const val X_ICON_COLOR = 0x000000
-
-    // Verified with these patches, newest first.
-    private val TARGET_12_30_0 = AppTarget(version = "12.30.0-prod.01")
-    private val TARGET_12_10_1 = AppTarget(version = "12.10.1-release.0")
-    // Version verified upstream by ReVanced. Older releases are not listed:
-    // X no longer allows logging in with them.
-    private val TARGET_12_10_0 = AppTarget(version = "12.10.0-release.0")
-
-    // Newer releases are not verified but are expected to work until X changes the hooked code.
-    private val TARGET_ANY_EXPERIMENTAL = AppTarget(version = null, isExperimental = true)
-
-    private fun compatibility(vararg targets: AppTarget) = Compatibility(
-        name = X_APP_NAME,
-        packageName = X_PACKAGE_NAME,
+    /**
+     * X 12.30 and newer, the Compose based client.
+     * Newer releases are not verified but are expected to work until X changes the hooked code.
+     */
+    val COMPATIBILITY_X = Compatibility(
+        name = "X",
+        packageName = "com.twitter.android",
         apkFileType = ApkFileType.APK,
-        appIconColor = X_ICON_COLOR,
-        targets = targets.toList(),
-    )
-
-    /**
-     * All supported X versions.
-     */
-    val COMPATIBILITY_X = compatibility(
-        TARGET_ANY_EXPERIMENTAL,
-        TARGET_12_30_0,
-        TARGET_12_10_1,
-        TARGET_12_10_0,
-    )
-
-    /**
-     * Patches whose hooks only exist in the 12.x code base.
-     */
-    val COMPATIBILITY_X_12 = COMPATIBILITY_X
-
-    /**
-     * Patches that only exist for the Compose based client of X 12.30 and newer.
-     */
-    val COMPATIBILITY_X_12_30 = compatibility(
-        TARGET_ANY_EXPERIMENTAL,
-        TARGET_12_30_0,
-    )
-
-    /**
-     * Patches whose target code was removed from X after 12.10.
-     * Shared links of 12.30+ no longer carry tracking parameters and the
-     * view count feature switch no longer exists.
-     */
-    val COMPATIBILITY_X_UNTIL_12_10 = compatibility(
-        TARGET_12_10_1,
-        TARGET_12_10_0,
+        appIconColor = 0x000000,
+        targets = listOf(
+            AppTarget(version = null, isExperimental = true),
+            AppTarget(version = "12.30.0-prod.01"),
+        ),
     )
 }

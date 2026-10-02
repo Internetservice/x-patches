@@ -15,8 +15,7 @@ import app.morphe.util.findMutableMethodOf
 import app.morphe.util.getReference
 import app.morphe.util.indexOfFirstInstructionReversedOrThrow
 import app.morphe.util.indexOfFirstStringInstructionOrThrow
-import app.morphe.util.returnEarly
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_12
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.ClassDef
 import com.android.tools.smali.dexlib2.iface.Method
@@ -33,14 +32,13 @@ val unlockDownloadsPatch = bytecodePatch(
     name = "Unlock downloads",
     description = "Unlocks the ability to download any video. GIFs can be downloaded via the menu on long press.",
 ) {
-    compatibleWith(COMPATIBILITY_X_12)
+    compatibleWith(COMPATIBILITY_X)
 
     execute {
         /**
          * The media gallery download method checks the subscription features before downloading.
-         * Up to X 12.10 the features are an interface nested next to the NotePostFeatures class.
-         * From X 12.30 on it is a class reading the premium feature switches directly.
-         * Either way it is called from the gallery download method, which narrows the candidates.
+         * The features class reads the premium feature switches directly and is called from
+         * the gallery download method, which narrows the candidates.
          */
         val subscriptionsFeaturesCandidates = MediaGalleryDownloadFingerprint.originalMethod.implementation!!
             .instructions
@@ -49,30 +47,9 @@ val unlockDownloadsPatch = bytecodePatch(
             .map { it.definingClass }
             .distinct()
 
-        val notePostFeaturesClass = SubscriptionsFeaturesFingerprint.originalMethod.definingClass
-        val legacySubscriptionsFeaturesClass = if (notePostFeaturesClass.contains('$')) {
-            notePostFeaturesClass.substringBefore('$') + ";"
-        } else {
-            null
-        }
-
-        val subscriptionsFeaturesClass = subscriptionsFeaturesCandidates.firstOrNull { it == legacySubscriptionsFeaturesClass }
-            ?: subscriptionsFeaturesCandidates.firstOrNull { classDefByOrNull(it)?.readsSubscriptionFeatures() == true }
+        val subscriptionsFeaturesClass = subscriptionsFeaturesCandidates
+            .firstOrNull { classDefByOrNull(it)?.readsSubscriptionFeatures() == true }
             ?: throw PatchException("Could not find the subscription features class in $subscriptionsFeaturesCandidates")
-
-        /**
-         * Allow downloads for non-premium users.
-         * Return early makes the method return true for all users.
-         * This method returns a boolean value that indicates whether the user can download the video of subscriptionsFeatures Interface.
-         *
-         * X has two identical methods, one without "legacy" and one with "legacy".
-         * Don't know what legacy actually does, but it's patched anyway.
-         *
-         * X 12.30 inlined these, the callers check the subscription features directly.
-         */
-        listOf(false, true).forEach { legacy ->
-            canDownloadVideoFingerprint(subscriptionsFeaturesClass, legacy).methodOrNull?.returnEarly(true)
-        }
 
         // Some media videos have different download button that directly uses subscriptionsFeatures.
         mediaGalleryDownloadFingerprint(subscriptionsFeaturesClass).let {
@@ -91,27 +68,10 @@ val unlockDownloadsPatch = bytecodePatch(
             }
         }
 
-        // X 12.30 and newer: the premium checks are inlined into the download actions,
+        // The premium checks are inlined into the download actions,
         // which raise the video download upsell when they fail.
-        if (UpsellFeatureKeyFingerprint.matchOrNull() != null) {
-            unlockVideoDownloadUpsells(subscriptionsFeaturesClass)
-        }
+        unlockVideoDownloadUpsells(subscriptionsFeaturesClass)
 
-        // Download action for long-press download button (X 12.10 and older).
-        postMediaActionFingerprint(subscriptionsFeaturesClass).let {
-            it.methodOrNull?.apply {
-                // Create download button for GIF.
-                val isDownloadableIndex = it.instructionMatches[8].index + 1
-                val isDownloadableRegister = getInstruction<OneRegisterInstruction>(isDownloadableIndex).registerA
-                replaceInstruction(isDownloadableIndex, "const/4 v$isDownloadableRegister, 0x1")
-
-                // Replace the boolean that blocks non-premium users from download.
-                val canUserDownloadVideoIndex = it.instructionMatches.last().index + 1
-                val canUserDownloadVideoRegister =
-                    getInstruction<OneRegisterInstruction>(canUserDownloadVideoIndex).registerA
-                replaceInstruction(canUserDownloadVideoIndex, "const/4 v$canUserDownloadVideoRegister, 0x1")
-            }
-        }
     }
 }
 
@@ -134,9 +94,7 @@ private fun BytecodePatchContext.unlockVideoDownloadUpsells(subscriptionsFeature
         .map { it.signature() }
         .toSet()
 
-    // Up to X 12.10 the subscription features are an interface without method bodies,
-    // there the download wrappers patched above are what gates the downloads.
-    if (premiumChecks.isEmpty()) return
+    if (premiumChecks.isEmpty()) throw PatchException("Could not find the premium checks")
 
     fun Instruction.isPremiumCheck(): Boolean {
         val reference = getReference<MethodReference>() ?: return false

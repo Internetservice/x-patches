@@ -84,62 +84,10 @@ val customizeSharingLinkPatch = bytecodePatch(
         // Replace the domain name in the link sharing extension methods.
         LinkSharingDomainHelperFingerprint.method.returnEarly(domainName)
 
-        // The XChat share sheet of 12.10 is the only method combining the "tweet-" prefix
-        // with the post link, which makes it a reliable version marker.
-        if (LinkInternalShareSheetFingerprint.matchOrNull() != null) {
-            patchLegacyShareSheets()
-        } else {
-            patchShareSheets()
-        }
+        patchShareSheets()
     }
 }
 
-/**
- * X 12.10 and older.
- */
-private fun BytecodePatchContext.patchLegacyShareSheets() {
-    // Formats share link such as sharing through XChat.
-    LinkInternalShareSheetFingerprint.let {
-        it.method.apply {
-            val statusStringIndex = it.instructionMatches[1].index
-            val statusStringRegister = getInstruction<OneRegisterInstruction>(statusStringIndex).registerA
-
-            val contextualPostIndex = it.instructionMatches[2].index
-            val contextualPostRegister = getInstruction<TwoRegisterInstruction>(contextualPostIndex).registerA
-
-            addInstructions(
-                contextualPostIndex + 1,
-                """
-                    invoke-static/range { v$contextualPostRegister .. v$contextualPostRegister }, $EXTENSION_CLASS_DESCRIPTOR->formatInternalShareSheetLink(Ljava/lang/Object;)Ljava/lang/String;
-                    move-result-object v$statusStringRegister
-                """,
-            )
-        }
-    }
-
-    // Formats share link such as "Copy link" or "Share via..." etc.
-    LinkExternalShareSheetFingerprint.let {
-        it.method.apply {
-            val rootContextualPostIndex = it.instructionMatches[0].index
-            val rootContextualPostRegister = getInstruction<OneRegisterInstruction>(rootContextualPostIndex).registerA
-
-            val statusStringIndex = it.instructionMatches[3].index
-            val statusStringRegister = getInstruction<OneRegisterInstruction>(statusStringIndex).registerA
-
-            addInstructions(
-                statusStringIndex + 1,
-                """
-                    invoke-static/range { v$rootContextualPostRegister .. v$rootContextualPostRegister }, $EXTENSION_CLASS_DESCRIPTOR->formatExternalShareSheetLink(Ljava/lang/Object;)Ljava/lang/String;
-                    move-result-object v$statusStringRegister
-                """,
-            )
-        }
-    }
-}
-
-/**
- * X 12.30 and newer.
- */
 private fun BytecodePatchContext.patchShareSheets() {
     // "Copy link" / "Share via..." share sheet.
     ShareIntentFingerprint.method.apply {

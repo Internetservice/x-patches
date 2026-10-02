@@ -9,7 +9,7 @@ import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.resourcePatch
 import app.morphe.util.ResourceGroup
 import app.morphe.util.copyResources
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_12_30
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 import org.w3c.dom.Element
 
 private const val ICON_FOREGROUND = "ic_launcher_twitter_foreground"
@@ -22,7 +22,7 @@ val bringBackTwitterPatch = resourcePatch(
     description = "Brings back the Twitter bird launcher icon and the Twitter app name.",
     default = false,
 ) {
-    compatibleWith(COMPATIBILITY_X_12_30)
+    compatibleWith(COMPATIBILITY_X)
 
     execute {
         // region Launcher icon

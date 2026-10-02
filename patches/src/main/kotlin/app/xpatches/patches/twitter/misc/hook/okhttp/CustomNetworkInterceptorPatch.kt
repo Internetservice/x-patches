@@ -8,7 +8,7 @@ package app.xpatches.patches.twitter.misc.hook.okhttp
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
 import app.xpatches.patches.twitter.misc.extension.sharedExtensionPatch
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_12
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 
 private const val EXTENSION_CLASS_DESCRIPTOR =
     "Lapp/xpatches/extension/twitter/patches/hook/okhttp/CustomNetworkInterceptorPatch;"
@@ -19,7 +19,7 @@ private const val EXTENSION_CLASS_DESCRIPTOR =
 val customNetworkInterceptorPatch = bytecodePatch(
     default = false,
 ) {
-    compatibleWith(COMPATIBILITY_X_12)
+    compatibleWith(COMPATIBILITY_X)
 
     dependsOn(sharedExtensionPatch)
 

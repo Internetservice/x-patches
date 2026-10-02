@@ -64,30 +64,6 @@ val jsonHookPatch = bytecodePatch(
     execute {
         JsonHookPatchFingerprint.methodOrNull
             ?: throw PatchException("Unexpected extension.")
-
-        // Up to X 12.10 the app parsed JSON with LoganSquare. Hooking its parser catches the
-        // responses that are not routed through the OkHttp network interceptor.
-        // X 12.30 dropped LoganSquare, there only the interceptor is used.
-        val jsonFactoryType = classDefByOrNull { it.type.endsWith("LoganSquare;") }
-            ?.fields
-            ?.firstOrNull { it.name == "JSON_FACTORY" }
-            ?.type
-
-        if (jsonFactoryType != null) {
-            // Hook the first parameter of the method that parses an input stream.
-            Fingerprint(
-                definingClass = jsonFactoryType,
-                custom = { method, _ ->
-                    method.parameterTypes.firstOrNull()?.toString() == "Ljava/io/InputStream;"
-                },
-            ).method.addInstructions(
-                0,
-                """
-                    invoke-static { p1 }, $JSON_HOOK_PATCH_CLASS_DESCRIPTOR->parseJsonHook(Ljava/io/InputStream;)Ljava/io/InputStream;
-                    move-result-object p1
-                """,
-            )
-        }
     }
 
     finalize {

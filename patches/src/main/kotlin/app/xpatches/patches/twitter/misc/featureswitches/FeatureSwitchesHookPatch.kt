@@ -10,7 +10,7 @@ import app.morphe.patcher.extensions.InstructionExtensions.addInstructionsWithLa
 import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.bytecodePatch
 import app.xpatches.patches.twitter.misc.extension.sharedExtensionPatch
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_12_30
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 
 private const val EXTENSION_CLASS_DESCRIPTOR =
     "Lapp/xpatches/extension/twitter/patches/featureswitches/FeatureSwitchesPatch;"
@@ -22,7 +22,7 @@ private const val EXTENSION_CLASS_DESCRIPTOR =
 val featureSwitchesHookPatch = bytecodePatch(
     default = false,
 ) {
-    compatibleWith(COMPATIBILITY_X_12_30)
+    compatibleWith(COMPATIBILITY_X)
 
     dependsOn(sharedExtensionPatch)
 

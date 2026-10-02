@@ -12,7 +12,7 @@ import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.patcher.patch.resourcePatch
 import app.xpatches.patches.twitter.misc.extension.sharedExtensionPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_12
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
 import app.morphe.util.findInstructionIndicesReversed
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
@@ -26,7 +26,7 @@ private const val EXTENSION_CLASS_DESCRIPTOR =
 private val dynamicColorBytecodePatch = bytecodePatch(
     default = false,
 ) {
-    compatibleWith(COMPATIBILITY_X_12)
+    compatibleWith(COMPATIBILITY_X)
 
     dependsOn(sharedExtensionPatch)
 
@@ -45,17 +45,9 @@ private val dynamicColorBytecodePatch = bytecodePatch(
             )
         }
 
-        // A fingerprint with an unresolvable class fingerprint throws instead of returning null,
-        // so the design token class is probed first.
-        if (StaticColorClassFingerprint.matchOrNull() != null) {
-            // X 12.10 and older: a single design token method.
-            DesignTokenFingerprint.let {
-                it.method.hookLiteral(it.instructionMatches.first().index)
-            }
-        } else {
-            // X 12.30 and newer: the blue is loaded in the static initializers of the Compose palettes.
-            val initializers = PaletteInitializerFingerprint.matchAllOrNull()
-                ?: throw PatchException("Could not find any color palette using X blue")
+        // The blue is loaded in the static initializers of the Compose palettes.
+        val initializers = PaletteInitializerFingerprint.matchAllOrNull()
+            ?: throw PatchException("Could not find any color palette using X blue")
 
             initializers.forEach { match ->
                 match.method.apply {
@@ -64,7 +56,6 @@ private val dynamicColorBytecodePatch = bytecodePatch(
                     }.forEach { literalIndex -> hookLiteral(literalIndex) }
                 }
             }
-        }
     }
 }
 

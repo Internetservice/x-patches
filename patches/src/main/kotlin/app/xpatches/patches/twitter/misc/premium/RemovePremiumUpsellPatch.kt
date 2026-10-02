@@ -12,7 +12,7 @@ import app.xpatches.patches.twitter.misc.featureswitches.featureSwitchesHookPatc
 import app.xpatches.patches.twitter.misc.hook.json.addJsonHook
 import app.xpatches.patches.twitter.misc.hook.json.jsonHook
 import app.xpatches.patches.twitter.misc.hook.json.jsonHookPatch
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_12_30
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 
 private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/toggles/RemovePremiumUpsellPatch;"
 private const val HOOK_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/hook/patch/premium/HidePremiumUpsellHook;"
@@ -22,7 +22,7 @@ val removePremiumUpsellPatch = bytecodePatch(
     name = "Remove premium upsell",
     description = "Removes the premium upsell sheets, the premium prompts in timelines and the upsell cards in the drawer and on profiles.",
 ) {
-    compatibleWith(COMPATIBILITY_X_12_30)
+    compatibleWith(COMPATIBILITY_X)
 
     dependsOn(featureSwitchesHookPatch, jsonHookPatch)
 

@@ -4,7 +4,7 @@ Patches for **X (formerly Twitter)** for use with [Morphe](https://morphe.softwa
 
 ## ❓ About
 
-These patches are a port of the X / Twitter patches from
+These patches target X 12.30 and newer (the Compose based client). They started as a port of the X / Twitter patches from
 [ReVanced Patches](https://github.com/ReVanced/revanced-patches)
 ([GitLab mirror](https://gitlab.com/revanced/revanced-patches)) to the Morphe patcher,
 so they can be applied with Morphe Manager or Morphe Desktop.
@@ -26,10 +26,9 @@ Included patches:
 - **Unlock downloads** - unlocks the ability to download any video. GIFs can be downloaded via the menu on long press.
 - **Dynamic color** - replaces the X blue with the Material You palette (Android 12+).
 - **Hide view count** - hides the view count of posts (off by default).
-- **Sanitize sharing links** - removes the tracking query parameters from shared links (X 12.10 and older).
 
 The patches that work on the response data and feature switches of the app were modelled on
-[piko](https://github.com/crimera/piko), whose own patches target the previous X client (up to 12.19).
+[piko](https://github.com/crimera/piko), whose own patches target the previous, pre-12.30 X client.
 
 ### How to use these patches
 

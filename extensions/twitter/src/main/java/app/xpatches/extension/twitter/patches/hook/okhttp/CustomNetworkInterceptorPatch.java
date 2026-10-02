@@ -36,15 +36,9 @@ public final class CustomNetworkInterceptorPatch implements Interceptor {
     private static final boolean DISABLE_ANALYTICS = DisableAnalyticsPatch.isPatchIncluded();
 
     /**
-     * Legacy (X 12.10) REST style paths. X 12.30 routes everything through /graphql/.
+     * X routes its API through GraphQL.
      */
-    private static final List<String> URL_FILTER_KEYWORD_LIST = List.of(
-            "/graphql/",
-            "HomeTimeline",
-            "ConversationTimeline",
-            "UserTweets", // Old user timeline
-            "UserProfileOriginalsTimeline" // New user timeline
-    );
+    private static final List<String> URL_FILTER_KEYWORD_LIST = List.of("/graphql/");
 
     private static final String ANALYTICS_PATH_KEYWORD = "/jot/";
 

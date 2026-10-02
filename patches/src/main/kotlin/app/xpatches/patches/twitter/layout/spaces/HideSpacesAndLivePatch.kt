@@ -8,7 +8,7 @@ package app.xpatches.patches.twitter.layout.spaces
 import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.util.setExtensionIsPatchIncluded
 import app.xpatches.patches.twitter.misc.featureswitches.featureSwitchesHookPatch
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_12_30
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 
 private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/toggles/HideSpacesAndLivePatch;"
 
@@ -18,7 +18,7 @@ val hideSpacesAndLivePatch = bytecodePatch(
     description = "Turns off Spaces and the live stream pills and avatar rings.",
     default = false,
 ) {
-    compatibleWith(COMPATIBILITY_X_12_30)
+    compatibleWith(COMPATIBILITY_X)
 
     dependsOn(featureSwitchesHookPatch)
 
