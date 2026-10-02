@@ -1,3 +1,9 @@
+## [1.0.0-dev.4](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-10-02)
+
+### 🐛 Bug Fixes
+
+* **X - Unlock downloads:** Unlock the download actions of 12.30 ([7d7ce3b](https://github.com/Internetservice/x-patches/commit/7d7ce3b7222192b99538ca1e5893057fc0fadbf6))
+
 ## [1.0.0-dev.3](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-10-02)
 
 ### ✨ New Features
