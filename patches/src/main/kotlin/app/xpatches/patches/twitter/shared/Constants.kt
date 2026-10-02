@@ -48,6 +48,14 @@ internal object Constants {
     val COMPATIBILITY_X_12 = COMPATIBILITY_X
 
     /**
+     * Patches that only exist for the Compose based client of X 12.30 and newer.
+     */
+    val COMPATIBILITY_X_12_30 = compatibility(
+        TARGET_ANY_EXPERIMENTAL,
+        TARGET_12_30_0,
+    )
+
+    /**
      * Patches whose target code was removed from X after 12.10.
      * Shared links of 12.30+ no longer carry tracking parameters and the
      * view count feature switch no longer exists.

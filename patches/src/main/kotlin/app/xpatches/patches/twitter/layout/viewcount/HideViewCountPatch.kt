@@ -7,17 +7,28 @@ package app.xpatches.patches.twitter.layout.viewcount
 
 import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.util.returnEarly
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_UNTIL_12_10
+import app.xpatches.patches.twitter.misc.hook.json.addJsonHook
+import app.xpatches.patches.twitter.misc.hook.json.jsonHook
+import app.xpatches.patches.twitter.misc.hook.json.jsonHookPatch
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
+
+private const val HOOK_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/hook/patch/viewcount/HideViewCountHook;"
 
 @Suppress("unused")
 val hideViewCountPatch = bytecodePatch(
     name = "Hide view count",
-    description = "Hides the view count of posts. The feature switch this relies on was removed in X 12.30.",
+    description = "Hides the view count of posts.",
     default = false,
 ) {
-    compatibleWith(COMPATIBILITY_X_UNTIL_12_10)
+    compatibleWith(COMPATIBILITY_X)
+
+    dependsOn(jsonHookPatch)
 
     execute {
-        ViewCountsEnabledFingerprint.method.returnEarly(false)
+        // X 12.10 and older: a feature switch controls the view counts.
+        ViewCountsEnabledFingerprint.methodOrNull?.returnEarly(false)
+
+        // X 12.30 and newer: the counts are removed from the responses.
+        addJsonHook(jsonHook(HOOK_CLASS_DESCRIPTOR))
     }
 }

@@ -11,14 +11,25 @@ so they can be applied with Morphe Manager or Morphe Desktop.
 
 Included patches:
 
-- **Hide ads** - hides promoted posts in the timelines.
-- **Hide recommended users** - hides the "Who to follow" recommendations in the timelines.
+- **Hide ads** - hides promoted posts, promoted trends, real-time-bidding ads and video pre-rolls.
+- **Hide recommended users** - hides the "Who to follow" and "Who to subscribe" recommendations.
+- **Hide suggested content** - hides communities to join, related posts, Today's news and the top people module.
+- **Remove premium upsell** - removes the premium upsell sheets, prompts and cards.
+- **Hide Community Notes** - hides the Community Notes attached to posts (off by default).
+- **Show sensitive media** - shows sensitive media without the warning overlays (off by default).
+- **Hide Grok** - turns off the Grok tab, buttons, image generation and translations (off by default).
+- **Hide Spaces and live** - turns off Spaces and the live stream pills (off by default).
+- **Disable analytics** - drops the client event uploads about your activity (off by default).
+- **Bring back Twitter** - the Twitter bird launcher icon and app name (off by default).
 - **Customize sharing link** - changes the domain used when sharing links (for example FxTwitter) and
   optionally includes the username in the link.
-- **Sanitize sharing links** - removes the tracking query parameters from shared links.
 - **Unlock downloads** - unlocks the ability to download any video. GIFs can be downloaded via the menu on long press.
 - **Dynamic color** - replaces the X blue with the Material You palette (Android 12+).
 - **Hide view count** - hides the view count of posts (off by default).
+- **Sanitize sharing links** - removes the tracking query parameters from shared links (X 12.10 and older).
+
+The patches that work on the response data and feature switches of the app were modelled on
+[piko](https://github.com/crimera/piko), whose own patches target the previous X client (up to 12.19).
 
 ### How to use these patches
 
@@ -77,7 +88,9 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 X Patches are licensed under the [GNU General Public License v3.0](LICENSE).
 
 The patches and extension code are derived from
-[ReVanced Patches](https://github.com/ReVanced/revanced-patches), also licensed under the GPLv3.
+[ReVanced Patches](https://github.com/ReVanced/revanced-patches) and
+[piko](https://github.com/crimera/piko), both licensed under the GPLv3. The Twitter launcher icon
+images come from piko.
 The project layout and release tooling come from the
 [Morphe patches template](https://github.com/MorpheApp/morphe-patches-template), see [NOTICE](NOTICE).
 This project is not affiliated with Morphe or ReVanced.

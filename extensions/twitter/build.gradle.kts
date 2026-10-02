@@ -18,6 +18,7 @@ configurations.configureEach {
 }
 
 dependencies {
-    // OkHttp is shipped inside the X app, so it only needs to be present at compile time.
+    // OkHttp and the Brotli decoder are shipped inside the X app, so they only need to be present at compile time.
     compileOnly(libs.okhttp)
+    compileOnly(libs.brotli)
 }

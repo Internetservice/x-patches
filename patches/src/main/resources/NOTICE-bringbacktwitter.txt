@@ -1,0 +1,2 @@
+The Twitter launcher icon images in twitter/bringbacktwitter are taken from
+piko (https://github.com/crimera/piko), licensed under the GNU General Public License v3.0.

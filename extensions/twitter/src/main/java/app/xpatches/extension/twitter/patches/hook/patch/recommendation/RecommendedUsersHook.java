@@ -11,7 +11,7 @@ import app.xpatches.extension.twitter.patches.hook.json.BaseJsonHook;
 import app.xpatches.extension.twitter.patches.hook.json.JsonParser;
 
 /**
- * Strips recommended users ("Who to follow") from timeline JSON responses.
+ * Strips the "Who to follow" and "Who to subscribe" recommendations.
  */
 public final class RecommendedUsersHook extends BaseJsonHook {
     public static final RecommendedUsersHook INSTANCE = new RecommendedUsersHook();
@@ -21,6 +21,12 @@ public final class RecommendedUsersHook extends BaseJsonHook {
 
     @Override
     public void apply(JSONObject json) {
-        JsonParser.INSTANCE.hideRecommendedUsers(json);
+        JsonParser.INSTANCE.removeTimelineEntries(json, entry -> {
+            String entryId = JsonParser.entryId(entry);
+            return entryId.startsWith("whoToFollow-")
+                    || entryId.startsWith("who-to-follow-")
+                    || entryId.startsWith("connect-module-")
+                    || entryId.startsWith("who-to-subscribe-");
+        });
     }
 }
