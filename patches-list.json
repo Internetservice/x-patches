@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.2",
+  "version": "1.0.0-dev.3",
   "patches": [
     {
       "name": "Customize sharing link",
@@ -23,6 +23,13 @@
               "version": null,
               "versionCodes": null,
               "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.30.0-prod.01",
+              "versionCodes": null,
+              "isExperimental": false,
               "minSdk": null,
               "description": null
             },
@@ -106,6 +113,13 @@
               "description": null
             },
             {
+              "version": "12.30.0-prod.01",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
               "version": "12.10.1-release.0",
               "versionCodes": null,
               "isExperimental": false,
@@ -159,6 +173,13 @@
               "version": null,
               "versionCodes": null,
               "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.30.0-prod.01",
+              "versionCodes": null,
+              "isExperimental": false,
               "minSdk": null,
               "description": null
             },
@@ -220,6 +241,13 @@
               "description": null
             },
             {
+              "version": "12.30.0-prod.01",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
               "version": "12.10.1-release.0",
               "versionCodes": null,
               "isExperimental": false,
@@ -254,7 +282,7 @@
     },
     {
       "name": "Hide view count",
-      "description": "Hides the view count of posts.",
+      "description": "Hides the view count of posts. The feature switch this relies on was removed in X 12.30.",
       "default": false,
       "category": null,
       "dependencies": [],
@@ -268,7 +296,28 @@
           "signatures": null,
           "targets": [
             {
-              "version": null,
+              "version": "12.10.1-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.10.0-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.8.0-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "11.80.0-release.0",
               "versionCodes": null,
               "isExperimental": false,
               "minSdk": null,
@@ -281,7 +330,7 @@
     },
     {
       "name": "Sanitize sharing links",
-      "description": "Removes the tracking query parameters from shared links.",
+      "description": "Removes the tracking query parameters from shared links. X 12.30 and later no longer add them.",
       "default": true,
       "category": null,
       "dependencies": [],
@@ -294,13 +343,6 @@
           "appIconColor": "#000000",
           "signatures": null,
           "targets": [
-            {
-              "version": null,
-              "versionCodes": null,
-              "isExperimental": true,
-              "minSdk": null,
-              "description": null
-            },
             {
               "version": "12.10.1-release.0",
               "versionCodes": null,
@@ -353,6 +395,13 @@
               "version": null,
               "versionCodes": null,
               "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.30.0-prod.01",
+              "versionCodes": null,
+              "isExperimental": false,
               "minSdk": null,
               "description": null
             },

@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-02T20:42:45",
-  "description": "## [1.0.0-dev.2](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-10-02)\n\n### 🚀 Updated App Support\n\n* **X:** Add support for 12.10.1-release.0 ([1e45bb7](https://github.com/Internetservice/x-patches/commit/1e45bb794040594ee0fa9e1d92bba3988c52d749))",
-  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.2/patches-1.0.0-dev.2.mpp",
+  "created_at": "2026-10-02T21:14:05",
+  "description": "## [1.0.0-dev.3](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-10-02)\n\n### ✨ New Features\n\n* **X:** Support 12.30.0-prod.01 ([36b71d8](https://github.com/Internetservice/x-patches/commit/36b71d81f2aad75ffe0963b81d08f2914317e033))",
+  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.3/patches-1.0.0-dev.3.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.2"
+  "version": "1.0.0-dev.3"
 }

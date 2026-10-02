@@ -1,3 +1,9 @@
+## [1.0.0-dev.3](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.2...v1.0.0-dev.3) (2026-10-02)
+
+### ✨ New Features
+
+* **X:** Support 12.30.0-prod.01 ([36b71d8](https://github.com/Internetservice/x-patches/commit/36b71d81f2aad75ffe0963b81d08f2914317e033))
+
 ## [1.0.0-dev.2](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.1...v1.0.0-dev.2) (2026-10-02)
 
 ### 🚀 Updated App Support

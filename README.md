@@ -30,15 +30,15 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.2](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;7 patches total
+> **[v1.0.0-dev.3](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.3)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;7 patches total
 <details open>
 <summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;7 patches</summary>
 <br>
 
 **🎯 Supported versions:**
 
-| 12.10.1-release.0 | 12.10.0-release.0 | 12.8.0-release.0 | 11.80.0-release.0 |
-| :---: | :---: | :---: | :---: |
+| 12.30.0-prod.01 | 12.10.1-release.0 | 12.10.0-release.0 | 12.8.0-release.0 | 11.80.0-release.0 |
+| :---: | :---: | :---: | :---: | :---: |
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
@@ -46,8 +46,8 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 | [Dynamic color](#dynamic-color) | Replaces the default X (Formerly Twitter) Blue with the user's Material You palette. |  |
 | [Hide ads](#hide-ads) | Hides promoted posts in the timelines. |  |
 | [Hide recommended users](#hide-recommended-users) | Hides the 'Who to follow' recommendations in the timelines. |  |
-| [Hide view count](#hide-view-count) | Hides the view count of posts. |  |
-| [Sanitize sharing links](#sanitize-sharing-links) | Removes the tracking query parameters from shared links. |  |
+| [Hide view count](#hide-view-count) | Hides the view count of posts. The feature switch this relies on was removed in X 12.30. |  |
+| [Sanitize sharing links](#sanitize-sharing-links) | Removes the tracking query parameters from shared links. X 12.30 and later no longer add them. |  |
 | [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video. GIFs can be downloaded via the menu on long press. |  |
 
 </details>
