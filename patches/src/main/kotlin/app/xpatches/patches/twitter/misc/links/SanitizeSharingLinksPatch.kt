@@ -7,14 +7,14 @@ package app.xpatches.patches.twitter.misc.links
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
-import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
+import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X_UNTIL_12_10
 
 @Suppress("unused")
 val sanitizeSharingLinksPatch = bytecodePatch(
     name = "Sanitize sharing links",
-    description = "Removes the tracking query parameters from shared links.",
+    description = "Removes the tracking query parameters from shared links. X 12.30 and later no longer add them.",
 ) {
-    compatibleWith(COMPATIBILITY_X)
+    compatibleWith(COMPATIBILITY_X_UNTIL_12_10)
 
     execute {
         SanitizeSharingLinksFingerprint.method.addInstructions(

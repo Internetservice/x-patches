@@ -17,8 +17,12 @@ import app.xpatches.patches.twitter.shared.typeReferenceFilter
 import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 
+internal const val OFFLINE_VIDEO_FALLBACK_STRING = "offline_videos_download_fallback"
+internal const val VIDEO_DOWNLOAD_STRING = "video_download"
+
 /**
- * toString() of a features data class nested inside the subscriptions features interface.
+ * toString() of the NotePostFeatures data class. Up to X 12.10 it is nested inside the
+ * subscription features interface, which is how that interface is found.
  */
 internal object SubscriptionsFeaturesFingerprint : Fingerprint(
     returnType = "Ljava/lang/String;",
@@ -33,19 +37,59 @@ internal object SubscriptionsFeaturesFingerprint : Fingerprint(
 )
 
 /**
- * Method returning if the user can download a video.
+ * Media gallery download action. Checks the subscription features before downloading,
+ * otherwise falls back to the offline video upsell or the premium upsell.
+ *
+ * The subscription features class is resolved from this method, see [UnlockDownloadsPatch].
+ */
+internal object MediaGalleryDownloadFingerprint : Fingerprint(
+    returnType = "V",
+    strings = listOf(
+        OFFLINE_VIDEO_FALLBACK_STRING,
+        VIDEO_DOWNLOAD_STRING,
+    ),
+    custom = { method, _ -> method.hasAccessFlags(AccessFlags.PUBLIC, AccessFlags.FINAL) },
+)
+
+/**
+ * Same method as [MediaGalleryDownloadFingerprint], matched with the subscription feature calls.
+ */
+internal fun mediaGalleryDownloadFingerprint(subscriptionsFeaturesClass: String) = Fingerprint(
+    returnType = "V",
+    filters = listOf(
+        methodCall(
+            definingClass = subscriptionsFeaturesClass,
+            returnType = "Z",
+            opcodes = listOf(Opcode.INVOKE_INTERFACE, Opcode.INVOKE_VIRTUAL),
+        ),
+        string(OFFLINE_VIDEO_FALLBACK_STRING),
+        methodCall(
+            definingClass = subscriptionsFeaturesClass,
+            returnType = "Z",
+            opcodes = listOf(Opcode.INVOKE_INTERFACE, Opcode.INVOKE_VIRTUAL),
+        ),
+        string(OFFLINE_VIDEO_FALLBACK_STRING),
+        string(VIDEO_DOWNLOAD_STRING),
+    ),
+    custom = { method, _ -> method.hasAccessFlags(AccessFlags.PUBLIC, AccessFlags.FINAL) },
+)
+
+// region X 12.10 and older
+
+/**
+ * Method returning if the user can download a video (X 12.10 and older).
  *
  * X has two identical methods, one without "legacy" and one with "legacy".
  */
-internal fun canDownloadVideoFingerprint(subscriptionsFeaturesDefiningClass: String, legacy: Boolean) = Fingerprint(
+internal fun canDownloadVideoFingerprint(subscriptionsFeaturesClass: String, legacy: Boolean) = Fingerprint(
     returnType = "Z",
     parameters = listOf(),
     filters = listOf(
         fieldAccessFilter(Opcode.IGET_OBJECT) {
-            it.type == subscriptionsFeaturesDefiningClass && it.definingClass.contains("legacy") == legacy
+            it.type == subscriptionsFeaturesClass && it.definingClass.contains("legacy") == legacy
         },
         methodCall(
-            definingClass = subscriptionsFeaturesDefiningClass,
+            definingClass = subscriptionsFeaturesClass,
             opcode = Opcode.INVOKE_INTERFACE,
             location = MatchAfterImmediately(),
         ),
@@ -56,32 +100,9 @@ internal fun canDownloadVideoFingerprint(subscriptionsFeaturesDefiningClass: Str
 )
 
 /**
- * Media gallery download button that directly uses the subscriptions features.
+ * Download action for the long-press media menu (X 12.10 and older).
  */
-internal fun mediaGalleryDownloadFingerprint(subscriptionsFeaturesDefiningClass: String) = Fingerprint(
-    returnType = "V",
-    filters = listOf(
-        methodCall(
-            definingClass = subscriptionsFeaturesDefiningClass,
-            returnType = "Z",
-            opcode = Opcode.INVOKE_INTERFACE,
-        ),
-        string("offline_videos_download_fallback"),
-        methodCall(
-            definingClass = subscriptionsFeaturesDefiningClass,
-            returnType = "Z",
-            opcode = Opcode.INVOKE_INTERFACE,
-        ),
-        string("offline_videos_download_fallback"),
-        string("video_download"),
-    ),
-    custom = { method, _ -> method.hasAccessFlags(AccessFlags.PUBLIC, AccessFlags.FINAL) },
-)
-
-/**
- * Download action for the long-press media menu.
- */
-internal fun postMediaActionFingerprint(subscriptionsFeaturesDefiningClass: String): Fingerprint {
+internal fun postMediaActionFingerprint(subscriptionsFeaturesClass: String): Fingerprint {
     var mediaConfigGifDefiningClass = ""
 
     return Fingerprint(
@@ -106,7 +127,7 @@ internal fun postMediaActionFingerprint(subscriptionsFeaturesDefiningClass: Stri
             string("save"),
             // Boolean for checking if user can download video
             methodCall(
-                definingClass = subscriptionsFeaturesDefiningClass,
+                definingClass = subscriptionsFeaturesClass,
                 returnType = "Z",
                 opcode = Opcode.INVOKE_INTERFACE_RANGE,
             ),
@@ -114,3 +135,5 @@ internal fun postMediaActionFingerprint(subscriptionsFeaturesDefiningClass: Stri
         custom = { method, _ -> method.hasAccessFlags(AccessFlags.PUBLIC, AccessFlags.FINAL) },
     )
 }
+
+// endregion

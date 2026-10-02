@@ -10,20 +10,35 @@ import app.morphe.patcher.literal
 import app.morphe.patcher.string
 
 /**
- * Any method of the design token class.
+ * X blue, 0xFF1D9BF0, as a Compose color long.
  */
-private object StaticColorClassFingerprint : Fingerprint(
+internal const val X_BLUE_LITERAL = 4280130544L
+
+/**
+ * Any method of the design token class (X 12.10 and older).
+ */
+internal object StaticColorClassFingerprint : Fingerprint(
     filters = listOf(
         string("StaticColor"),
     ),
 )
 
 /**
- * Method of the design token class that loads the X blue (0xFF1D9BF0) color literal.
+ * Method of the design token class that loads the X blue color literal (X 12.10 and older).
  */
 internal object DesignTokenFingerprint : Fingerprint(
     classFingerprint = StaticColorClassFingerprint,
     filters = listOf(
-        literal(4280130544L),
+        literal(X_BLUE_LITERAL),
+    ),
+)
+
+/**
+ * Static initializers of the color palettes that load the X blue color literal (X 12.30 and newer).
+ */
+internal object PaletteInitializerFingerprint : Fingerprint(
+    name = "<clinit>",
+    filters = listOf(
+        literal(X_BLUE_LITERAL),
     ),
 )

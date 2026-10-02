@@ -31,6 +31,26 @@ public final class Utils {
     }
 
     public static Context getContext() {
-        return context;
+        Context current = context;
+        if (current == null) {
+            // Patched code can run before the main activity is created,
+            // for example static initializers of the Compose palettes.
+            current = currentApplication();
+            if (current != null) {
+                context = current;
+            }
+        }
+        return current;
+    }
+
+    private static Context currentApplication() {
+        try {
+            Object application = Class.forName("android.app.ActivityThread")
+                    .getMethod("currentApplication")
+                    .invoke(null);
+            return application instanceof Context ? (Context) application : null;
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 }
