@@ -14,7 +14,9 @@ internal object Constants {
     private const val X_APP_NAME = "X"
     private const val X_ICON_COLOR = 0x000000
 
-    // Versions verified upstream by ReVanced, newest first.
+    // Verified with these patches, newest first.
+    private val TARGET_12_10_1 = AppTarget(version = "12.10.1-release.0")
+    // Versions verified upstream by ReVanced.
     private val TARGET_12_10_0 = AppTarget(version = "12.10.0-release.0")
     private val TARGET_12_8_0 = AppTarget(version = "12.8.0-release.0")
     private val TARGET_11_80_0 = AppTarget(version = "11.80.0-release.0")
@@ -32,6 +34,7 @@ internal object Constants {
         appIconColor = X_ICON_COLOR,
         targets = listOf(
             TARGET_ANY_EXPERIMENTAL,
+            TARGET_12_10_1,
             TARGET_12_10_0,
             TARGET_12_8_0,
             TARGET_11_80_0,
@@ -48,6 +51,7 @@ internal object Constants {
         appIconColor = X_ICON_COLOR,
         targets = listOf(
             TARGET_ANY_EXPERIMENTAL,
+            TARGET_12_10_1,
             TARGET_12_10_0,
             TARGET_12_8_0,
         )
