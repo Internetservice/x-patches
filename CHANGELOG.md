@@ -1,3 +1,9 @@
+## [1.0.0-dev.7](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.6...v1.0.0-dev.7) (2026-10-02)
+
+### ✨ New Features
+
+* **X:** Add the Settings patch ([5455dc1](https://github.com/Internetservice/x-patches/commit/5455dc1ca84bfef8b4ef5e31528b9094885d48da))
+
 ## [1.0.0-dev.6](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-10-02)
 
 ### ⚠ BREAKING CHANGES
