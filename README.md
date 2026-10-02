@@ -30,8 +30,27 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
+> **[v1.0.0-dev.1](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;7 patches total
+<details open>
+<summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;7 patches</summary>
+<br>
 
-#### A list of the patches will automatically be shown here after the first release is created.
+**🎯 Supported versions:**
+
+| 12.10.0-release.0 | 12.8.0-release.0 | 11.80.0-release.0 |
+| :---: | :---: | :---: |
+
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Customize sharing link](#customize-sharing-link) | Changes the domain name used when sharing links, and optionally includes the username in the link. | • Return username<br>• Domain name |
+| [Dynamic color](#dynamic-color) | Replaces the default X (Formerly Twitter) Blue with the user's Material You palette. |  |
+| [Hide ads](#hide-ads) | Hides promoted posts in the timelines. |  |
+| [Hide recommended users](#hide-recommended-users) | Hides the 'Who to follow' recommendations in the timelines. |  |
+| [Hide view count](#hide-view-count) | Hides the view count of posts. |  |
+| [Sanitize sharing links](#sanitize-sharing-links) | Removes the tracking query parameters from shared links. |  |
+| [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video. GIFs can be downloaded via the menu on long press. |  |
+
+</details>
 
 <!-- PATCHES_END -->
 
