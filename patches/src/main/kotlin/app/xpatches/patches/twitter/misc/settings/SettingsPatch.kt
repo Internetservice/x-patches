@@ -55,11 +55,11 @@ private fun patchesVersion(): String = runCatching {
 @Suppress("unused")
 val settingsPatch = resourcePatch(
     name = "Settings",
-    description = "Adds the X Patches settings screen, reachable by long pressing the app icon or opening xpatches://settings. Every other patch can be switched off there without patching again.",
+    description = "Adds the X Patches settings screen, reachable from the navigation drawer, by long pressing the app icon or by opening xpatches://settings. Every other patch can be switched off there without patching again.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 
-    dependsOn(settingsBytecodePatch)
+    dependsOn(settingsBytecodePatch, drawerEntryPatch)
 
     execute {
         // region Settings activity

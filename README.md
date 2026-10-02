@@ -10,8 +10,8 @@ These patches target X 12.30 and newer (the Compose based client). They started 
 so they can be applied with Morphe Manager or Morphe Desktop.
 
 Every patch can be switched off at runtime in the **X Patches settings** screen the
-*Settings* patch adds: long press the X app icon and pick "X Patches settings", or open
-`xpatches://settings`. Changes apply after restarting X.
+*Settings* patch adds: open the navigation drawer and tap "X Patches" below "Help Center",
+long press the X app icon and pick "X Patches settings", or open `xpatches://settings`. Changes apply after restarting X.
 
 Included patches:
 
