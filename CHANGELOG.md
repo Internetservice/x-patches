@@ -1,3 +1,9 @@
+## [1.0.0-dev.8](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.7...v1.0.0-dev.8) (2026-10-02)
+
+### ✨ New Features
+
+* **X - Settings:** Add an X Patches entry to the navigation drawer ([928646c](https://github.com/Internetservice/x-patches/commit/928646c89a1e04f9bef68a39905ca7a6be8cd188))
+
 ## [1.0.0-dev.7](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.6...v1.0.0-dev.7) (2026-10-02)
 
 ### ✨ New Features
