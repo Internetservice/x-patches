@@ -1,11 +1,17 @@
 [versions]
 morphe-patcher = "1.15.0"
+morphe-patches-library = "1.7.1"
 #noinspection GradleDependency
 smali = "d92701d947"
 gson = "2.14.0"
+okhttp = "5.3.2"
 
 [libraries]
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 # Gradle plugins adds the dependency during build, this declaration is here only for dependabot to provide updates.
 #noinspection UnusedVersionCatalogEntry
 morphe-patcher = { module = "app.morphe:morphe-patcher", version.ref = "morphe-patcher" }
+# Shared patch utilities (returnEarly, ExtensionHook, ...).
+morphe-patches-library = { module = "app.morphe:morphe-patches-library", version.ref = "morphe-patches-library" }
+# Provided by the X app at runtime, only needed to compile the extension.
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }

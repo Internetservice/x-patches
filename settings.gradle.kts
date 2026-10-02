@@ -1,7 +1,8 @@
-rootProject.name = "morphe-patches-template"
+rootProject.name = "x-patches"
 
 pluginManagement {
     repositories {
+        mavenLocal()
         gradlePluginPortal()
         google()
         maven {
@@ -18,4 +19,10 @@ pluginManagement {
 
 plugins {
     id("app.morphe.patches") version "1.3.4"
+}
+
+settings {
+    extensions {
+        defaultNamespace = "app.xpatches.extension"
+    }
 }

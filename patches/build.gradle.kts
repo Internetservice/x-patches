@@ -1,15 +1,14 @@
-group = "app.template"
+group = "app.xpatches"
 
 patches {
-    // TODO: Update this section with your project details.
     about {
-        name = "UserXYZ Patches"
-        description = "Patches for apps I like"
-        source = "git@github.com:UserXYZ/morphe-patches.git"
-        author = "Awesome dev"
+        name = "X Patches"
+        description = "Patches for X (formerly Twitter), ported from ReVanced, for use with Morphe"
+        source = "https://github.com/Internetservice/x-patches"
+        author = "Remy"
         contact = "na"
-        website = "na"
-        license = "GPLv3"
+        website = "https://github.com/Internetservice/x-patches"
+        license = "GNU General Public License v3.0"
     }
 }
 
@@ -18,6 +17,8 @@ patches {
 val patchListGeneratorClasspath = configurations.create("patchListGeneratorClasspath")
 
 dependencies {
+    implementation(libs.morphe.patches.library)
+
     compileOnly(libs.gson)
     patchListGeneratorClasspath(libs.gson)
 }
