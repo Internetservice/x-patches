@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.1",
+  "version": "1.0.0-dev.2",
   "patches": [
     {
       "name": "Customize sharing link",
@@ -23,6 +23,13 @@
               "version": null,
               "versionCodes": null,
               "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.10.1-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
               "minSdk": null,
               "description": null
             },
@@ -99,6 +106,13 @@
               "description": null
             },
             {
+              "version": "12.10.1-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
               "version": "12.10.0-release.0",
               "versionCodes": null,
               "isExperimental": false,
@@ -149,6 +163,13 @@
               "description": null
             },
             {
+              "version": "12.10.1-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
               "version": "12.10.0-release.0",
               "versionCodes": null,
               "isExperimental": false,
@@ -195,6 +216,13 @@
               "version": null,
               "versionCodes": null,
               "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.10.1-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
               "minSdk": null,
               "description": null
             },
@@ -274,6 +302,13 @@
               "description": null
             },
             {
+              "version": "12.10.1-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            },
+            {
               "version": "12.10.0-release.0",
               "versionCodes": null,
               "isExperimental": false,
@@ -318,6 +353,13 @@
               "version": null,
               "versionCodes": null,
               "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.10.1-release.0",
+              "versionCodes": null,
+              "isExperimental": false,
               "minSdk": null,
               "description": null
             },
