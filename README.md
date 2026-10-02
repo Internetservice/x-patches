@@ -49,9 +49,9 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.5](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.5)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;15 patches total
+> **[v1.0.0-dev.6](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.6)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;23 patches total
 <details open>
-<summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;15 patches</summary>
+<summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;23 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -65,15 +65,23 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 | [Customize sharing link](#customize-sharing-link) | Changes the domain name used when sharing links, and optionally includes the username in the link. | • Return username<br>• Domain name |
 | [Disable analytics](#disable-analytics) | Drops the client event uploads (scribes) X sends about your activity in the app. |  |
 | [Dynamic color](#dynamic-color) | Replaces the default X (Formerly Twitter) Blue with the user's Material You palette. |  |
+| [Force HD video](#force-hd-video) | Plays videos in their highest available quality by removing the lower quality variants. |  |
+| [Force enable translate](#force-enable-translate) | Offers the translate action on every post. |  |
 | [Hide Community Notes](#hide-community-notes) | Hides the Community Notes attached to posts. |  |
 | [Hide Grok](#hide-grok) | Turns off the Grok features: the Grok tab and sidebar entry, the Grok buttons on posts, Grok image generation and Grok translations. |  |
 | [Hide Spaces and live](#hide-spaces-and-live) | Turns off Spaces and the live stream pills and avatar rings. |  |
-| [Hide ads](#hide-ads) | Hides promoted posts in the timelines. |  |
+| [Hide ads](#hide-ads) | Hides promoted posts, promoted trends, video pre-rolls and third party ads in the timelines. |  |
+| [Hide extra home tabs](#hide-extra-home-tabs) | Hides the Subscribed, ranked Following, sports and pinned tabs next to "For you" and "Following". |  |
+| [Hide post metrics](#hide-post-metrics) | Hides the reply, repost, like and bookmark counts of posts. |  |
+| [Hide promote button](#hide-promote-button) | Hides the "Promote" button on your own posts. |  |
 | [Hide recommended users](#hide-recommended-users) | Hides the 'Who to follow' recommendations in the timelines. |  |
+| [Hide social context](#hide-social-context) | Hides the context lines above posts, such as "X follows", "Liked by" and "You might like". |  |
 | [Hide suggested content](#hide-suggested-content) | Hides the suggestion modules X injects into timelines: communities to join, related posts under a post, Today's news stories and the top people module in search. |  |
+| [Hide verified badges](#hide-verified-badges) | Hides the verification checkmarks and affiliation badges of users. |  |
 | [Hide view count](#hide-view-count) | Hides the view count of posts. |  |
+| [Keep timeline position](#keep-timeline-position) | Stops the app from jumping back to the top of "For you" and refreshing when it is reopened. |  |
+| [Open links externally](#open-links-externally) | Always opens links in the external browser instead of the in-app browser, regardless of the link opening setting. |  |
 | [Remove premium upsell](#remove-premium-upsell) | Removes the premium upsell sheets, the premium prompts in timelines and the upsell cards in the drawer and on profiles. |  |
-| [Sanitize sharing links](#sanitize-sharing-links) | Removes the tracking query parameters from shared links. X 12.30 and later no longer add them. |  |
 | [Show sensitive media](#show-sensitive-media) | Shows media marked as sensitive directly, without the warning overlays. |  |
 | [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video. GIFs can be downloaded via the menu on long press. |  |
 

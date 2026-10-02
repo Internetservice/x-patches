@@ -1,3 +1,17 @@
+## [1.0.0-dev.6](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.5...v1.0.0-dev.6) (2026-10-02)
+
+### ⚠ BREAKING CHANGES
+
+* **X:** Drop support for X older than 12.30
+
+### refactor
+
+* **X:** Drop support for X older than 12.30 ([6cb2787](https://github.com/Internetservice/x-patches/commit/6cb2787723172e381047326d145ae6ec97970052))
+
+### ✨ New Features
+
+* **X:** Add nine more patches ([a260c95](https://github.com/Internetservice/x-patches/commit/a260c9501129e9d99203a205a2ef5ce8a6953d1e))
+
 ## [1.0.0-dev.5](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-10-02)
 
 ### ✨ New Features
