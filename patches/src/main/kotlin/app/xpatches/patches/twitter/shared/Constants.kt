@@ -17,10 +17,9 @@ internal object Constants {
     // Verified with these patches, newest first.
     private val TARGET_12_30_0 = AppTarget(version = "12.30.0-prod.01")
     private val TARGET_12_10_1 = AppTarget(version = "12.10.1-release.0")
-    // Versions verified upstream by ReVanced.
+    // Version verified upstream by ReVanced. Older releases are not listed:
+    // X no longer allows logging in with them.
     private val TARGET_12_10_0 = AppTarget(version = "12.10.0-release.0")
-    private val TARGET_12_8_0 = AppTarget(version = "12.8.0-release.0")
-    private val TARGET_11_80_0 = AppTarget(version = "11.80.0-release.0")
 
     // Newer releases are not verified but are expected to work until X changes the hooked code.
     private val TARGET_ANY_EXPERIMENTAL = AppTarget(version = null, isExperimental = true)
@@ -41,20 +40,12 @@ internal object Constants {
         TARGET_12_30_0,
         TARGET_12_10_1,
         TARGET_12_10_0,
-        TARGET_12_8_0,
-        TARGET_11_80_0,
     )
 
     /**
      * Patches whose hooks only exist in the 12.x code base.
      */
-    val COMPATIBILITY_X_12 = compatibility(
-        TARGET_ANY_EXPERIMENTAL,
-        TARGET_12_30_0,
-        TARGET_12_10_1,
-        TARGET_12_10_0,
-        TARGET_12_8_0,
-    )
+    val COMPATIBILITY_X_12 = COMPATIBILITY_X
 
     /**
      * Patches whose target code was removed from X after 12.10.
@@ -64,7 +55,5 @@ internal object Constants {
     val COMPATIBILITY_X_UNTIL_12_10 = compatibility(
         TARGET_12_10_1,
         TARGET_12_10_0,
-        TARGET_12_8_0,
-        TARGET_11_80_0,
     )
 }

@@ -74,6 +74,24 @@ internal fun mediaGalleryDownloadFingerprint(subscriptionsFeaturesClass: String)
     custom = { method, _ -> method.hasAccessFlags(AccessFlags.PUBLIC, AccessFlags.FINAL) },
 )
 
+// region X 12.30 and newer
+
+internal const val VIDEO_DOWNLOAD_UPSELL_KEY = "video_download"
+
+/**
+ * Maps the premium upsell types to their feature keys. The `instance-of` check right before the
+ * "video_download" key reveals the upsell type raised when a non premium user downloads a video.
+ */
+internal object UpsellFeatureKeyFingerprint : Fingerprint(
+    returnType = "Ljava/lang/String;",
+    filters = listOf(
+        string(VIDEO_DOWNLOAD_UPSELL_KEY),
+        string("offline_videos"),
+    ),
+)
+
+// endregion
+
 // region X 12.10 and older
 
 /**
