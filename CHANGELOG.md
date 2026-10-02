@@ -1,3 +1,9 @@
+## [1.0.0-dev.5](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.4...v1.0.0-dev.5) (2026-10-02)
+
+### ✨ New Features
+
+* **X:** Add ten patches for the X 12.30 client ([ed606df](https://github.com/Internetservice/x-patches/commit/ed606df7218f726acbc4eb71add7f8574fa0adc0))
+
 ## [1.0.0-dev.4](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.3...v1.0.0-dev.4) (2026-10-02)
 
 ### 🐛 Bug Fixes
