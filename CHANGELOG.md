@@ -1,3 +1,9 @@
+## [1.0.0-dev.27](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.26...v1.0.0-dev.27) (2026-10-03)
+
+### ✨ New Features
+
+* **X:** Swipe to close media ([fca4b9c](https://github.com/Internetservice/x-patches/commit/fca4b9c80c77898cac2d6b13832e7a30d0023aa2))
+
 ## [1.0.0-dev.26](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.25...v1.0.0-dev.26) (2026-10-03)
 
 ### ✨ New Features

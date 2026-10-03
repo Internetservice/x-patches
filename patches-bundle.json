@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-03T15:33:40",
-  "description": "## [1.0.0-dev.26](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.25...v1.0.0-dev.26) (2026-10-03)\n\n### ✨ New Features\n\n* **X:** Snooze topics longer ([0cb8948](https://github.com/Internetservice/x-patches/commit/0cb894806c4cd2bc829cf74d4e25817c56637bf8))",
-  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.26/patches-1.0.0-dev.26.mpp",
+  "created_at": "2026-10-03T17:12:17",
+  "description": "## [1.0.0-dev.27](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.26...v1.0.0-dev.27) (2026-10-03)\n\n### ✨ New Features\n\n* **X:** Swipe to close media ([fca4b9c](https://github.com/Internetservice/x-patches/commit/fca4b9c80c77898cac2d6b13832e7a30d0023aa2))",
+  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.27/patches-1.0.0-dev.27.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.26"
+  "version": "1.0.0-dev.27"
 }

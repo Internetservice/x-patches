@@ -66,9 +66,9 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.26](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.26)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;31 patches total
+> **[v1.0.0-dev.27](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.27)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;32 patches total
 <details open>
-<summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;31 patches</summary>
+<summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;32 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -107,6 +107,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 | [Show poll results](#show-poll-results) | Shows the results of polls without voting. Polls are shown as final while the setting is on, so voting is not possible. |  |
 | [Show sensitive media](#show-sensitive-media) | Shows media marked as sensitive directly, without the warning overlays. Off by default in the X Patches settings. |  |
 | [Snooze topics longer](#snooze-topics-longer) | Lets you snooze topics in "For you" for longer than X allows, up to forever. |  |
+| [Swipe to close media](#swipe-to-close-media) | Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video. |  |
 | [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video, including videos whose author disallowed downloads, and lets you pick the quality or copy the video link before downloading. GIFs can be downloaded via the menu on long press. |  |
 | [Video speed](#video-speed) | Remembers the playback speed for every video, lets you set your own speed levels, such as 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3, and changes the speed while a video is held: the right half speeds up, the left half slows down, both adjustable. |  |
 

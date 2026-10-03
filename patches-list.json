@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.26",
+  "version": "1.0.0-dev.27",
   "patches": [
     {
       "name": "Bring back Twitter",
@@ -1067,6 +1067,42 @@
       "category": null,
       "dependencies": [
         "BytecodePatch",
+        "ResourcePatch"
+      ],
+      "compatiblePackages": [
+        {
+          "packageName": "com.twitter.android",
+          "name": "X",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#000000",
+          "signatures": null,
+          "targets": [
+            {
+              "version": null,
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.30.0-prod.01",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Swipe to close media",
+      "description": "Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video.",
+      "default": true,
+      "category": null,
+      "dependencies": [
         "ResourcePatch"
       ],
       "compatiblePackages": [
