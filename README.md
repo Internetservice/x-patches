@@ -50,7 +50,6 @@ Included patches:
 - **Hide navigation bar badges** - hides the unread counts and dots on the navigation bar icons.
 - **Block update screen** - blocks the in-app update prompts.
 - **Enable debug menu** - shows the hidden Debug Menu entry of X in the side menu.
-- **Control video auto advance** - lets you stop the immersive player from advancing by itself.
 - **Custom download folder** - lets you choose where media is downloaded to.
 - **Swipe to close media** - closes a full screen photo or video by swiping right, on the first photo of
   a post or anywhere on a video, and can disable the swipe up to the immersive video player.
