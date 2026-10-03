@@ -46,8 +46,14 @@ Included patches:
 - **Show poll results** - shows poll results without voting (polls are shown as final while on).
 - **Customize side bar items** - hides entries of the side menu, picked in the X Patches settings.
 - **Handle custom twitter links** - opens fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X.
+- **Hide new posts pill** - hides the "New posts" pill at the top of the timelines.
+- **Hide navigation bar badges** - hides the unread counts and dots on the navigation bar icons.
+- **Block update screen** - blocks the in-app update prompts.
+- **Enable debug menu** - shows the hidden Debug Menu entry of X in the side menu.
+- **Control video auto advance** - lets you stop the immersive player from advancing by itself.
+- **Custom download folder** - lets you choose where media is downloaded to.
 - **Swipe to close media** - closes a full screen photo or video by swiping right, on the first photo of
-  a post or anywhere on a video.
+  a post or anywhere on a video, and can disable the swipe up to the immersive video player.
 - **Snooze topics longer** - lets you snooze topics in "For you" for longer than X allows, up to forever.
 - **Video speed** - remembers the playback speed, lets you set your own speed levels, such as
   0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3, and changes the speed while a video is held: the right

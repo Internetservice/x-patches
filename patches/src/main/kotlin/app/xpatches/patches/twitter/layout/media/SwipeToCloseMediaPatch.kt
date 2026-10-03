@@ -6,7 +6,7 @@
 package app.xpatches.patches.twitter.layout.media
 
 import app.morphe.patcher.Fingerprint
-import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructionsWithLabels
 import app.morphe.patcher.patch.BytecodePatchContext
 import app.morphe.patcher.patch.PatchException
 import app.morphe.patcher.patch.bytecodePatch
@@ -48,7 +48,8 @@ private fun extensionStringFingerprint(name: String) = Fingerprint(
 @Suppress("unused")
 val swipeToCloseMediaPatch = bytecodePatch(
     name = "Swipe to close media",
-    description = "Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video.",
+    description = "Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video. " +
+            "Also lets you disable the swipe up to the immersive video player.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 
@@ -66,15 +67,25 @@ val swipeToCloseMediaPatch = bytecodePatch(
             "mediaCloseEvent" to ("DidClickBackButton" to mediaEventInterface),
             "pageChangedEvent" to ("PageChanged(" to videoEventInterface),
             "videoCloseEvent" to ("CloseClicked" to videoEventInterface),
+            "immersiveEvent" to ("DidSwipeToImmersive" to mediaEventInterface),
         ).forEach { (method, event) ->
             val (toStringPrefix, eventInterface) = event
             extensionStringFingerprint(method).method.returnEarly(javaClassName(classWithToString(toStringPrefix, eventInterface)))
         }
 
+        // The handlers tell the extension about every event, which may consume it,
+        // such as the swipe up to the immersive player when it is hidden.
         listOf(MediaViewerEventFingerprint, VideoTabEventFingerprint).forEach { fingerprint ->
-            fingerprint.method.addInstructions(
+            fingerprint.method.addInstructionsWithLabels(
                 0,
-                "invoke-static/range { p0 .. p1 }, $EXTENSION_CLASS_DESCRIPTOR->onViewerEvent(Ljava/lang/Object;Ljava/lang/Object;)V",
+                """
+                    invoke-static/range { p0 .. p1 }, $EXTENSION_CLASS_DESCRIPTOR->onViewerEvent(Ljava/lang/Object;Ljava/lang/Object;)Z
+                    move-result v0
+                    if-eqz v0, :handle
+                    return-void
+                    :handle
+                    nop
+                """,
             )
         }
     }

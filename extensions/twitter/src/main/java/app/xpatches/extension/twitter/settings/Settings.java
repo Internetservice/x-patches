@@ -36,7 +36,12 @@ import app.xpatches.extension.twitter.patches.links.HandleCustomLinksPatch;
 import app.xpatches.extension.twitter.patches.media.SwipeToCloseMediaPatch;
 import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 import app.xpatches.extension.twitter.patches.links.CustomizeSharingLinkPatch;
+import app.xpatches.extension.twitter.patches.hook.patch.home.HideNewPostsPillHook;
+import app.xpatches.extension.twitter.patches.toggles.AutoAdvancePatch;
+import app.xpatches.extension.twitter.patches.toggles.BlockUpdateScreenPatch;
+import app.xpatches.extension.twitter.patches.toggles.DebugMenuPatch;
 import app.xpatches.extension.twitter.patches.toggles.DisableAnalyticsPatch;
+import app.xpatches.extension.twitter.patches.toggles.HideNavigationBadgesPatch;
 import app.xpatches.extension.twitter.patches.toggles.HideExtraHomeTabsPatch;
 import app.xpatches.extension.twitter.patches.toggles.HideSpacesAndLivePatch;
 import app.xpatches.extension.twitter.patches.toggles.KeepTimelinePositionPatch;
@@ -110,6 +115,8 @@ public final class Settings {
             "Hide social context", "\"X follows\", \"Liked by\" and similar lines above posts", false, HideSocialContextHook::isPatchIncluded);
     public static final Toggle KEEP_TIMELINE_POSITION = new Toggle("keep_timeline_position", CATEGORY_TIMELINE,
             "Keep timeline position", "Do not jump to the top of \"For you\" when the app is reopened", true, KeepTimelinePositionPatch::isPatchIncluded);
+    public static final Toggle HIDE_NEW_POSTS_PILL = new Toggle("hide_new_posts_pill", CATEGORY_TIMELINE,
+            "Hide new posts pill", "The \"New posts\" pill at the top of the timelines", false, HideNewPostsPillHook::isPatchIncluded);
     public static final Toggle HIDE_EXTRA_HOME_TABS = new Toggle("hide_extra_home_tabs", CATEGORY_TIMELINE,
             "Hide extra home tabs", "Subscribed, ranked Following, sports and pinned tabs", false, HideExtraHomeTabsPatch::isPatchIncluded);
 
@@ -153,6 +160,12 @@ public final class Settings {
             "Disable analytics", "Drop the client event uploads", false, DisableAnalyticsPatch::isPatchIncluded);
     public static final Toggle OPEN_LINKS_EXTERNALLY = new Toggle("open_links_externally", CATEGORY_APP,
             "Open links externally", "Always use the external browser", false, OpenLinksExternallyPatch::isPatchIncluded);
+    public static final Toggle BLOCK_UPDATE_SCREEN = new Toggle("block_update_screen", CATEGORY_APP,
+            "Block update screen", "No in-app update prompts for this patched version", true, BlockUpdateScreenPatch::isPatchIncluded);
+    public static final Toggle HIDE_NAV_BADGES = new Toggle("hide_nav_badges", CATEGORY_APP,
+            "Hide navigation bar badges", "No unread counts and dots on the navigation bar icons", false, HideNavigationBadgesPatch::isPatchIncluded);
+    public static final Toggle SHOW_DEBUG_MENU = new Toggle("show_debug_menu", CATEGORY_APP,
+            "Show debug menu", "The hidden Debug Menu entry of X in the side menu. Parts of it may not work in this build", false, DebugMenuPatch::isPatchIncluded);
     public static final Toggle HANDLE_CUSTOM_LINKS = new Toggle("handle_custom_links", CATEGORY_APP,
             "Handle custom twitter links", "Open fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X. Enable them under \"Open by default\" in the app info", true, HandleCustomLinksPatch::isPatchIncluded);
 
@@ -161,6 +174,10 @@ public final class Settings {
 
     public static final Toggle REMEMBER_VIDEO_SPEED = new Toggle("remember_video_speed", CATEGORY_VIDEO,
             "Remember video speed", "Keep the chosen playback speed for every video", true, VideoSpeedPatch::isPatchIncluded);
+    public static final Toggle AUTO_ADVANCE_VIDEOS = new Toggle("auto_advance_videos", CATEGORY_VIDEO,
+            "Auto advance videos", "Let the immersive player move on to the next video by itself", true, AutoAdvancePatch::isPatchIncluded);
+    public static final Toggle HIDE_IMMERSIVE_PLAYER = new Toggle("hide_immersive_player", CATEGORY_VIDEO,
+            "Disable swipe up to more videos", "No immersive player when swiping up on a full screen video", false, SwipeToCloseMediaPatch::isPatchIncluded);
     public static final Toggle HOLD_TO_CHANGE_SPEED = new Toggle("hold_to_change_speed", CATEGORY_VIDEO,
             "Hold to change speed", "Hold the right half of a video to speed up and the left half to slow down", true, VideoSpeedPatch::isPatchIncluded);
 
@@ -175,6 +192,7 @@ public final class Settings {
      */
     public static final String KEY_VIDEO_SPEEDS = "video_speeds";
     public static final String KEY_SNOOZE_MINUTES = "snooze_topics_minutes";
+    public static final String KEY_DOWNLOAD_FOLDER = "download_folder";
     public static final String KEY_HOLD_SPEED_LEFT = "hold_speed_left";
     public static final String KEY_HOLD_SPEED_RIGHT = "hold_speed_right";
 

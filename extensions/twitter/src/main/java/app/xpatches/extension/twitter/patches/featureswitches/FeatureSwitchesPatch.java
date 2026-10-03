@@ -57,6 +57,14 @@ public final class FeatureSwitchesPatch {
             return true;
         }
 
+        if (key.equals("x_lite_in_app_update_enabled") && Settings.BLOCK_UPDATE_SCREEN.get()) {
+            return false;
+        }
+
+        if (key.equals("grok_android_tab_badge_enabled") && Settings.HIDE_NAV_BADGES.get()) {
+            return false;
+        }
+
         // Translations are Grok powered and rolled out per account. Checked before Hide Grok,
         // which would turn them off along with the rest of Grok.
         if (key.startsWith("grok_translations_")) {

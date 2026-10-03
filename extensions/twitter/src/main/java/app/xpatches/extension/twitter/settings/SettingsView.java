@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 
 import app.xpatches.extension.twitter.CrashLog;
+import app.xpatches.extension.twitter.patches.downloads.CustomDownloadFolderPatch;
 import app.xpatches.extension.twitter.patches.drawer.CustomizeDrawerPatch;
 import app.xpatches.extension.twitter.patches.home.SnoozeTopicsPatch;
 import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
@@ -149,6 +150,16 @@ public final class SettingsView {
             addSwitch(category, toggle.title, toggle.summary,
                     preferences.getBoolean(toggle.key, toggle.defaultValue),
                     checked -> preferences.edit().putBoolean(toggle.key, checked).apply());
+        }
+
+        if (CustomDownloadFolderPatch.isPatchIncluded()) {
+            LinearLayout category = categories.get(Settings.CATEGORY_POSTS);
+            if (category == null) category = addCategory(list, Settings.CATEGORY_POSTS);
+            TextView[] summary = new TextView[1];
+            summary[0] = addRow(category, "Download folder", CustomDownloadFolderPatch.folder(), null,
+                    v -> editText("Download folder", "Relative to the storage root, for example Download/X or Movies/X.",
+                            CustomDownloadFolderPatch.folder(), Settings.KEY_DOWNLOAD_FOLDER, preferences,
+                            () -> summary[0].setText(CustomDownloadFolderPatch.folder())))[1];
         }
 
         if (SnoozeTopicsPatch.isPatchIncluded()) {
@@ -348,6 +359,34 @@ public final class SettingsView {
                     for (int i = 0; i < titles.size(); i++) if (checked[i]) selected.add(titles.get(i));
                     CustomizeDrawerPatch.setHiddenTitles(selected);
                     summary.setText(drawerSummary());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void editText(String title, String message, String current, String key, SharedPreferences preferences, Runnable onSaved) {
+        EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
+        input.setText(current);
+        input.setSelection(input.getText().length());
+
+        FrameLayout container = new FrameLayout(context);
+        container.setPadding(dp(20), dp(8), dp(20), 0);
+        container.addView(input, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        new AlertDialog.Builder(context, night
+                ? android.R.style.Theme_DeviceDefault_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                .setTitle(title)
+                .setMessage(message)
+                .setView(container)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    preferences.edit().putString(key, input.getText().toString().trim()).apply();
+                    onSaved.run();
+                })
+                .setNeutralButton("Reset", (dialog, which) -> {
+                    preferences.edit().remove(key).apply();
+                    onSaved.run();
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();

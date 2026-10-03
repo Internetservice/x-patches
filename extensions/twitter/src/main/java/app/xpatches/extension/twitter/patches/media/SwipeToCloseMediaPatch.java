@@ -56,13 +56,23 @@ public final class SwipeToCloseMediaPatch {
         return "";
     }
 
+    public static String immersiveEvent() {
+        return "";
+    }
+
     /**
      * Injection point. Called with every event the media viewer and the video tab handle.
+     *
+     * @return If the event is consumed, so the handler must ignore it.
      */
-    public static void onViewerEvent(Object handler, Object event) {
+    public static boolean onViewerEvent(Object handler, Object event) {
         try {
-            if (handler == null || event == null) return;
+            if (handler == null || event == null) return false;
             String eventClass = event.getClass().getName();
+
+            if (eventClass.equals(immersiveEvent()) && Settings.HIDE_IMMERSIVE_PLAYER.get()) {
+                return true;
+            }
 
             if (eventClass.equals(mediaChangedEvent())) {
                 Object media = firstFieldValue(event);
@@ -82,6 +92,7 @@ public final class SwipeToCloseMediaPatch {
         } catch (Exception e) {
             XLog.e("Could not track the media viewer", e);
         }
+        return false;
     }
 
     /**

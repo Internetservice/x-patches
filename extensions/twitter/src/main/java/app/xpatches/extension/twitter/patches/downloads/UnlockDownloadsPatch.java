@@ -245,8 +245,23 @@ public final class UnlockDownloadsPatch {
                 .setTitle("Download video")
                 .setItems(labels, (dialog, which) -> onChosen.onChosen(variants.get(which)))
                 .setNeutralButton("Copy link", (dialog, which) -> copyLink(activity, variants.get(0)))
+                .setPositiveButton("Open with", (dialog, which) -> openWith(activity, variants.get(0)))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    /**
+     * Hands the best quality to another app, such as an external downloader.
+     */
+    private static void openWith(Context context, MediaVariants.Variant variant) {
+        try {
+            android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
+            intent.setDataAndType(android.net.Uri.parse(variant.url), "video/mp4");
+            context.startActivity(android.content.Intent.createChooser(intent, "Open video with"));
+        } catch (Exception e) {
+            XLog.e("Could not open the video with another app", e);
+            Toast.makeText(context, "No app can open the video", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private static void copyLink(Context context, MediaVariants.Variant variant) {

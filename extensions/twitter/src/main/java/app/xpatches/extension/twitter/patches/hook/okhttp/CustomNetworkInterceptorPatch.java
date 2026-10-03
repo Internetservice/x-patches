@@ -56,6 +56,17 @@ public final class CustomNetworkInterceptorPatch implements Interceptor {
                     .build();
         }
 
+        if (path.contains("badge_count") && Settings.HIDE_NAV_BADGES.get()) {
+            // The unread counts of the navigation bar: every count becomes zero.
+            return new Response.Builder()
+                    .request(request)
+                    .protocol(Protocol.HTTP_1_1)
+                    .code(200)
+                    .message("OK")
+                    .body(ResponseBody.create("{}".getBytes(), MediaType.parse("application/json")))
+                    .build();
+        }
+
         boolean isTargetUrl = false;
         for (String keyword : URL_FILTER_KEYWORD_LIST) {
             if (path.contains(keyword)) {
