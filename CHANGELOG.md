@@ -1,3 +1,9 @@
+## [1.0.0-dev.20](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.19...v1.0.0-dev.20) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Video speed:** Initialize the speed enum before resolving a level ([83251fd](https://github.com/Internetservice/x-patches/commit/83251fd440256c83d6127342675f3ddf523557b1))
+
 ## [1.0.0-dev.19](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.18...v1.0.0-dev.19) (2026-10-03)
 
 ### ✨ New Features
