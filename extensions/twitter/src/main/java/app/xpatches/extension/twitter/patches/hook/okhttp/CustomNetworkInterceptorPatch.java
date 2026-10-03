@@ -110,7 +110,13 @@ public final class CustomNetworkInterceptorPatch implements Interceptor {
             }
             byte[] rawBytes = StreamUtils.readAllBytes(responseStream);
 
-            InputStream modifiedStream = JsonHookPatch.parseJsonHook(new ByteArrayInputStream(rawBytes));
+            JsonHookPatch.setCurrentOperation(path.substring(path.lastIndexOf('/') + 1));
+            InputStream modifiedStream;
+            try {
+                modifiedStream = JsonHookPatch.parseJsonHook(new ByteArrayInputStream(rawBytes));
+            } finally {
+                JsonHookPatch.setCurrentOperation(null);
+            }
             byte[] modifiedData = StreamUtils.readAllBytes(modifiedStream);
 
             if (modifiedData.length == 0) {

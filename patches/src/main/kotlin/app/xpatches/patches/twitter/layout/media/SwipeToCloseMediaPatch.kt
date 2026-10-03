@@ -48,8 +48,7 @@ private fun extensionStringFingerprint(name: String) = Fingerprint(
 @Suppress("unused")
 val swipeToCloseMediaPatch = bytecodePatch(
     name = "Swipe to close media",
-    description = "Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video. " +
-            "Also lets you disable the swipe up to the immersive video player.",
+    description = "Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 

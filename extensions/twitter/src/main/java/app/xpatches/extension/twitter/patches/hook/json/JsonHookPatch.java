@@ -32,7 +32,20 @@ public final class JsonHookPatch {
         hooks.add(DummyHook.INSTANCE);
     }
 
+    /**
+     * The GraphQL operation of the response being hooked, such as "HomeTimeline".
+     */
+    private static final ThreadLocal<String> CURRENT_OPERATION = new ThreadLocal<>();
+
     private JsonHookPatch() {
+    }
+
+    public static void setCurrentOperation(String operation) {
+        CURRENT_OPERATION.set(operation);
+    }
+
+    public static String currentOperation() {
+        return CURRENT_OPERATION.get();
     }
 
     /**

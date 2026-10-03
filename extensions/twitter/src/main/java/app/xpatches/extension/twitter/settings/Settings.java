@@ -37,6 +37,7 @@ import app.xpatches.extension.twitter.patches.media.SwipeToCloseMediaPatch;
 import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 import app.xpatches.extension.twitter.patches.links.CustomizeSharingLinkPatch;
 import app.xpatches.extension.twitter.patches.hook.patch.home.HideNewPostsPillHook;
+import app.xpatches.extension.twitter.patches.hook.patch.immersive.HideImmersiveFeedHook;
 import app.xpatches.extension.twitter.patches.toggles.BlockUpdateScreenPatch;
 import app.xpatches.extension.twitter.patches.toggles.DisableAnalyticsPatch;
 import app.xpatches.extension.twitter.patches.toggles.HideNavigationBadgesPatch;
@@ -171,7 +172,7 @@ public final class Settings {
     public static final Toggle REMEMBER_VIDEO_SPEED = new Toggle("remember_video_speed", CATEGORY_VIDEO,
             "Remember video speed", "Keep the chosen playback speed for every video", true, VideoSpeedPatch::isPatchIncluded);
     public static final Toggle HIDE_IMMERSIVE_PLAYER = new Toggle("hide_immersive_player", CATEGORY_VIDEO,
-            "Disable swipe up to more videos", "No immersive player when swiping up on a full screen video", false, SwipeToCloseMediaPatch::isPatchIncluded);
+            "No more videos on swipe", "Keep the full screen player on the video you opened, with no feed of more videos below it", false, HideImmersiveFeedHook::isPatchIncluded);
     public static final Toggle HOLD_TO_CHANGE_SPEED = new Toggle("hold_to_change_speed", CATEGORY_VIDEO,
             "Hold to change speed", "Hold the right half of a video to speed up and the left half to slow down", true, VideoSpeedPatch::isPatchIncluded);
 

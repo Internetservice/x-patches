@@ -51,7 +51,9 @@ Included patches:
 - **Block update screen** - blocks the in-app update prompts.
 - **Custom download folder** - lets you choose where media is downloaded to.
 - **Swipe to close media** - closes a full screen photo or video by swiping right, on the first photo of
-  a post or anywhere on a video, and can disable the swipe up to the immersive video player.
+  a post or anywhere on a video.
+- **Hide immersive feed** - keeps the full screen video player on the video you opened, with no
+  swiping to more videos.
 - **Snooze topics longer** - lets you snooze topics in "For you" for longer than X allows, up to forever.
 - **Video speed** - remembers the playback speed, lets you set your own speed levels, such as
   0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3, and changes the speed while a video is held: the right
