@@ -30,7 +30,8 @@ Included patches:
 - **Hide verified badges** - hides the verification checkmarks and affiliation badges.
 - **Hide post metrics** - hides the reply, repost, like and bookmark counts.
 - **Hide promote button** - hides the "Promote" button on your own posts.
-- **Force enable translate** - offers the translate action on every post.
+- **Force enable translate** - offers the translate action on every post, also when X has not enabled
+  translations for the account, and can turn on the automatic translation of posts.
 - **Force HD video** - plays videos in their highest available quality.
 - **Keep timeline position** - stops the jump to the top of "For you" when the app is reopened.
 - **Hide extra home tabs** - hides the Subscribed, ranked Following and pinned tabs.

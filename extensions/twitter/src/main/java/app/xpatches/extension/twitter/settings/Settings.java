@@ -125,7 +125,9 @@ public final class Settings {
     public static final Toggle HIDE_PROMOTE_BUTTON = new Toggle("hide_promote_button", CATEGORY_POSTS,
             "Hide promote button", "On your own posts", true, HidePromoteButtonHook::isPatchIncluded);
     public static final Toggle FORCE_TRANSLATE = new Toggle("force_translate", CATEGORY_POSTS,
-            "Force enable translate", "Offer the translate action on every post", false, ForceTranslateHook::isPatchIncluded);
+            "Force enable translate", "Offer the translate action on every post, also when X has not enabled translations for the account", false, ForceTranslateHook::isPatchIncluded);
+    public static final Toggle AUTO_TRANSLATE = new Toggle("auto_translate", CATEGORY_POSTS,
+            "Auto translate posts", "Turn on the automatic translation of X for every post", false, ForceTranslateHook::isPatchIncluded);
     public static final Toggle UNLOCK_DOWNLOADS = new Toggle("unlock_downloads", CATEGORY_POSTS,
             "Unlock downloads", "Offer the download action on every video, also when the author disallowed it", true, UnlockDownloadsPatch::isPatchIncluded);
     public static final Toggle DOWNLOAD_QUALITY_PICKER = new Toggle("download_quality_picker", CATEGORY_POSTS,

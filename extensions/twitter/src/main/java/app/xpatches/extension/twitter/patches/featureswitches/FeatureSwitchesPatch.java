@@ -39,6 +39,16 @@ public final class FeatureSwitchesPatch {
             return true;
         }
 
+        // Translations are Grok powered and rolled out per account. Checked before Hide Grok,
+        // which would turn them off along with the rest of Grok.
+        if (key.startsWith("grok_translations_")) {
+            if (key.contains("auto_translation")) {
+                if (Settings.AUTO_TRANSLATE.get()) return true;
+            } else if (Settings.FORCE_TRANSLATE.get()) {
+                return true;
+            }
+        }
+
         if (hideGrok && (key.startsWith("grok_") || key.contains("_grok_"))) {
             return false;
         }

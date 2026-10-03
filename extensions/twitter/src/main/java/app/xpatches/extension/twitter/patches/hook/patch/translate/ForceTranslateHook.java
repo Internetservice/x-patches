@@ -29,10 +29,19 @@ public final class ForceTranslateHook extends BaseJsonHook {
 
     @Override
     public void apply(JSONObject json) {
-        if (!Settings.FORCE_TRANSLATE.get()) return;
+        boolean force = Settings.FORCE_TRANSLATE.get();
+        boolean auto = Settings.AUTO_TRANSLATE.get();
+        if (!force && !auto) return;
 
         JsonParser.INSTANCE.forEachObject(json, object -> {
-            if (object.has("is_translatable")) JsonParser.put(object, "is_translatable", true);
+            if (force) {
+                if (object.has("is_translatable")) JsonParser.put(object, "is_translatable", true);
+                if (object.has("is_community_note_translatable")) JsonParser.put(object, "is_community_note_translatable", true);
+            }
+            if (auto) {
+                if (object.has("is_auto_translate_candidate")) JsonParser.put(object, "is_auto_translate_candidate", true);
+                if (object.has("user_auto_translate_language_enabled")) JsonParser.put(object, "user_auto_translate_language_enabled", true);
+            }
         });
     }
 }
