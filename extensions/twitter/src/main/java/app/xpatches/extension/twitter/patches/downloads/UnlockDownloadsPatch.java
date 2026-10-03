@@ -32,13 +32,13 @@ import app.xpatches.extension.twitter.settings.Settings;
 @SuppressWarnings("unused")
 public final class UnlockDownloadsPatch {
     /**
-     * The variants of the videos about to be downloaded, by the URL of each variant.
+     * The qualities of the videos seen in the responses, by the URL of each quality.
      */
     private static final Map<String, List<MediaVariants.Variant>> RECENT_VARIANTS =
             new LinkedHashMap<String, List<MediaVariants.Variant>>(32, 0.75f, true) {
                 @Override
                 protected boolean removeEldestEntry(Map.Entry<String, List<MediaVariants.Variant>> eldest) {
-                    return size() > 64;
+                    return size() > 2048;
                 }
             };
 
@@ -68,24 +68,39 @@ public final class UnlockDownloadsPatch {
     }
 
     /**
+     * Called by the response hooks with the "variants" array of a video. The responses carry every
+     * quality, while the media models of X only keep the one they intend to download.
+     */
+    public static void rememberJsonVariants(org.json.JSONArray variants) {
+        try {
+            remember(MediaVariants.fromJson(variants));
+        } catch (Exception e) {
+            XLog.e("Failed to read the response variants", e);
+        }
+    }
+
+    /**
      * Injection point. Called with the variants of a video right before one of them is downloaded.
      */
     public static void rememberVariants(Object variants) {
         try {
-            if (!(variants instanceof Iterable)) {
-                XLog.w("Variants are not iterable: " + (variants == null ? null : variants.getClass().getName()));
-                return;
-            }
-            List<MediaVariants.Variant> list = MediaVariants.fromIterable((Iterable<?>) variants);
-            XLog.i("Variant chooser: " + list.size() + " downloadable variants out of " + variants);
-            if (list.size() < 2) return;
-            synchronized (RECENT_VARIANTS) {
-                for (MediaVariants.Variant variant : list) {
+            if (!(variants instanceof Iterable)) return;
+            remember(MediaVariants.fromIterable((Iterable<?>) variants));
+        } catch (Exception e) {
+            XLog.e("Failed to read the video variants", e);
+        }
+    }
+
+    private static void remember(List<MediaVariants.Variant> list) {
+        if (list.size() < 2) return;
+        synchronized (RECENT_VARIANTS) {
+            for (MediaVariants.Variant variant : list) {
+                // A list from the response is never replaced by the shorter one of the model.
+                List<MediaVariants.Variant> known = RECENT_VARIANTS.get(variant.url);
+                if (known == null || known.size() < list.size()) {
                     RECENT_VARIANTS.put(variant.url, list);
                 }
             }
-        } catch (Exception e) {
-            XLog.e("Failed to read the video variants", e);
         }
     }
 

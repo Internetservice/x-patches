@@ -21,6 +21,9 @@ import app.morphe.util.indexOfFirstInstructionReversedOrThrow
 import app.morphe.util.indexOfFirstStringInstructionOrThrow
 import app.morphe.util.setExtensionIsPatchIncluded
 import app.xpatches.patches.twitter.misc.extension.sharedExtensionPatch
+import app.xpatches.patches.twitter.misc.hook.json.addJsonHook
+import app.xpatches.patches.twitter.misc.hook.json.jsonHook
+import app.xpatches.patches.twitter.misc.hook.json.jsonHookPatch
 import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 import com.android.tools.smali.dexlib2.Opcode
@@ -36,6 +39,7 @@ import com.android.tools.smali.dexlib2.iface.reference.StringReference
 import com.android.tools.smali.dexlib2.iface.reference.TypeReference
 
 private const val EXTENSION_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/downloads/UnlockDownloadsPatch;"
+private const val VARIANTS_HOOK_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/hook/patch/downloads/DownloadVariantsHook;"
 
 @Suppress("unused")
 val unlockDownloadsPatch = bytecodePatch(
@@ -45,10 +49,14 @@ val unlockDownloadsPatch = bytecodePatch(
 ) {
     compatibleWith(COMPATIBILITY_X)
 
-    dependsOn(sharedExtensionPatch, settingsPatch)
+    dependsOn(sharedExtensionPatch, jsonHookPatch, settingsPatch)
 
     execute {
         setExtensionIsPatchIncluded(EXTENSION_CLASS_DESCRIPTOR)
+
+        // The media models only keep the quality X intends to download,
+        // the responses carry every quality for the picker.
+        addJsonHook(jsonHook(VARIANTS_HOOK_CLASS_DESCRIPTOR))
 
         // The download actions are only offered when the media model says it is downloadable,
         // which the author of the post controls. Force the flag wherever it is read.

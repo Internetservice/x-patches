@@ -99,6 +99,29 @@ final class MediaVariants {
     }
 
     /**
+     * @return The downloadable variants in the "variants" array of a response, best first.
+     */
+    static List<Variant> fromJson(org.json.JSONArray array) {
+        List<Variant> variants = new ArrayList<>();
+        Set<String> seen = new LinkedHashSet<>();
+
+        for (int i = 0; i < array.length(); i++) {
+            org.json.JSONObject object = array.optJSONObject(i);
+            if (object == null) continue;
+            String url = object.optString("url", null);
+            if (url == null || !url.startsWith("http")) continue;
+
+            Integer bitRate = object.has("bit_rate") && !object.isNull("bit_rate") ? object.optInt("bit_rate") : null;
+            Variant variant = new Variant(url, bitRate, object.optString("content_type", ""));
+            if (variant.isStream() || !seen.add(variant.url)) continue;
+            variants.add(variant);
+        }
+
+        Collections.sort(variants);
+        return variants;
+    }
+
+    /**
      * @return The downloadable variants in the list, best first, or an empty list if it is not a variant list.
      */
     static List<Variant> fromIterable(Iterable<?> elements) {

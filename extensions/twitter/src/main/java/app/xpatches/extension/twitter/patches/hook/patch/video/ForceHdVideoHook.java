@@ -8,6 +8,7 @@ package app.xpatches.extension.twitter.patches.hook.patch.video;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import app.xpatches.extension.twitter.patches.downloads.UnlockDownloadsPatch;
 import app.xpatches.extension.twitter.patches.hook.json.BaseJsonHook;
 import app.xpatches.extension.twitter.patches.hook.json.JsonParser;
 import app.xpatches.extension.twitter.settings.Settings;
@@ -36,6 +37,8 @@ public final class ForceHdVideoHook extends BaseJsonHook {
         JsonParser.INSTANCE.forEachObject(json, object -> {
             JSONArray variants = object.optJSONArray("variants");
             if (variants == null || variants.length() < 2) return;
+            // The other qualities are dropped below, keep them for the download quality picker.
+            UnlockDownloadsPatch.rememberJsonVariants(variants);
 
             JSONObject best = null;
             long bestBitrate = -1;
