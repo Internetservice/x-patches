@@ -1,3 +1,9 @@
+## [1.0.0-dev.16](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.15...v1.0.0-dev.16) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Unlock downloads:** Offer the qualities from the responses ([5baadaf](https://github.com/Internetservice/x-patches/commit/5baadafe90c5ba99488217dc90aed6d14f7d7b16))
+
 ## [1.0.0-dev.15](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.14...v1.0.0-dev.15) (2026-10-03)
 
 ### ✨ New Features
