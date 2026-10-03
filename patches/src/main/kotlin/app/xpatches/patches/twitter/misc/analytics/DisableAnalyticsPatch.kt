@@ -17,8 +17,7 @@ private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/pat
 @Suppress("unused")
 val disableAnalyticsPatch = bytecodePatch(
     name = "Disable analytics",
-    description = "Drops the client event uploads (scribes) X sends about your activity in the app.",
-    default = false,
+    description = "Drops the client event uploads (scribes) X sends about your activity in the app. Off by default in the X Patches settings.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 

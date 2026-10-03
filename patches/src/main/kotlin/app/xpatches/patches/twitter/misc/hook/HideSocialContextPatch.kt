@@ -10,5 +10,4 @@ val hideSocialContextPatch = hookPatch(
     name = "Hide social context",
     description = "Hides the context lines above posts, such as \"X follows\", \"Liked by\" and \"You might like\".",
     hookClassDescriptor = "Lapp/xpatches/extension/twitter/patches/hook/patch/social/HideSocialContextHook;",
-    default = false,
 )

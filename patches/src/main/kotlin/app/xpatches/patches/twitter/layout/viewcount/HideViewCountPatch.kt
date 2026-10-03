@@ -18,8 +18,7 @@ private const val HOOK_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patch
 @Suppress("unused")
 val hideViewCountPatch = bytecodePatch(
     name = "Hide view count",
-    description = "Hides the view count of posts.",
-    default = false,
+    description = "Hides the view count of posts. Off by default in the X Patches settings.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 

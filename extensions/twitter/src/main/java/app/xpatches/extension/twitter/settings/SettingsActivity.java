@@ -6,7 +6,10 @@
 package app.xpatches.extension.twitter.settings;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -14,7 +17,15 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toolbar;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,33 +34,79 @@ import app.xpatches.extension.twitter.Utils;
 
 /**
  * The settings screen of the patches. Registered in the manifest by the Settings patch and
- * opened from the launcher shortcut or the xpatches://settings link.
+ * opened from the navigation drawer, the launcher shortcut or the xpatches://settings link.
  */
 @SuppressWarnings("deprecation")
 public final class SettingsActivity extends Activity {
+    private static final int CONTENT_ID = View.generateViewId();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.setContext(this);
-        setTitle("X Patches");
-        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
+        // The toolbar below replaces the framework title bar.
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Utils.setContext(getApplicationContext());
 
-        // The DeviceDefault theme keeps light status bar icons on the light theme.
         boolean night = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
                 == Configuration.UI_MODE_NIGHT_YES;
+
+        // The window is edge to edge, so the header and the list are laid out below the
+        // status bar by hand instead of relying on the framework action bar.
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        root.setBackgroundColor(resolveColor(android.R.attr.colorBackground, night ? Color.BLACK : Color.WHITE));
+
+        Toolbar toolbar = new Toolbar(this);
+        toolbar.setTitle("X Patches");
+        toolbar.setNavigationIcon(getDrawable(android.R.drawable.ic_menu_close_clear_cancel));
+        toolbar.setNavigationContentDescription("Close");
+        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setBackgroundColor(resolveColor(android.R.attr.colorPrimary, night ? Color.BLACK : Color.WHITE));
+        root.addView(toolbar, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56, getResources().getDisplayMetrics())));
+
+        FrameLayout content = new FrameLayout(this);
+        content.setId(CONTENT_ID);
+        root.addView(content, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+
+        root.setOnApplyWindowInsetsListener((view, insets) -> {
+            view.setPadding(
+                    insets.getSystemWindowInsetLeft(),
+                    insets.getSystemWindowInsetTop(),
+                    insets.getSystemWindowInsetRight(),
+                    0);
+            return insets;
+        });
+
+        setContentView(root);
+
         if (!night) {
             View decor = getWindow().getDecorView();
-            decor.setSystemUiVisibility(decor.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            decor.setSystemUiVisibility(decor.getSystemUiVisibility()
+                    | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                    | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();
+
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .replace(CONTENT_ID, new SettingsFragment())
+                    .commit();
+        }
     }
 
-    @Override
-    public boolean onNavigateUp() {
-        finish();
-        return true;
+    private int resolveColor(int attribute, int fallback) {
+        TypedValue value = new TypedValue();
+        if (getTheme().resolveAttribute(attribute, value, true)) {
+            if (value.type >= TypedValue.TYPE_FIRST_COLOR_INT && value.type <= TypedValue.TYPE_LAST_COLOR_INT) {
+                return value.data;
+            }
+            try {
+                return getColor(value.resourceId);
+            } catch (Exception ignored) {
+            }
+        }
+        return fallback;
     }
 
     public static final class SettingsFragment extends PreferenceFragment {
@@ -76,7 +133,7 @@ public final class SettingsActivity extends Activity {
                 preference.setKey(toggle.key);
                 preference.setTitle(toggle.title);
                 if (toggle.summary != null) preference.setSummary(toggle.summary);
-                preference.setDefaultValue(true);
+                preference.setDefaultValue(toggle.defaultValue);
                 category.addPreference(preference);
             }
 
@@ -121,8 +178,7 @@ public final class SettingsActivity extends Activity {
             source.setSummary("github.com/Internetservice/x-patches");
             source.setOnPreferenceClickListener(preference -> {
                 try {
-                    startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW,
-                            android.net.Uri.parse("https://github.com/Internetservice/x-patches")));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Internetservice/x-patches")));
                 } catch (Exception ignored) {
                 }
                 return true;
@@ -130,6 +186,21 @@ public final class SettingsActivity extends Activity {
             about.addPreference(source);
 
             setPreferenceScreen(screen);
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            // Let the list scroll under the navigation bar instead of being cut off by it.
+            View view = getView();
+            ListView list = view == null ? null : view.findViewById(android.R.id.list);
+            if (list != null) {
+                list.setClipToPadding(false);
+                list.setOnApplyWindowInsetsListener((v, insets) -> {
+                    v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), insets.getSystemWindowInsetBottom());
+                    return insets;
+                });
+            }
         }
     }
 }

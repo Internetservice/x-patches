@@ -8,7 +8,6 @@ package app.xpatches.patches.twitter.misc.hook
 @Suppress("unused")
 val hidePostMetricsPatch = hookPatch(
     name = "Hide post metrics",
-    description = "Hides the reply, repost, like and bookmark counts of posts.",
+    description = "Hides the reply, repost, like and bookmark counts of posts. Off by default in the X Patches settings.",
     hookClassDescriptor = "Lapp/xpatches/extension/twitter/patches/hook/patch/metrics/HidePostMetricsHook;",
-    default = false,
 )

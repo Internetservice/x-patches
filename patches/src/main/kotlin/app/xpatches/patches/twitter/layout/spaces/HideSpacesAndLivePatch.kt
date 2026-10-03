@@ -16,8 +16,7 @@ private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/pat
 @Suppress("unused")
 val hideSpacesAndLivePatch = bytecodePatch(
     name = "Hide Spaces and live",
-    description = "Turns off Spaces and the live stream pills and avatar rings.",
-    default = false,
+    description = "Turns off Spaces and the live stream pills and avatar rings. Off by default in the X Patches settings.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 

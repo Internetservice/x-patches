@@ -8,7 +8,6 @@ package app.xpatches.patches.twitter.misc.hook
 @Suppress("unused")
 val forceHdVideoPatch = hookPatch(
     name = "Force HD video",
-    description = "Plays videos in their highest available quality by removing the lower quality variants.",
+    description = "Plays videos in their highest available quality by removing the lower quality variants. Off by default in the X Patches settings.",
     hookClassDescriptor = "Lapp/xpatches/extension/twitter/patches/hook/patch/video/ForceHdVideoHook;",
-    default = false,
 )

@@ -72,7 +72,6 @@ val settingsPatch = resourcePatch(
                 setAttribute("android:exported", "true")
                 setAttribute("android:label", "X Patches")
                 setAttribute("android:theme", "@android:style/Theme.DeviceDefault.DayNight")
-                setAttribute("android:excludeFromRecents", "true")
             }
 
             activity.appendChild(

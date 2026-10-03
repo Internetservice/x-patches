@@ -5,7 +5,12 @@
 
 package app.xpatches.extension.twitter;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Holds the application context. {@link #setContext(Context)} is called from the
@@ -16,6 +21,8 @@ public final class Utils {
     public static final String LOG_TAG = "XPatches";
 
     private static volatile Context context;
+    private static volatile WeakReference<Activity> currentActivity = new WeakReference<>(null);
+    private static volatile boolean lifecycleRegistered;
 
     private Utils() {
     }
@@ -28,6 +35,56 @@ public final class Utils {
 
         Context applicationContext = appContext.getApplicationContext();
         context = applicationContext != null ? applicationContext : appContext;
+
+        if (appContext instanceof Activity) {
+            currentActivity = new WeakReference<>((Activity) appContext);
+        }
+        registerActivityTracking();
+    }
+
+    /**
+     * @return The activity in the foreground, or null if none is known.
+     */
+    public static Activity getCurrentActivity() {
+        return currentActivity.get();
+    }
+
+    private static synchronized void registerActivityTracking() {
+        if (lifecycleRegistered || !(context instanceof Application)) return;
+        lifecycleRegistered = true;
+        ((Application) context).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityResumed(Activity activity) {
+                currentActivity = new WeakReference<>(activity);
+            }
+
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                if (currentActivity.get() == activity) {
+                    currentActivity = new WeakReference<>(null);
+                }
+            }
+        });
     }
 
     /**

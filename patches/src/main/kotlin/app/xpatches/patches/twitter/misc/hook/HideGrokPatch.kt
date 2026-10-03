@@ -20,8 +20,7 @@ private const val HOOK_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patch
 @Suppress("unused")
 val hideGrokPatch = bytecodePatch(
     name = "Hide Grok",
-    description = "Turns off the Grok features: the Grok tab and sidebar entry, the Grok buttons on posts, Grok image generation and Grok translations.",
-    default = false,
+    description = "Turns off the Grok features: the Grok tab and sidebar entry, the Grok buttons on posts, Grok image generation and Grok translations. Off by default in the X Patches settings.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 

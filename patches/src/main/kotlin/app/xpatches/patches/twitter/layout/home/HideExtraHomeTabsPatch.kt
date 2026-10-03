@@ -17,7 +17,6 @@ private const val TOGGLE_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/pat
 val hideExtraHomeTabsPatch = bytecodePatch(
     name = "Hide extra home tabs",
     description = "Hides the Subscribed, ranked Following, sports and pinned tabs next to \"For you\" and \"Following\".",
-    default = false,
 ) {
     compatibleWith(COMPATIBILITY_X)
 

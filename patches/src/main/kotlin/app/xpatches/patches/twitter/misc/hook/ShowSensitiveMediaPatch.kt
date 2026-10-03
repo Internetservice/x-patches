@@ -8,7 +8,6 @@ package app.xpatches.patches.twitter.misc.hook
 @Suppress("unused")
 val showSensitiveMediaPatch = hookPatch(
     name = "Show sensitive media",
-    description = "Shows media marked as sensitive directly, without the warning overlays.",
+    description = "Shows media marked as sensitive directly, without the warning overlays. Off by default in the X Patches settings.",
     hookClassDescriptor = "Lapp/xpatches/extension/twitter/patches/hook/patch/sensitive/ShowSensitiveMediaHook;",
-    default = false,
 )

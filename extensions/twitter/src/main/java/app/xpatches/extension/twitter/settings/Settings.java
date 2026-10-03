@@ -36,8 +36,9 @@ import app.xpatches.extension.twitter.patches.toggles.KeepTimelinePositionPatch;
 import app.xpatches.extension.twitter.patches.toggles.OpenLinksExternallyPatch;
 
 /**
- * The runtime switches of the patches. A patch that was included while patching is on
- * by default and can be turned off here without patching again.
+ * The runtime switches of the patches. Every included patch gets a switch here, so patching
+ * with everything selected and choosing in the app is the intended way to use them.
+ * Recommended patches are on by default, the others off.
  */
 public final class Settings {
     public static final String PREFERENCES_NAME = "xpatches";
@@ -50,13 +51,18 @@ public final class Settings {
         public final String category;
         public final String title;
         public final String summary;
+        /**
+         * Whether the switch is on until the user changes it. Recommended patches are on.
+         */
+        public final boolean defaultValue;
         private final BooleanSupplier patchIncluded;
 
-        Toggle(String key, String category, String title, String summary, BooleanSupplier patchIncluded) {
+        Toggle(String key, String category, String title, String summary, boolean defaultValue, BooleanSupplier patchIncluded) {
             this.key = key;
             this.category = category;
             this.title = title;
             this.summary = summary;
+            this.defaultValue = defaultValue;
             this.patchIncluded = patchIncluded;
             ALL.add(this);
         }
@@ -74,7 +80,7 @@ public final class Settings {
         public boolean get() {
             if (!isAvailable()) return false;
             SharedPreferences preferences = preferences();
-            return preferences == null || preferences.getBoolean(key, true);
+            return preferences == null ? defaultValue : preferences.getBoolean(key, defaultValue);
         }
     }
 
@@ -87,46 +93,46 @@ public final class Settings {
     public static final String CATEGORY_SHARING = "Sharing";
 
     public static final Toggle HIDE_ADS = new Toggle("hide_ads", CATEGORY_TIMELINE,
-            "Hide ads", "Promoted posts, promoted trends, video pre-rolls and third party ads", HideAdsHook::isPatchIncluded);
+            "Hide ads", "Promoted posts, promoted trends, video pre-rolls and third party ads", true, HideAdsHook::isPatchIncluded);
     public static final Toggle HIDE_RECOMMENDED_USERS = new Toggle("hide_recommended_users", CATEGORY_TIMELINE,
-            "Hide recommended users", "\"Who to follow\" and \"Who to subscribe\"", RecommendedUsersHook::isPatchIncluded);
+            "Hide recommended users", "\"Who to follow\" and \"Who to subscribe\"", true, RecommendedUsersHook::isPatchIncluded);
     public static final Toggle HIDE_SUGGESTED_CONTENT = new Toggle("hide_suggested_content", CATEGORY_TIMELINE,
-            "Hide suggested content", "Communities to join, related posts, Today's news, top people", HideSuggestedContentHook::isPatchIncluded);
+            "Hide suggested content", "Communities to join, related posts, Today's news, top people", true, HideSuggestedContentHook::isPatchIncluded);
     public static final Toggle HIDE_SOCIAL_CONTEXT = new Toggle("hide_social_context", CATEGORY_TIMELINE,
-            "Hide social context", "\"X follows\", \"Liked by\" and similar lines above posts", HideSocialContextHook::isPatchIncluded);
+            "Hide social context", "\"X follows\", \"Liked by\" and similar lines above posts", false, HideSocialContextHook::isPatchIncluded);
     public static final Toggle KEEP_TIMELINE_POSITION = new Toggle("keep_timeline_position", CATEGORY_TIMELINE,
-            "Keep timeline position", "Do not jump to the top of \"For you\" when the app is reopened", KeepTimelinePositionPatch::isPatchIncluded);
+            "Keep timeline position", "Do not jump to the top of \"For you\" when the app is reopened", true, KeepTimelinePositionPatch::isPatchIncluded);
     public static final Toggle HIDE_EXTRA_HOME_TABS = new Toggle("hide_extra_home_tabs", CATEGORY_TIMELINE,
-            "Hide extra home tabs", "Subscribed, ranked Following, sports and pinned tabs", HideExtraHomeTabsPatch::isPatchIncluded);
+            "Hide extra home tabs", "Subscribed, ranked Following, sports and pinned tabs", false, HideExtraHomeTabsPatch::isPatchIncluded);
 
     public static final Toggle HIDE_VIEW_COUNT = new Toggle("hide_view_count", CATEGORY_POSTS,
-            "Hide view count", null, HideViewCountHook::isPatchIncluded);
+            "Hide view count", null, false, HideViewCountHook::isPatchIncluded);
     public static final Toggle HIDE_POST_METRICS = new Toggle("hide_post_metrics", CATEGORY_POSTS,
-            "Hide post metrics", "Reply, repost, like and bookmark counts", HidePostMetricsHook::isPatchIncluded);
+            "Hide post metrics", "Reply, repost, like and bookmark counts", false, HidePostMetricsHook::isPatchIncluded);
     public static final Toggle HIDE_COMMUNITY_NOTES = new Toggle("hide_community_notes", CATEGORY_POSTS,
-            "Hide Community Notes", null, HideCommunityNotesHook::isPatchIncluded);
+            "Hide Community Notes", null, false, HideCommunityNotesHook::isPatchIncluded);
     public static final Toggle SHOW_SENSITIVE_MEDIA = new Toggle("show_sensitive_media", CATEGORY_POSTS,
-            "Show sensitive media", "Without the warning overlays", ShowSensitiveMediaHook::isPatchIncluded);
+            "Show sensitive media", "Without the warning overlays", false, ShowSensitiveMediaHook::isPatchIncluded);
     public static final Toggle HIDE_VERIFIED_BADGES = new Toggle("hide_verified_badges", CATEGORY_POSTS,
-            "Hide verified badges", "Checkmarks and affiliation badges", HideVerifiedBadgesHook::isPatchIncluded);
+            "Hide verified badges", "Checkmarks and affiliation badges", false, HideVerifiedBadgesHook::isPatchIncluded);
     public static final Toggle HIDE_PROMOTE_BUTTON = new Toggle("hide_promote_button", CATEGORY_POSTS,
-            "Hide promote button", "On your own posts", HidePromoteButtonHook::isPatchIncluded);
+            "Hide promote button", "On your own posts", true, HidePromoteButtonHook::isPatchIncluded);
     public static final Toggle FORCE_TRANSLATE = new Toggle("force_translate", CATEGORY_POSTS,
-            "Force enable translate", "Offer the translate action on every post", ForceTranslateHook::isPatchIncluded);
+            "Force enable translate", "Offer the translate action on every post", false, ForceTranslateHook::isPatchIncluded);
     public static final Toggle FORCE_HD_VIDEO = new Toggle("force_hd_video", CATEGORY_POSTS,
-            "Force HD video", "Play videos in their highest available quality", ForceHdVideoHook::isPatchIncluded);
+            "Force HD video", "Play videos in their highest available quality", false, ForceHdVideoHook::isPatchIncluded);
 
     public static final Toggle REMOVE_PREMIUM_UPSELL = new Toggle("remove_premium_upsell", CATEGORY_PREMIUM,
-            "Remove premium upsell", "Upsell sheets, prompts and cards", HidePremiumUpsellHook::isPatchIncluded);
+            "Remove premium upsell", "Upsell sheets, prompts and cards", true, HidePremiumUpsellHook::isPatchIncluded);
 
     public static final Toggle HIDE_GROK = new Toggle("hide_grok", CATEGORY_APP,
-            "Hide Grok", "Grok tab, buttons, image generation and translations", HideGrokHook::isPatchIncluded);
+            "Hide Grok", "Grok tab, buttons, image generation and translations", false, HideGrokHook::isPatchIncluded);
     public static final Toggle HIDE_SPACES_AND_LIVE = new Toggle("hide_spaces_and_live", CATEGORY_APP,
-            "Hide Spaces and live", "Spaces and the live stream pills", HideSpacesAndLivePatch::isPatchIncluded);
+            "Hide Spaces and live", "Spaces and the live stream pills", false, HideSpacesAndLivePatch::isPatchIncluded);
     public static final Toggle DISABLE_ANALYTICS = new Toggle("disable_analytics", CATEGORY_APP,
-            "Disable analytics", "Drop the client event uploads", DisableAnalyticsPatch::isPatchIncluded);
+            "Disable analytics", "Drop the client event uploads", false, DisableAnalyticsPatch::isPatchIncluded);
     public static final Toggle OPEN_LINKS_EXTERNALLY = new Toggle("open_links_externally", CATEGORY_APP,
-            "Open links externally", "Always use the external browser", OpenLinksExternallyPatch::isPatchIncluded);
+            "Open links externally", "Always use the external browser", false, OpenLinksExternallyPatch::isPatchIncluded);
 
     /**
      * Sharing settings, shown when the sharing link patch is included.

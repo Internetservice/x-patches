@@ -8,7 +8,6 @@ package app.xpatches.patches.twitter.misc.hook
 @Suppress("unused")
 val forceTranslatePatch = hookPatch(
     name = "Force enable translate",
-    description = "Offers the translate action on every post.",
+    description = "Offers the translate action on every post. Off by default in the X Patches settings.",
     hookClassDescriptor = "Lapp/xpatches/extension/twitter/patches/hook/patch/translate/ForceTranslateHook;",
-    default = false,
 )

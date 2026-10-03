@@ -8,7 +8,6 @@ package app.xpatches.patches.twitter.misc.hook
 @Suppress("unused")
 val hideCommunityNotesPatch = hookPatch(
     name = "Hide Community Notes",
-    description = "Hides the Community Notes attached to posts.",
+    description = "Hides the Community Notes attached to posts. Off by default in the X Patches settings.",
     hookClassDescriptor = "Lapp/xpatches/extension/twitter/patches/hook/patch/notes/HideCommunityNotesHook;",
-    default = false,
 )

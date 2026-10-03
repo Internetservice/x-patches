@@ -37,8 +37,7 @@ private object LinkOpeningModeFingerprint : Fingerprint(
 @Suppress("unused")
 val openLinksExternallyPatch = bytecodePatch(
     name = "Open links externally",
-    description = "Always opens links in the external browser instead of the in-app browser, regardless of the link opening setting.",
-    default = false,
+    description = "Always opens links in the external browser instead of the in-app browser, regardless of the link opening setting. Off by default in the X Patches settings.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 

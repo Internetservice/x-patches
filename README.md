@@ -9,8 +9,9 @@ These patches target X 12.30 and newer (the Compose based client). They started 
 ([GitLab mirror](https://gitlab.com/revanced/revanced-patches)) to the Morphe patcher,
 so they can be applied with Morphe Manager or Morphe Desktop.
 
-Every patch can be switched off at runtime in the **X Patches settings** screen the
-*Settings* patch adds: open the navigation drawer and tap "X Patches" below "Help Center",
+Patch with everything selected: every patch gets a switch in the **X Patches settings**
+screen the *Settings* patch adds, recommended ones on and the rest off, so you choose in the
+app instead of patching again. Open it: open the navigation drawer and tap "X Patches" below "Help Center",
 long press the X app icon and pick "X Patches settings", or open `xpatches://settings`. Changes apply after restarting X.
 
 Included patches:
@@ -19,26 +20,26 @@ Included patches:
 - **Hide recommended users** - hides the "Who to follow" and "Who to subscribe" recommendations.
 - **Hide suggested content** - hides communities to join, related posts, Today's news and the top people module.
 - **Remove premium upsell** - removes the premium upsell sheets, prompts and cards.
-- **Hide Community Notes** - hides the Community Notes attached to posts (off by default).
-- **Show sensitive media** - shows sensitive media without the warning overlays (off by default).
-- **Hide Grok** - turns off the Grok tab, buttons, image generation and translations (off by default).
-- **Hide Spaces and live** - turns off Spaces and the live stream pills (off by default).
-- **Disable analytics** - drops the client event uploads about your activity (off by default).
-- **Bring back Twitter** - the Twitter bird launcher icon and app name (off by default).
-- **Hide social context** - hides "X follows", "Liked by" and similar lines above posts (off by default).
-- **Hide verified badges** - hides the verification checkmarks and affiliation badges (off by default).
-- **Hide post metrics** - hides the reply, repost, like and bookmark counts (off by default).
+- **Hide Community Notes** - hides the Community Notes attached to posts.
+- **Show sensitive media** - shows sensitive media without the warning overlays.
+- **Hide Grok** - turns off the Grok tab, buttons, image generation and translations.
+- **Hide Spaces and live** - turns off Spaces and the live stream pills.
+- **Disable analytics** - drops the client event uploads about your activity.
+- **Bring back Twitter** - the Twitter bird launcher icon and app name.
+- **Hide social context** - hides "X follows", "Liked by" and similar lines above posts.
+- **Hide verified badges** - hides the verification checkmarks and affiliation badges.
+- **Hide post metrics** - hides the reply, repost, like and bookmark counts.
 - **Hide promote button** - hides the "Promote" button on your own posts.
-- **Force enable translate** - offers the translate action on every post (off by default).
-- **Force HD video** - plays videos in their highest available quality (off by default).
+- **Force enable translate** - offers the translate action on every post.
+- **Force HD video** - plays videos in their highest available quality.
 - **Keep timeline position** - stops the jump to the top of "For you" when the app is reopened.
-- **Hide extra home tabs** - hides the Subscribed, ranked Following and pinned tabs (off by default).
-- **Open links externally** - always opens links in the external browser (off by default).
+- **Hide extra home tabs** - hides the Subscribed, ranked Following and pinned tabs.
+- **Open links externally** - always opens links in the external browser.
 - **Customize sharing link** - changes the domain used when sharing links (for example FxTwitter) and
   optionally includes the username in the link.
 - **Unlock downloads** - unlocks the ability to download any video. GIFs can be downloaded via the menu on long press.
 - **Dynamic color** - replaces the X blue with the Material You palette (Android 12+).
-- **Hide view count** - hides the view count of posts (off by default).
+- **Hide view count** - hides the view count of posts.
 
 The patches that work on the response data and feature switches of the app were modelled on
 [piko](https://github.com/crimera/piko), whose own patches target the previous, pre-12.30 X client.

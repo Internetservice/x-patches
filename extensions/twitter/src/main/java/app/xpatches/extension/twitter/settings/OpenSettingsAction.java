@@ -5,6 +5,7 @@
 
 package app.xpatches.extension.twitter.settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -22,6 +23,13 @@ public final class OpenSettingsAction implements Function0<Unit> {
     @Override
     public Unit invoke() {
         try {
+            // Start from the foreground activity so the settings join the task of X
+            // and "back" returns to the drawer instead of leaving the app.
+            Activity activity = Utils.getCurrentActivity();
+            if (activity != null) {
+                activity.startActivity(new Intent(activity, SettingsActivity.class));
+                return Unit.INSTANCE;
+            }
             Context context = Utils.getContext();
             if (context != null) {
                 Intent intent = new Intent(context, SettingsActivity.class);
