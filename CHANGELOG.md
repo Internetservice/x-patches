@@ -1,3 +1,9 @@
+## [1.0.0-dev.12](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.11...v1.0.0-dev.12) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Settings:** Do not touch kotlin.Unit when the drawer entry is pressed ([365f128](https://github.com/Internetservice/x-patches/commit/365f12877ea8029de6e858ddcfeb162d2a911536))
+
 ## [1.0.0-dev.11](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.10...v1.0.0-dev.11) (2026-10-03)
 
 ### 🐛 Bug Fixes
