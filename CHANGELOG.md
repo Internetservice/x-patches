@@ -1,3 +1,9 @@
+## [1.0.0-dev.24](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.23...v1.0.0-dev.24) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Video speed:** Hook the reset check on every launch variant ([45a3c53](https://github.com/Internetservice/x-patches/commit/45a3c531d93aee3adc11b6efa1c92d8168e9b708))
+
 ## [1.0.0-dev.23](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.22...v1.0.0-dev.23) (2026-10-03)
 
 ### ✨ New Features
