@@ -1,3 +1,9 @@
+## [1.0.0-dev.13](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.12...v1.0.0-dev.13) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Unlock downloads:** Pick the quality in every download path, read the flag instead of writing it ([589ca43](https://github.com/Internetservice/x-patches/commit/589ca43d1d24ce8a6d10de34fbcfa535de42345f))
+
 ## [1.0.0-dev.12](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.11...v1.0.0-dev.12) (2026-10-03)
 
 ### 🐛 Bug Fixes
