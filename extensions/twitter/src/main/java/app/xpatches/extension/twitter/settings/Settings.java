@@ -15,6 +15,7 @@ import java.util.function.BooleanSupplier;
 
 import app.xpatches.extension.twitter.Utils;
 import app.xpatches.extension.twitter.patches.hook.patch.ads.HideAdsHook;
+import app.xpatches.extension.twitter.patches.hook.patch.downloads.UnlockDownloadsHook;
 import app.xpatches.extension.twitter.patches.hook.patch.grok.HideGrokHook;
 import app.xpatches.extension.twitter.patches.hook.patch.metrics.HidePostMetricsHook;
 import app.xpatches.extension.twitter.patches.hook.patch.notes.HideCommunityNotesHook;
@@ -119,6 +120,8 @@ public final class Settings {
             "Hide promote button", "On your own posts", true, HidePromoteButtonHook::isPatchIncluded);
     public static final Toggle FORCE_TRANSLATE = new Toggle("force_translate", CATEGORY_POSTS,
             "Force enable translate", "Offer the translate action on every post", false, ForceTranslateHook::isPatchIncluded);
+    public static final Toggle UNLOCK_DOWNLOADS = new Toggle("unlock_downloads", CATEGORY_POSTS,
+            "Unlock downloads", "Offer the download action on every video, also when the author disallowed it", true, UnlockDownloadsHook::isPatchIncluded);
     public static final Toggle FORCE_HD_VIDEO = new Toggle("force_hd_video", CATEGORY_POSTS,
             "Force HD video", "Play videos in their highest available quality", false, ForceHdVideoHook::isPatchIncluded);
 

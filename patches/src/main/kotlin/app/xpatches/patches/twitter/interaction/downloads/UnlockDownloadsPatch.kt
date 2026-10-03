@@ -15,6 +15,11 @@ import app.morphe.util.findMutableMethodOf
 import app.morphe.util.getReference
 import app.morphe.util.indexOfFirstInstructionReversedOrThrow
 import app.morphe.util.indexOfFirstStringInstructionOrThrow
+import app.morphe.util.setExtensionIsPatchIncluded
+import app.xpatches.patches.twitter.misc.hook.json.addJsonHook
+import app.xpatches.patches.twitter.misc.hook.json.jsonHook
+import app.xpatches.patches.twitter.misc.hook.json.jsonHookPatch
+import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.ClassDef
@@ -27,14 +32,22 @@ import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 import com.android.tools.smali.dexlib2.iface.reference.TypeReference
 
+private const val HOOK_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/hook/patch/downloads/UnlockDownloadsHook;"
+
 @Suppress("unused")
 val unlockDownloadsPatch = bytecodePatch(
     name = "Unlock downloads",
-    description = "Unlocks the ability to download any video. GIFs can be downloaded via the menu on long press.",
+    description = "Unlocks the ability to download any video, including videos whose author disallowed downloads. GIFs can be downloaded via the menu on long press.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 
+    dependsOn(jsonHookPatch, settingsPatch)
+
     execute {
+        // Videos whose author disallowed downloads have no download action at all.
+        addJsonHook(jsonHook(HOOK_CLASS_DESCRIPTOR))
+        setExtensionIsPatchIncluded(HOOK_CLASS_DESCRIPTOR)
+
         /**
          * The media gallery download method checks the subscription features before downloading.
          * The features class reads the premium feature switches directly and is called from
