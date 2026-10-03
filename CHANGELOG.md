@@ -1,3 +1,9 @@
+## [1.0.0-dev.19](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.18...v1.0.0-dev.19) (2026-10-03)
+
+### ✨ New Features
+
+* **X:** Add No shortened URL, Hide hidden replies, Show poll results, Customize side bar items, Handle custom twitter links and Video speed ([de61dc7](https://github.com/Internetservice/x-patches/commit/de61dc76f0dad1b46115d3d9317f984dccbe35b5))
+
 ## [1.0.0-dev.18](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.17...v1.0.0-dev.18) (2026-10-03)
 
 ### 🐛 Bug Fixes
