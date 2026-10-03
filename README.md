@@ -45,8 +45,9 @@ Included patches:
 - **Show poll results** - shows poll results without voting (polls are shown as final while on).
 - **Customize side bar items** - hides entries of the side menu, picked in the X Patches settings.
 - **Handle custom twitter links** - opens fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X.
-- **Video speed** - remembers the playback speed and lets you set your own speed levels, such as
-  0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3.
+- **Video speed** - remembers the playback speed, lets you set your own speed levels, such as
+  0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3, and changes the speed while a video is held: the right
+  half speeds up, the left half slows down, both adjustable.
 
 The patches that work on the response data and feature switches of the app were modelled on
 [piko](https://github.com/crimera/piko), whose own patches target the previous, pre-12.30 X client.

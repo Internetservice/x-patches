@@ -156,6 +156,12 @@ public final class SettingsView {
             TextView[] summary = new TextView[1];
             summary[0] = addRow(category, "Video speed levels", VideoSpeedPatch.speedsSummary(), null,
                     v -> editSpeeds(preferences, summary[0]))[1];
+            TextView[] left = new TextView[1];
+            left[0] = addRow(category, "Hold speed, left half", VideoSpeedPatch.formatHoldSpeed(true), null,
+                    v -> editHoldSpeed(preferences, true, left[0]))[1];
+            TextView[] right = new TextView[1];
+            right[0] = addRow(category, "Hold speed, right half", VideoSpeedPatch.formatHoldSpeed(false), null,
+                    v -> editHoldSpeed(preferences, false, right[0]))[1];
         }
 
         if (CustomizeDrawerPatch.isPatchIncluded()) {
@@ -333,6 +339,31 @@ public final class SettingsView {
                     for (int i = 0; i < titles.size(); i++) if (checked[i]) selected.add(titles.get(i));
                     CustomizeDrawerPatch.setHiddenTitles(selected);
                     summary.setText(drawerSummary());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void editHoldSpeed(SharedPreferences preferences, boolean left, TextView summary) {
+        EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        input.setText(VideoSpeedPatch.formatSpeed(VideoSpeedPatch.holdSpeedValue(left)));
+        input.setSelection(input.getText().length());
+
+        FrameLayout container = new FrameLayout(context);
+        container.setPadding(dp(20), dp(8), dp(20), 0);
+        container.addView(input, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        new AlertDialog.Builder(context, night
+                ? android.R.style.Theme_DeviceDefault_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                .setTitle(left ? "Speed while holding the left half" : "Speed while holding the right half")
+                .setMessage("Added to the speed levels. Applied after restarting X.")
+                .setView(container)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    preferences.edit().putString(left ? Settings.KEY_HOLD_SPEED_LEFT : Settings.KEY_HOLD_SPEED_RIGHT,
+                            input.getText().toString().trim()).apply();
+                    summary.setText(VideoSpeedPatch.formatHoldSpeed(left));
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();

@@ -35,6 +35,10 @@ public final class FeatureSwitchesPatch {
         boolean keepTimelinePosition = Settings.KEEP_TIMELINE_POSITION.get();
         boolean hideExtraHomeTabs = Settings.HIDE_EXTRA_HOME_TABS.get();
 
+        if (key.equals("xlite_video_playback_speed_hold") && Settings.HOLD_TO_CHANGE_SPEED.get()) {
+            return true;
+        }
+
         if (hideGrok && (key.startsWith("grok_") || key.contains("_grok_"))) {
             return false;
         }

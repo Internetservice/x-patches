@@ -31,8 +31,9 @@ private const val EXTENSION_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/
 @Suppress("unused")
 val videoSpeedPatch = bytecodePatch(
     name = "Video speed",
-    description = "Remembers the playback speed for every video and lets you set your own speed levels, " +
-            "such as 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3.",
+    description = "Remembers the playback speed for every video, lets you set your own speed levels, " +
+            "such as 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3, and changes the speed while a video is held: " +
+            "the right half speeds up, the left half slows down, both adjustable.",
 ) {
     compatibleWith(COMPATIBILITY_X)
 
@@ -127,6 +128,59 @@ val videoSpeedPatch = bytecodePatch(
                 move-result-object p0
             """,
         ) ?: throw PatchException("Could not find valueOf of the speed enum")
+
+        // region Hold to change the speed: the level X plays at while a video is held is a static
+        // field of a holder class, every read of it is routed through the extension.
+
+        val holdSpeedField = run {
+            var found: FieldReference? = null
+            classDefForEach { classDef ->
+                if (found != null || classDef.type == enumType) return@classDefForEach
+                val field = classDef.fields.singleOrNull { it.type == enumType && AccessFlags.STATIC.isSet(it.accessFlags) }
+                    ?: return@classDefForEach
+                if (classDef.fields.count() != 1) return@classDefForEach
+                val initializesWithX2 = classDef.methods.firstOrNull { it.name == "<clinit>" }?.implementation?.instructions?.any {
+                    it.opcode == Opcode.SGET_OBJECT && it.getReference<FieldReference>().let { ref ->
+                        ref?.definingClass == enumType && ref.name == "X2"
+                    }
+                } == true
+                if (initializesWithX2) found = field
+            }
+            found ?: throw PatchException("Could not find the hold speed holder")
+        }
+
+        classDefForEach { classDef ->
+            classDef.methods.forEach { method ->
+                if (classDef.type == holdSpeedField.definingClass && method.name == "<clinit>") return@forEach
+                val instructions = method.implementation?.instructions ?: return@forEach
+                val readsHoldSpeed = instructions.any { instruction ->
+                    instruction.opcode == Opcode.SGET_OBJECT && instruction.getReference<FieldReference>().let {
+                        it?.definingClass == holdSpeedField.definingClass && it.name == holdSpeedField.name
+                    }
+                }
+                if (!readsHoldSpeed) return@forEach
+
+                mutableClassDefBy(classDef).findMutableMethodOf(method).apply {
+                    val mutableInstructions = implementation!!.instructions
+                    (mutableInstructions.size - 1 downTo 0).forEach { index ->
+                        val instruction = mutableInstructions[index]
+                        val field = instruction.getReference<FieldReference>()
+                        if (instruction.opcode != Opcode.SGET_OBJECT || field?.definingClass != holdSpeedField.definingClass || field.name != holdSpeedField.name) return@forEach
+                        val register = (instruction as OneRegisterInstruction).registerA
+                        replaceInstruction(index, "invoke-static { }, $EXTENSION_CLASS_DESCRIPTOR->holdSpeed()Ljava/lang/Object;")
+                        addInstructions(
+                            index + 1,
+                            """
+                                move-result-object v$register
+                                check-cast v$register, $enumType
+                            """,
+                        )
+                    }
+                }
+            }
+        }
+
+        // endregion
 
         // The levels X refers to directly, such as the default, are resolved among the current levels.
         val constantNames = enumClass.fields.filter { it.type == enumType && AccessFlags.STATIC.isSet(it.accessFlags) }.map { it.name }.toSet()

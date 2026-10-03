@@ -14,6 +14,7 @@ import android.util.Log;
 import java.lang.ref.WeakReference;
 
 import app.xpatches.extension.twitter.patches.links.HandleCustomLinksPatch;
+import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 
 /**
  * Holds the application context. {@link #setContext(Context)} is called from the
@@ -44,6 +45,9 @@ public final class Utils {
             currentActivity = new WeakReference<>(activity);
             if (HandleCustomLinksPatch.isPatchIncluded()) {
                 HandleCustomLinksPatch.rewriteIntent(activity.getIntent());
+            }
+            if (VideoSpeedPatch.isPatchIncluded()) {
+                TouchTracker.install(activity);
             }
         }
         registerActivityTracking();
@@ -102,6 +106,9 @@ public final class Utils {
             @Override
             public void onActivityResumed(Activity activity) {
                 currentActivity = new WeakReference<>(activity);
+                if (VideoSpeedPatch.isPatchIncluded()) {
+                    TouchTracker.install(activity);
+                }
             }
 
             @Override

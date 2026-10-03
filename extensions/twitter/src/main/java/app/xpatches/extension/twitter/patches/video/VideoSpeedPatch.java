@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
 
+import app.xpatches.extension.twitter.TouchTracker;
 import app.xpatches.extension.twitter.XLog;
 import app.xpatches.extension.twitter.settings.Settings;
 
@@ -106,7 +107,15 @@ public final class VideoSpeedPatch {
             }
 
             List<Float> speeds = parseSpeeds(speedsText());
-            if (speeds.isEmpty() || speeds.equals(speedsOf(originals))) return 0;
+            if (speeds.isEmpty()) speeds = speedsOf(originals);
+            // The hold speeds have to be levels too.
+            if (Settings.HOLD_TO_CHANGE_SPEED.get()) {
+                TreeSet<Float> withHold = new TreeSet<>(speeds);
+                withHold.add(holdSpeedValue(true));
+                withHold.add(holdSpeedValue(false));
+                speeds = new ArrayList<>(withHold);
+            }
+            if (speeds.equals(speedsOf(originals))) return 0;
 
             customSpeeds = speeds;
             customNames = new ArrayList<>();
@@ -242,6 +251,63 @@ public final class VideoSpeedPatch {
 
     // endregion
 
+    // region Hold to change the speed
+
+    /**
+     * Injection point. Called wherever X reads the speed it plays at while the video is held.
+     *
+     * @return The level for the half of the screen the hold started on.
+     */
+    public static Object holdSpeed() {
+        try {
+            ensureInitialized();
+            float fraction = TouchTracker.lastDownFraction();
+            boolean left = fraction >= 0 && fraction < 0.5f;
+            float target = Settings.HOLD_TO_CHANGE_SPEED.get() ? holdSpeedValue(left) : 2f;
+            return levelFor(target);
+        } catch (Exception e) {
+            XLog.e("Could not resolve the hold speed", e);
+            return originalsByName.get("X2");
+        }
+    }
+
+    /**
+     * @return The level with the given speed, or the closest one.
+     */
+    private static Object levelFor(float speed) throws IllegalAccessException {
+        Object[] levels = customValues != null ? customValues : originalsByName.values().toArray();
+        Object closest = null;
+        float closestDistance = Float.MAX_VALUE;
+        for (Object level : levels) {
+            if (level == null) continue;
+            float distance = Math.abs(speedField.getFloat(level) - speed);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closest = level;
+            }
+        }
+        return closest;
+    }
+
+    public static float holdSpeedValue(boolean left) {
+        SharedPreferences preferences = Settings.preferences();
+        String key = left ? Settings.KEY_HOLD_SPEED_LEFT : Settings.KEY_HOLD_SPEED_RIGHT;
+        float fallback = left ? 0.5f : 2f;
+        if (preferences == null) return fallback;
+        try {
+            float value = Float.parseFloat(preferences.getString(key, "").trim().replace(',', '.'));
+            return value >= 0.1f && value <= 10f ? value : fallback;
+        } catch (NumberFormatException e) {
+            return fallback;
+        }
+    }
+
+    public static String formatHoldSpeed(boolean left) {
+        return formatSpeed(holdSpeedValue(left)) + "×";
+    }
+
+    // endregion
+
     // region Settings
 
     /**
@@ -292,7 +358,7 @@ public final class VideoSpeedPatch {
         return new ArrayList<>(speeds);
     }
 
-    private static String formatSpeed(float speed) {
+    public static String formatSpeed(float speed) {
         String text = String.format(Locale.US, "%.2f", speed);
         text = text.replaceAll("0+$", "").replaceAll("\\.$", "");
         return text;

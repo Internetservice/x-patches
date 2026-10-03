@@ -155,6 +155,8 @@ public final class Settings {
 
     public static final Toggle REMEMBER_VIDEO_SPEED = new Toggle("remember_video_speed", CATEGORY_VIDEO,
             "Remember video speed", "Keep the chosen playback speed for every video", true, VideoSpeedPatch::isPatchIncluded);
+    public static final Toggle HOLD_TO_CHANGE_SPEED = new Toggle("hold_to_change_speed", CATEGORY_VIDEO,
+            "Hold to change speed", "Hold the right half of a video to speed up and the left half to slow down", true, VideoSpeedPatch::isPatchIncluded);
 
     /**
      * Sharing settings, shown when the sharing link patch is included.
@@ -166,6 +168,8 @@ public final class Settings {
      * The playback speeds offered by the video player, one per line.
      */
     public static final String KEY_VIDEO_SPEEDS = "video_speeds";
+    public static final String KEY_HOLD_SPEED_LEFT = "hold_speed_left";
+    public static final String KEY_HOLD_SPEED_RIGHT = "hold_speed_right";
 
     private Settings() {
     }
