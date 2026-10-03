@@ -40,6 +40,13 @@ Included patches:
 - **Unlock downloads** - unlocks the ability to download any video, also when the author disallowed it, and lets you pick the quality or copy the video link before downloading. GIFs can be downloaded via the menu on long press.
 - **Dynamic color** - replaces the X blue with the Material You palette (Android 12+).
 - **Hide view count** - hides the view count of posts.
+- **No shortened URL** - opens and copies the real link of a post instead of the t.co short link.
+- **Hide hidden replies** - hides the "Show more replies" and "Show additional replies" prompts.
+- **Show poll results** - shows poll results without voting (polls are shown as final while on).
+- **Customize side bar items** - hides entries of the side menu, picked in the X Patches settings.
+- **Handle custom twitter links** - opens fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X.
+- **Video speed** - remembers the playback speed and lets you set your own speed levels, such as
+  0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3.
 
 The patches that work on the response data and feature switches of the app were modelled on
 [piko](https://github.com/crimera/piko), whose own patches target the previous, pre-12.30 X client.

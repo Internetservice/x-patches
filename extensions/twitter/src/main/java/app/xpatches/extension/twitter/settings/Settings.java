@@ -29,6 +29,11 @@ import app.xpatches.extension.twitter.patches.hook.patch.verified.HideVerifiedBa
 import app.xpatches.extension.twitter.patches.hook.patch.video.ForceHdVideoHook;
 import app.xpatches.extension.twitter.patches.hook.patch.viewcount.HideViewCountHook;
 import app.xpatches.extension.twitter.patches.downloads.UnlockDownloadsPatch;
+import app.xpatches.extension.twitter.patches.hook.patch.links.NoShortenedUrlHook;
+import app.xpatches.extension.twitter.patches.hook.patch.poll.ShowPollResultsHook;
+import app.xpatches.extension.twitter.patches.hook.patch.replies.HideHiddenRepliesHook;
+import app.xpatches.extension.twitter.patches.links.HandleCustomLinksPatch;
+import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 import app.xpatches.extension.twitter.patches.links.CustomizeSharingLinkPatch;
 import app.xpatches.extension.twitter.patches.toggles.DisableAnalyticsPatch;
 import app.xpatches.extension.twitter.patches.toggles.HideExtraHomeTabsPatch;
@@ -91,6 +96,7 @@ public final class Settings {
     public static final String CATEGORY_POSTS = "Posts";
     public static final String CATEGORY_PREMIUM = "Premium";
     public static final String CATEGORY_APP = "App";
+    public static final String CATEGORY_VIDEO = "Video";
     public static final String CATEGORY_SHARING = "Sharing";
 
     public static final Toggle HIDE_ADS = new Toggle("hide_ads", CATEGORY_TIMELINE,
@@ -126,6 +132,12 @@ public final class Settings {
             "Choose download quality", "Pick the resolution or copy the video link before a video is downloaded", true, UnlockDownloadsPatch::isPatchIncluded);
     public static final Toggle FORCE_HD_VIDEO = new Toggle("force_hd_video", CATEGORY_POSTS,
             "Force HD video", "Play videos in their highest available quality", false, ForceHdVideoHook::isPatchIncluded);
+    public static final Toggle HIDE_HIDDEN_REPLIES = new Toggle("hide_hidden_replies", CATEGORY_POSTS,
+            "Hide hidden replies", "The \"Show more replies\" and \"Show additional replies\" prompts", false, HideHiddenRepliesHook::isPatchIncluded);
+    public static final Toggle SHOW_POLL_RESULTS = new Toggle("show_poll_results", CATEGORY_POSTS,
+            "Show poll results", "Without voting. Polls are shown as final, so voting is not possible while this is on", false, ShowPollResultsHook::isPatchIncluded);
+    public static final Toggle NO_SHORTENED_URL = new Toggle("no_shortened_url", CATEGORY_POSTS,
+            "No shortened URL", "Open and copy the real link instead of the t.co link", true, NoShortenedUrlHook::isPatchIncluded);
 
     public static final Toggle REMOVE_PREMIUM_UPSELL = new Toggle("remove_premium_upsell", CATEGORY_PREMIUM,
             "Remove premium upsell", "Upsell sheets, prompts and cards", true, HidePremiumUpsellHook::isPatchIncluded);
@@ -138,12 +150,22 @@ public final class Settings {
             "Disable analytics", "Drop the client event uploads", false, DisableAnalyticsPatch::isPatchIncluded);
     public static final Toggle OPEN_LINKS_EXTERNALLY = new Toggle("open_links_externally", CATEGORY_APP,
             "Open links externally", "Always use the external browser", false, OpenLinksExternallyPatch::isPatchIncluded);
+    public static final Toggle HANDLE_CUSTOM_LINKS = new Toggle("handle_custom_links", CATEGORY_APP,
+            "Handle custom twitter links", "Open fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X. Enable them under \"Open by default\" in the app info", true, HandleCustomLinksPatch::isPatchIncluded);
+
+    public static final Toggle REMEMBER_VIDEO_SPEED = new Toggle("remember_video_speed", CATEGORY_VIDEO,
+            "Remember video speed", "Keep the chosen playback speed for every video", true, VideoSpeedPatch::isPatchIncluded);
 
     /**
      * Sharing settings, shown when the sharing link patch is included.
      */
     public static final String KEY_SHARE_DOMAIN = "share_domain";
     public static final String KEY_SHARE_USERNAME = "share_username";
+
+    /**
+     * The playback speeds offered by the video player, one per line.
+     */
+    public static final String KEY_VIDEO_SPEEDS = "video_speeds";
 
     private Settings() {
     }

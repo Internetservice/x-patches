@@ -31,10 +31,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import app.xpatches.extension.twitter.CrashLog;
+import app.xpatches.extension.twitter.patches.drawer.CustomizeDrawerPatch;
+import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 import app.xpatches.extension.twitter.Utils;
 import app.xpatches.extension.twitter.XLog;
 
@@ -143,6 +148,21 @@ public final class SettingsView {
             addSwitch(category, toggle.title, toggle.summary,
                     preferences.getBoolean(toggle.key, toggle.defaultValue),
                     checked -> preferences.edit().putBoolean(toggle.key, checked).apply());
+        }
+
+        if (VideoSpeedPatch.isPatchIncluded()) {
+            LinearLayout category = categories.get(Settings.CATEGORY_VIDEO);
+            if (category == null) category = addCategory(list, Settings.CATEGORY_VIDEO);
+            TextView[] summary = new TextView[1];
+            summary[0] = addRow(category, "Video speed levels", VideoSpeedPatch.speedsSummary(), null,
+                    v -> editSpeeds(preferences, summary[0]))[1];
+        }
+
+        if (CustomizeDrawerPatch.isPatchIncluded()) {
+            LinearLayout category = categories.get(Settings.CATEGORY_APP);
+            if (category == null) category = addCategory(list, Settings.CATEGORY_APP);
+            TextView[] summary = new TextView[1];
+            summary[0] = addRow(category, "Side bar items", drawerSummary(), null, v -> editDrawerItems(summary[0]))[1];
         }
 
         if (Settings.isSharingLinkPatchIncluded()) {
@@ -286,6 +306,66 @@ public final class SettingsView {
 
         category.addView(row, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new TextView[]{titleView, summaryView};
+    }
+
+    private String drawerSummary() {
+        int hidden = CustomizeDrawerPatch.hiddenTitles().size();
+        return hidden == 0 ? "Hide entries of the side menu" : hidden + " hidden";
+    }
+
+    private void editDrawerItems(TextView summary) {
+        List<String> titles = new ArrayList<>(CustomizeDrawerPatch.seenTitles());
+        if (titles.isEmpty()) {
+            android.widget.Toast.makeText(context, "Open the side menu once, so its entries are known", android.widget.Toast.LENGTH_LONG).show();
+            return;
+        }
+        Set<String> hidden = CustomizeDrawerPatch.hiddenTitles();
+        boolean[] checked = new boolean[titles.size()];
+        for (int i = 0; i < titles.size(); i++) checked[i] = hidden.contains(titles.get(i));
+
+        new AlertDialog.Builder(context, night
+                ? android.R.style.Theme_DeviceDefault_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                .setTitle("Hide side bar items")
+                .setMultiChoiceItems(titles.toArray(new CharSequence[0]), checked, (dialog, which, isChecked) -> checked[which] = isChecked)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    Set<String> selected = new java.util.HashSet<>();
+                    for (int i = 0; i < titles.size(); i++) if (checked[i]) selected.add(titles.get(i));
+                    CustomizeDrawerPatch.setHiddenTitles(selected);
+                    summary.setText(drawerSummary());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void editSpeeds(SharedPreferences preferences, TextView summary) {
+        EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        input.setSingleLine(false);
+        input.setMinLines(6);
+        input.setGravity(Gravity.TOP | Gravity.START);
+        input.setText(VideoSpeedPatch.speedsText());
+
+        FrameLayout container = new FrameLayout(context);
+        container.setPadding(dp(20), dp(8), dp(20), 0);
+        container.addView(input, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        new AlertDialog.Builder(context, night
+                ? android.R.style.Theme_DeviceDefault_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                .setTitle("Video speed levels")
+                .setMessage("One speed per line, for example 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5, 3. Applied after restarting X.")
+                .setView(container)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    preferences.edit().putString(Settings.KEY_VIDEO_SPEEDS, input.getText().toString()).apply();
+                    summary.setText(VideoSpeedPatch.speedsSummary());
+                })
+                .setNeutralButton("Reset", (dialog, which) -> {
+                    preferences.edit().remove(Settings.KEY_VIDEO_SPEEDS).apply();
+                    summary.setText(VideoSpeedPatch.speedsSummary());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private void editDomain(SharedPreferences preferences, TextView summary) {

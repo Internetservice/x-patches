@@ -31,7 +31,7 @@ private const val ENTRY_TITLE = "X Patches"
  * The navigation drawer content. Its bottom section emits "Settings and privacy" and
  * "Help Center" through the drawer item composable.
  */
-private object DrawerContentFingerprint : Fingerprint(
+internal object DrawerContentFingerprint : Fingerprint(
     filters = listOf(
         resourceLiteral(ResourceType.STRING, "drawer_settings_title"),
         resourceLiteral(ResourceType.STRING, "help_center"),

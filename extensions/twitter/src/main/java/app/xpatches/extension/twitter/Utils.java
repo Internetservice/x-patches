@@ -13,6 +13,8 @@ import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
+import app.xpatches.extension.twitter.patches.links.HandleCustomLinksPatch;
+
 /**
  * Holds the application context. {@link #setContext(Context)} is called from the
  * hooked X main activity, see the shared extension patch.
@@ -38,7 +40,11 @@ public final class Utils {
         context = applicationContext != null ? applicationContext : appContext;
 
         if (appContext instanceof Activity) {
-            currentActivity = new WeakReference<>((Activity) appContext);
+            Activity activity = (Activity) appContext;
+            currentActivity = new WeakReference<>(activity);
+            if (HandleCustomLinksPatch.isPatchIncluded()) {
+                HandleCustomLinksPatch.rewriteIntent(activity.getIntent());
+            }
         }
         registerActivityTracking();
         CrashLog.install(context);
