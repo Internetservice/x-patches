@@ -85,12 +85,31 @@ public final class UnlockDownloadsPatch {
     }
 
     /**
-     * Injection point. Called with the URL about to be downloaded by the media downloader.
+     * Injection point. Called with the URL about to be downloaded by the media downloader,
+     * which watermarks the video before saving it.
      *
-     * @param downloader The downloader instance, used to start the download of the chosen variant.
      * @return If the picker took over, so the downloader must not start.
      */
-    public static boolean interceptDownload(Object downloader, String url, String fileName, Object listener, Object network) {
+    public static boolean interceptDownload(Object downloader, String url, String mimeType, Object listener, Object network) {
+        return intercept(downloader, url, new Object[]{mimeType, listener, network});
+    }
+
+    /**
+     * Injection point. Called with the URL about to be handed to the Android download manager,
+     * which every other download path ends in.
+     *
+     * @return If the picker took over, so the downloader must not start.
+     */
+    public static boolean interceptDownload(Object downloader, String url, String mimeType, Object headers,
+                                            String title, String description, Object listener, boolean flag) {
+        return intercept(downloader, url, new Object[]{mimeType, headers, title, description, listener, flag});
+    }
+
+    /**
+     * @param downloader The downloader instance, used to start the download of the chosen variant.
+     * @param arguments The arguments of the hooked download method after the URL.
+     */
+    private static boolean intercept(Object downloader, String url, Object[] arguments) {
         try {
             if (Boolean.TRUE.equals(CHOSEN.get())) return false;
             if (!Settings.DOWNLOAD_QUALITY_PICKER.get() || url == null) return false;
@@ -99,7 +118,7 @@ public final class UnlockDownloadsPatch {
             synchronized (RECENT_VARIANTS) {
                 variants = RECENT_VARIANTS.get(url);
             }
-            // Not a video with several qualities, for example a photo.
+            // Not a video with several qualities, for example a photo or a processed file.
             if (variants == null) return false;
 
             Activity activity = Utils.getCurrentActivity();
@@ -108,7 +127,7 @@ public final class UnlockDownloadsPatch {
                 return false;
             }
 
-            Method download = findDownloadMethod(downloader, listener, network);
+            Method download = findDownloadMethod(downloader, arguments);
             if (download == null) {
                 Log.w(Utils.LOG_TAG, "Could not find the download method of " + downloader.getClass().getName());
                 return false;
@@ -117,7 +136,10 @@ public final class UnlockDownloadsPatch {
             Runnable show = () -> showPicker(activity, variants, variant -> {
                 try {
                     CHOSEN.set(true);
-                    download.invoke(downloader, variant.url, fileName, listener, network);
+                    Object[] chosenArguments = new Object[arguments.length + 1];
+                    chosenArguments[0] = variant.url;
+                    System.arraycopy(arguments, 0, chosenArguments, 1, arguments.length);
+                    download.invoke(downloader, chosenArguments);
                 } catch (Exception e) {
                     Log.e(Utils.LOG_TAG, "Failed to start the download", e);
                     Toast.makeText(activity, "Download failed", Toast.LENGTH_SHORT).show();
@@ -140,13 +162,26 @@ public final class UnlockDownloadsPatch {
     /**
      * @return The hooked download method of the downloader, found by its shape as its name is obfuscated.
      */
-    private static Method findDownloadMethod(Object downloader, Object listener, Object network) {
+    private static Method findDownloadMethod(Object downloader, Object[] arguments) {
         for (Method method : downloader.getClass().getDeclaredMethods()) {
             Class<?>[] types = method.getParameterTypes();
-            if (method.getReturnType() != void.class || types.length != 4) continue;
-            if (types[0] != String.class || types[1] != String.class) continue;
-            if (listener != null && !types[2].isInstance(listener)) continue;
-            if (network != null && !types[3].isInstance(network)) continue;
+            if (method.getReturnType() != void.class || types.length != arguments.length + 1) continue;
+            if (types[0] != String.class) continue;
+
+            boolean matches = true;
+            for (int i = 0; i < arguments.length && matches; i++) {
+                Object argument = arguments[i];
+                Class<?> type = types[i + 1];
+                if (argument instanceof Boolean) {
+                    matches = type == boolean.class || type == Boolean.class;
+                } else if (argument != null) {
+                    matches = type.isInstance(argument);
+                } else {
+                    matches = !type.isPrimitive();
+                }
+            }
+            if (!matches) continue;
+
             method.setAccessible(true);
             return method;
         }

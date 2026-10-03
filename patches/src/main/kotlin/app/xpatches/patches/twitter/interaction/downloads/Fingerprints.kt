@@ -120,3 +120,25 @@ internal object DownloaderFingerprint : Fingerprint(
                 classDef.methods.any { it.returnType == "Ljava/io/File;" }
     },
 )
+
+/**
+ * The network downloader. Hands the URL to the Android download manager and is the end of every
+ * download path: the post menu, the media viewer, the gallery and the video tab, as well as the
+ * media downloader above once it has processed the file.
+ */
+internal object NetworkDownloaderFingerprint : Fingerprint(
+    returnType = "V",
+    parameters = listOf(
+        "Ljava/lang/String;",
+        "Ljava/lang/String;",
+        "Ljava/util/Map;",
+        "Ljava/lang/String;",
+        "Ljava/lang/String;",
+        "L",
+        "Z",
+    ),
+    strings = listOf("DownloadedFile"),
+    custom = { _, classDef ->
+        classDef.methods.any { it.returnType == "Landroid/app/DownloadManager\$Request;" }
+    },
+)

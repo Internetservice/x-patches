@@ -99,10 +99,24 @@ val unlockDownloadsPatch = bytecodePatch(
             "invoke-static/range { p0 .. p0 }, $EXTENSION_CLASS_DESCRIPTOR->rememberVariants(Ljava/lang/Object;)V",
         )
 
+        // The media downloader, used when the video is watermarked before being saved.
         DownloaderFingerprint.method.addInstructionsWithLabels(
             0,
             """
                 invoke-static/range { p0 .. p4 }, $EXTENSION_CLASS_DESCRIPTOR->interceptDownload(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)Z
+                move-result v0
+                if-eqz v0, :download
+                return-void
+                :download
+                nop
+            """,
+        )
+
+        // The network downloader, used by every other download path.
+        NetworkDownloaderFingerprint.method.addInstructionsWithLabels(
+            0,
+            """
+                invoke-static/range { p0 .. p7 }, $EXTENSION_CLASS_DESCRIPTOR->interceptDownload(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;Z)Z
                 move-result v0
                 if-eqz v0, :download
                 return-void
