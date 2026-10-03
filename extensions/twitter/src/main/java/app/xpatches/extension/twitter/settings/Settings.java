@@ -15,7 +15,6 @@ import java.util.function.BooleanSupplier;
 
 import app.xpatches.extension.twitter.Utils;
 import app.xpatches.extension.twitter.patches.hook.patch.ads.HideAdsHook;
-import app.xpatches.extension.twitter.patches.hook.patch.downloads.UnlockDownloadsHook;
 import app.xpatches.extension.twitter.patches.hook.patch.grok.HideGrokHook;
 import app.xpatches.extension.twitter.patches.hook.patch.metrics.HidePostMetricsHook;
 import app.xpatches.extension.twitter.patches.hook.patch.notes.HideCommunityNotesHook;
@@ -29,6 +28,7 @@ import app.xpatches.extension.twitter.patches.hook.patch.translate.ForceTranslat
 import app.xpatches.extension.twitter.patches.hook.patch.verified.HideVerifiedBadgesHook;
 import app.xpatches.extension.twitter.patches.hook.patch.video.ForceHdVideoHook;
 import app.xpatches.extension.twitter.patches.hook.patch.viewcount.HideViewCountHook;
+import app.xpatches.extension.twitter.patches.downloads.UnlockDownloadsPatch;
 import app.xpatches.extension.twitter.patches.links.CustomizeSharingLinkPatch;
 import app.xpatches.extension.twitter.patches.toggles.DisableAnalyticsPatch;
 import app.xpatches.extension.twitter.patches.toggles.HideExtraHomeTabsPatch;
@@ -121,7 +121,9 @@ public final class Settings {
     public static final Toggle FORCE_TRANSLATE = new Toggle("force_translate", CATEGORY_POSTS,
             "Force enable translate", "Offer the translate action on every post", false, ForceTranslateHook::isPatchIncluded);
     public static final Toggle UNLOCK_DOWNLOADS = new Toggle("unlock_downloads", CATEGORY_POSTS,
-            "Unlock downloads", "Offer the download action on every video, also when the author disallowed it", true, UnlockDownloadsHook::isPatchIncluded);
+            "Unlock downloads", "Offer the download action on every video, also when the author disallowed it", true, UnlockDownloadsPatch::isPatchIncluded);
+    public static final Toggle DOWNLOAD_QUALITY_PICKER = new Toggle("download_quality_picker", CATEGORY_POSTS,
+            "Choose download quality", "Pick the resolution or copy the video link before a video is downloaded", true, UnlockDownloadsPatch::isPatchIncluded);
     public static final Toggle FORCE_HD_VIDEO = new Toggle("force_hd_video", CATEGORY_POSTS,
             "Force HD video", "Play videos in their highest available quality", false, ForceHdVideoHook::isPatchIncluded);
 

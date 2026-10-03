@@ -68,3 +68,30 @@ internal object UpsellFeatureKeyFingerprint : Fingerprint(
 )
 
 // endregion
+
+internal const val IS_DOWNLOADABLE_STRING = ", isDownloadable="
+
+/**
+ * toString of the video media model. The `iget-boolean` after the "isDownloadable" label
+ * reveals the field the download actions check.
+ */
+internal object MediaContentVideoToStringFingerprint : Fingerprint(
+    name = "toString",
+    returnType = "Ljava/lang/String;",
+    strings = listOf(
+        "MediaContentVideo(mediaId=",
+        IS_DOWNLOADABLE_STRING,
+    ),
+)
+
+/**
+ * toString of the GIF media model, see [MediaContentVideoToStringFingerprint].
+ */
+internal object MediaContentGifToStringFingerprint : Fingerprint(
+    name = "toString",
+    returnType = "Ljava/lang/String;",
+    strings = listOf(
+        "MediaContentGif(mediaId=",
+        IS_DOWNLOADABLE_STRING,
+    ),
+)
