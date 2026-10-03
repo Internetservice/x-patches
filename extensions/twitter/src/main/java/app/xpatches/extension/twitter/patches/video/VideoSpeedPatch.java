@@ -54,6 +54,29 @@ public final class VideoSpeedPatch {
     }
 
     /**
+     * @return The class name of the speed enum. Modified during patching.
+     */
+    public static String enumClassName() {
+        return "";
+    }
+
+    /**
+     * The levels X refers to directly are resolved here before the enum is ever initialized,
+     * as the field reads that used to initialize it were replaced. Initializing it fills
+     * the originals through {@link #customSpeedCount(Object[])}.
+     */
+    private static void ensureInitialized() {
+        if (!originalsByName.isEmpty()) return;
+        String className = enumClassName();
+        if (className.isEmpty()) return;
+        try {
+            Class.forName(className, true, VideoSpeedPatch.class.getClassLoader());
+        } catch (Throwable e) {
+            XLog.e("Could not initialize the speed levels", e);
+        }
+    }
+
+    /**
      * Injection point. Called with the stored "locked speed" flag of the video settings.
      */
     public static boolean isSpeedLocked(boolean original) {
@@ -70,15 +93,16 @@ public final class VideoSpeedPatch {
         try {
             originalsByName.clear();
             originalSpeeds.clear();
+            for (Object original : originals) {
+                originalsByName.put(((Enum<?>) original).name(), original);
+            }
             speedField = findSpeedField(originals);
             if (speedField == null) {
                 XLog.w("Could not find the speed value of " + originals.getClass().getComponentType());
                 return 0;
             }
             for (Object original : originals) {
-                String name = ((Enum<?>) original).name();
-                originalsByName.put(name, original);
-                originalSpeeds.put(name, speedField.getFloat(original));
+                originalSpeeds.put(((Enum<?>) original).name(), speedField.getFloat(original));
             }
 
             List<Float> speeds = parseSpeeds(speedsText());
@@ -153,8 +177,18 @@ public final class VideoSpeedPatch {
      *
      * @return The current level with the same speed, or the original level.
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static Object speedNamed(String name) {
+        ensureInitialized();
         Object original = originalsByName.get(name);
+        if (original == null) {
+            // Never leave X without a level, it does not expect null.
+            try {
+                original = Enum.valueOf((Class) Class.forName(enumClassName(), true, VideoSpeedPatch.class.getClassLoader()), name);
+            } catch (Throwable e) {
+                XLog.e("Unknown video speed level " + name, e);
+            }
+        }
         try {
             if (customValues == null) return original;
             Float speed = originalSpeeds.get(name);

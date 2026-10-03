@@ -16,6 +16,7 @@ import app.morphe.util.getReference
 import app.morphe.util.indexOfFirstInstructionOrThrow
 import app.morphe.util.indexOfFirstInstructionReversedOrThrow
 import app.morphe.util.indexOfFirstStringInstructionOrThrow
+import app.morphe.util.returnEarly
 import app.morphe.util.setExtensionIsPatchIncluded
 import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
@@ -62,6 +63,9 @@ val videoSpeedPatch = bytecodePatch(
         val enumClass = PlaybackSpeedEnumFingerprint.classDef
         val enumType = enumClass.type
         val clinit = PlaybackSpeedEnumFingerprint.method
+
+        // The extension initializes the enum itself when a level is needed before X did.
+        EnumClassNameFingerprint.method.returnEarly(enumType.substring(1, enumType.length - 1).replace('/', '.'))
 
         val valuesField = enumClass.fields.firstOrNull { it.type == "[$enumType" && AccessFlags.STATIC.isSet(it.accessFlags) }
             ?: throw PatchException("Could not find the values array of the speed enum")

@@ -35,3 +35,13 @@ internal object PlaybackSpeedEnumFingerprint : Fingerprint(
         method.hasAccessFlags(AccessFlags.STATIC) && classDef.superclass == "Ljava/lang/Enum;"
     },
 )
+
+/**
+ * The extension method returning the class name of the speed enum, filled in during patching.
+ */
+internal object EnumClassNameFingerprint : Fingerprint(
+    definingClass = "Lapp/xpatches/extension/twitter/patches/video/VideoSpeedPatch;",
+    name = "enumClassName",
+    returnType = "Ljava/lang/String;",
+    parameters = listOf(),
+)
