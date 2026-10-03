@@ -1,3 +1,9 @@
+## [1.0.0-dev.18](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.17...v1.0.0-dev.18) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Unlock downloads:** Keep the video qualities across restarts, add Restart X ([2210aa4](https://github.com/Internetservice/x-patches/commit/2210aa465354854ee9edbcaf517e140fb0ebaf74))
+
 ## [1.0.0-dev.17](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.16...v1.0.0-dev.17) (2026-10-03)
 
 ### 🐛 Bug Fixes
