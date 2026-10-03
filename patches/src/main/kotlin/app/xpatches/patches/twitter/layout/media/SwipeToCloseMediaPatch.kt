@@ -57,14 +57,18 @@ val swipeToCloseMediaPatch = bytecodePatch(
     execute {
         setExtensionIsPatchIncluded(EXTENSION_CLASS_DESCRIPTOR)
 
-        // The events are identified by the names their toString prints.
+        // The events are identified by the names their toString prints, among the classes
+        // implementing the event interface of the handler, as the names repeat across features.
+        val mediaEventInterface = MediaViewerEventFingerprint.originalMethod.parameterTypes[0]
+        val videoEventInterface = VideoTabEventFingerprint.originalMethod.parameterTypes[0]
         mapOf(
-            "mediaChangedEvent" to "DidChangeVisibleMedia(",
-            "mediaCloseEvent" to "DidClickBackButton",
-            "pageChangedEvent" to "PageChanged(",
-            "videoCloseEvent" to "CloseClicked",
-        ).forEach { (method, toStringPrefix) ->
-            extensionStringFingerprint(method).method.returnEarly(javaClassName(classWithToString(toStringPrefix)))
+            "mediaChangedEvent" to ("DidChangeVisibleMedia(" to mediaEventInterface),
+            "mediaCloseEvent" to ("DidClickBackButton" to mediaEventInterface),
+            "pageChangedEvent" to ("PageChanged(" to videoEventInterface),
+            "videoCloseEvent" to ("CloseClicked" to videoEventInterface),
+        ).forEach { (method, event) ->
+            val (toStringPrefix, eventInterface) = event
+            extensionStringFingerprint(method).method.returnEarly(javaClassName(classWithToString(toStringPrefix, eventInterface)))
         }
 
         listOf(MediaViewerEventFingerprint, VideoTabEventFingerprint).forEach { fingerprint ->
@@ -77,19 +81,19 @@ val swipeToCloseMediaPatch = bytecodePatch(
 }
 
 /**
- * @return The type of the class whose toString starts with [prefix].
+ * @return The type of the class implementing [eventInterface] whose toString starts with [prefix].
  */
-private fun BytecodePatchContext.classWithToString(prefix: String): String {
+private fun BytecodePatchContext.classWithToString(prefix: String, eventInterface: CharSequence): String {
     var found: String? = null
     classDefForEach { classDef ->
-        if (found != null) return@classDefForEach
+        if (found != null || eventInterface !in classDef.interfaces) return@classDefForEach
         val toString = classDef.methods.firstOrNull { it.name == "toString" } ?: return@classDefForEach
         val startsWithPrefix = toString.implementation?.instructions?.any { instruction ->
             ((instruction as? ReferenceInstruction)?.reference as? StringReference)?.string?.startsWith(prefix) == true
         } == true
         if (startsWithPrefix) found = classDef.type
     }
-    return found ?: throw PatchException("Could not find the class printing $prefix")
+    return found ?: throw PatchException("Could not find the $eventInterface event printing $prefix")
 }
 
 private fun javaClassName(type: String) = type.substring(1, type.length - 1).replace('/', '.')
