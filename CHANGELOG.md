@@ -1,3 +1,9 @@
+## [1.0.0-dev.28](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.27...v1.0.0-dev.28) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Swipe to close media:** Pick the close event of the video tab among its own events ([82e08e1](https://github.com/Internetservice/x-patches/commit/82e08e12a9c9d13176f6f03b83343da2d23f41a9))
+
 ## [1.0.0-dev.27](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.26...v1.0.0-dev.27) (2026-10-03)
 
 ### ✨ New Features
