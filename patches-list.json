@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.20",
+  "version": "1.0.0-dev.21",
   "patches": [
     {
       "name": "Bring back Twitter",
@@ -1099,7 +1099,7 @@
     },
     {
       "name": "Video speed",
-      "description": "Remembers the playback speed for every video and lets you set your own speed levels, such as 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3.",
+      "description": "Remembers the playback speed for every video, lets you set your own speed levels, such as 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3, and changes the speed while a video is held: the right half speeds up, the left half slows down, both adjustable.",
       "default": true,
       "category": null,
       "dependencies": [

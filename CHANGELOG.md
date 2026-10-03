@@ -1,3 +1,9 @@
+## [1.0.0-dev.21](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.20...v1.0.0-dev.21) (2026-10-03)
+
+### ✨ New Features
+
+* **X - Video speed:** Hold a video to change its speed, left and right halves separately ([1a14db2](https://github.com/Internetservice/x-patches/commit/1a14db29fe15390bab8f1ce5b453e1eaefcb70ed))
+
 ## [1.0.0-dev.20](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.19...v1.0.0-dev.20) (2026-10-03)
 
 ### 🐛 Bug Fixes

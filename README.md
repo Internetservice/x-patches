@@ -62,7 +62,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.20](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.20)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;30 patches total
+> **[v1.0.0-dev.21](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.21)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;30 patches total
 <details open>
 <summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;30 patches</summary>
 <br>
@@ -103,7 +103,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 | [Show poll results](#show-poll-results) | Shows the results of polls without voting. Polls are shown as final while the setting is on, so voting is not possible. |  |
 | [Show sensitive media](#show-sensitive-media) | Shows media marked as sensitive directly, without the warning overlays. Off by default in the X Patches settings. |  |
 | [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video, including videos whose author disallowed downloads, and lets you pick the quality or copy the video link before downloading. GIFs can be downloaded via the menu on long press. |  |
-| [Video speed](#video-speed) | Remembers the playback speed for every video and lets you set your own speed levels, such as 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3. |  |
+| [Video speed](#video-speed) | Remembers the playback speed for every video, lets you set your own speed levels, such as 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3, and changes the speed while a video is held: the right half speeds up, the left half slows down, both adjustable. |  |
 
 </details>
 
