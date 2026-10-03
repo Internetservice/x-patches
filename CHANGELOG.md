@@ -1,3 +1,9 @@
+## [1.0.0-dev.14](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.13...v1.0.0-dev.14) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Unlock downloads:** Intercept the network downloader every download path ends in ([d3633e5](https://github.com/Internetservice/x-patches/commit/d3633e5bd08df062330fa8994436d91f0ff96ff5))
+
 ## [1.0.0-dev.13](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.12...v1.0.0-dev.13) (2026-10-03)
 
 ### 🐛 Bug Fixes
