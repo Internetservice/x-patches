@@ -54,7 +54,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.8](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.8)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;24 patches total
+> **[v1.0.0-dev.9](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.9)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;24 patches total
 <details open>
 <summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;24 patches</summary>
 <br>
@@ -68,27 +68,27 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 |----------|----------------|-----------|
 | [Bring back Twitter](#bring-back-twitter) | Brings back the Twitter bird launcher icon and the Twitter app name. |  |
 | [Customize sharing link](#customize-sharing-link) | Changes the domain name used when sharing links, and optionally includes the username in the link. | • Return username<br>• Domain name |
-| [Disable analytics](#disable-analytics) | Drops the client event uploads (scribes) X sends about your activity in the app. |  |
+| [Disable analytics](#disable-analytics) | Drops the client event uploads (scribes) X sends about your activity in the app. Off by default in the X Patches settings. |  |
 | [Dynamic color](#dynamic-color) | Replaces the default X (Formerly Twitter) Blue with the user's Material You palette. |  |
-| [Force HD video](#force-hd-video) | Plays videos in their highest available quality by removing the lower quality variants. |  |
-| [Force enable translate](#force-enable-translate) | Offers the translate action on every post. |  |
-| [Hide Community Notes](#hide-community-notes) | Hides the Community Notes attached to posts. |  |
-| [Hide Grok](#hide-grok) | Turns off the Grok features: the Grok tab and sidebar entry, the Grok buttons on posts, Grok image generation and Grok translations. |  |
-| [Hide Spaces and live](#hide-spaces-and-live) | Turns off Spaces and the live stream pills and avatar rings. |  |
+| [Force HD video](#force-hd-video) | Plays videos in their highest available quality by removing the lower quality variants. Off by default in the X Patches settings. |  |
+| [Force enable translate](#force-enable-translate) | Offers the translate action on every post. Off by default in the X Patches settings. |  |
+| [Hide Community Notes](#hide-community-notes) | Hides the Community Notes attached to posts. Off by default in the X Patches settings. |  |
+| [Hide Grok](#hide-grok) | Turns off the Grok features: the Grok tab and sidebar entry, the Grok buttons on posts, Grok image generation and Grok translations. Off by default in the X Patches settings. |  |
+| [Hide Spaces and live](#hide-spaces-and-live) | Turns off Spaces and the live stream pills and avatar rings. Off by default in the X Patches settings. |  |
 | [Hide ads](#hide-ads) | Hides promoted posts, promoted trends, video pre-rolls and third party ads in the timelines. |  |
 | [Hide extra home tabs](#hide-extra-home-tabs) | Hides the Subscribed, ranked Following, sports and pinned tabs next to "For you" and "Following". |  |
-| [Hide post metrics](#hide-post-metrics) | Hides the reply, repost, like and bookmark counts of posts. |  |
+| [Hide post metrics](#hide-post-metrics) | Hides the reply, repost, like and bookmark counts of posts. Off by default in the X Patches settings. |  |
 | [Hide promote button](#hide-promote-button) | Hides the "Promote" button on your own posts. |  |
 | [Hide recommended users](#hide-recommended-users) | Hides the 'Who to follow' recommendations in the timelines. |  |
 | [Hide social context](#hide-social-context) | Hides the context lines above posts, such as "X follows", "Liked by" and "You might like". |  |
 | [Hide suggested content](#hide-suggested-content) | Hides the suggestion modules X injects into timelines: communities to join, related posts under a post, Today's news stories and the top people module in search. |  |
-| [Hide verified badges](#hide-verified-badges) | Hides the verification checkmarks and affiliation badges of users. |  |
-| [Hide view count](#hide-view-count) | Hides the view count of posts. |  |
+| [Hide verified badges](#hide-verified-badges) | Hides the verification checkmarks and affiliation badges of users. Off by default in the X Patches settings. |  |
+| [Hide view count](#hide-view-count) | Hides the view count of posts. Off by default in the X Patches settings. |  |
 | [Keep timeline position](#keep-timeline-position) | Stops the app from jumping back to the top of "For you" and refreshing when it is reopened. |  |
-| [Open links externally](#open-links-externally) | Always opens links in the external browser instead of the in-app browser, regardless of the link opening setting. |  |
+| [Open links externally](#open-links-externally) | Always opens links in the external browser instead of the in-app browser, regardless of the link opening setting. Off by default in the X Patches settings. |  |
 | [Remove premium upsell](#remove-premium-upsell) | Removes the premium upsell sheets, the premium prompts in timelines and the upsell cards in the drawer and on profiles. |  |
 | [Settings](#settings) | Adds the X Patches settings screen, reachable from the navigation drawer, by long pressing the app icon or by opening xpatches://settings. Every other patch can be switched off there without patching again. |  |
-| [Show sensitive media](#show-sensitive-media) | Shows media marked as sensitive directly, without the warning overlays. |  |
+| [Show sensitive media](#show-sensitive-media) | Shows media marked as sensitive directly, without the warning overlays. Off by default in the X Patches settings. |  |
 | [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video. GIFs can be downloaded via the menu on long press. |  |
 
 </details>

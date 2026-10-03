@@ -1,3 +1,9 @@
+## [1.0.0-dev.9](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.8...v1.0.0-dev.9) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Settings:** Lay out below the status bar, return to X on back, default switches ([92e2258](https://github.com/Internetservice/x-patches/commit/92e2258c3d7f03065f278fea4c4010d219d446cc))
+
 ## [1.0.0-dev.8](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.7...v1.0.0-dev.8) (2026-10-02)
 
 ### ✨ New Features

@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.8",
+  "version": "1.0.0-dev.9",
   "patches": [
     {
       "name": "Bring back Twitter",
@@ -97,8 +97,8 @@
     },
     {
       "name": "Disable analytics",
-      "description": "Drops the client event uploads (scribes) X sends about your activity in the app.",
-      "default": false,
+      "description": "Drops the client event uploads (scribes) X sends about your activity in the app. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -171,8 +171,8 @@
     },
     {
       "name": "Force HD video",
-      "description": "Plays videos in their highest available quality by removing the lower quality variants.",
-      "default": false,
+      "description": "Plays videos in their highest available quality by removing the lower quality variants. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -208,8 +208,8 @@
     },
     {
       "name": "Force enable translate",
-      "description": "Offers the translate action on every post.",
-      "default": false,
+      "description": "Offers the translate action on every post. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -245,8 +245,8 @@
     },
     {
       "name": "Hide Community Notes",
-      "description": "Hides the Community Notes attached to posts.",
-      "default": false,
+      "description": "Hides the Community Notes attached to posts. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -282,8 +282,8 @@
     },
     {
       "name": "Hide Grok",
-      "description": "Turns off the Grok features: the Grok tab and sidebar entry, the Grok buttons on posts, Grok image generation and Grok translations.",
-      "default": false,
+      "description": "Turns off the Grok features: the Grok tab and sidebar entry, the Grok buttons on posts, Grok image generation and Grok translations. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -320,8 +320,8 @@
     },
     {
       "name": "Hide Spaces and live",
-      "description": "Turns off Spaces and the live stream pills and avatar rings.",
-      "default": false,
+      "description": "Turns off Spaces and the live stream pills and avatar rings. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -396,7 +396,7 @@
     {
       "name": "Hide extra home tabs",
       "description": "Hides the Subscribed, ranked Following, sports and pinned tabs next to \"For you\" and \"Following\".",
-      "default": false,
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -432,8 +432,8 @@
     },
     {
       "name": "Hide post metrics",
-      "description": "Hides the reply, repost, like and bookmark counts of posts.",
-      "default": false,
+      "description": "Hides the reply, repost, like and bookmark counts of posts. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -544,7 +544,7 @@
     {
       "name": "Hide social context",
       "description": "Hides the context lines above posts, such as \"X follows\", \"Liked by\" and \"You might like\".",
-      "default": false,
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -617,8 +617,8 @@
     },
     {
       "name": "Hide verified badges",
-      "description": "Hides the verification checkmarks and affiliation badges of users.",
-      "default": false,
+      "description": "Hides the verification checkmarks and affiliation badges of users. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -654,8 +654,8 @@
     },
     {
       "name": "Hide view count",
-      "description": "Hides the view count of posts.",
-      "default": false,
+      "description": "Hides the view count of posts. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -728,8 +728,8 @@
     },
     {
       "name": "Open links externally",
-      "description": "Always opens links in the external browser instead of the in-app browser, regardless of the link opening setting.",
-      "default": false,
+      "description": "Always opens links in the external browser instead of the in-app browser, regardless of the link opening setting. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
@@ -840,8 +840,8 @@
     },
     {
       "name": "Show sensitive media",
-      "description": "Shows media marked as sensitive directly, without the warning overlays.",
-      "default": false,
+      "description": "Shows media marked as sensitive directly, without the warning overlays. Off by default in the X Patches settings.",
+      "default": true,
       "category": null,
       "dependencies": [
         "BytecodePatch",
