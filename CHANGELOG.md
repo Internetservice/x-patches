@@ -1,3 +1,9 @@
+## [1.0.0-dev.22](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.21...v1.0.0-dev.22) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Video speed:** Keep the stored speed across restarts ([aad891b](https://github.com/Internetservice/x-patches/commit/aad891bd78df844bafd5e1b0655c468a0433541f))
+
 ## [1.0.0-dev.21](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.20...v1.0.0-dev.21) (2026-10-03)
 
 ### ✨ New Features
