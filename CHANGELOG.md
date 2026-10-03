@@ -1,3 +1,9 @@
+## [1.0.0-dev.23](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.22...v1.0.0-dev.23) (2026-10-03)
+
+### ✨ New Features
+
+* **X - Video speed:** Log the loading, saving and reset of the speed ([21b13c8](https://github.com/Internetservice/x-patches/commit/21b13c8825bcb675b038a8e9584fdc90e5676f61))
+
 ## [1.0.0-dev.22](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.21...v1.0.0-dev.22) (2026-10-03)
 
 ### 🐛 Bug Fixes
