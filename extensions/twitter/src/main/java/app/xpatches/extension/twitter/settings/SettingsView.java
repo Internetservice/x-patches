@@ -155,7 +155,8 @@ public final class SettingsView {
         }
 
         LinearLayout about = addCategory(list, "About");
-        addRow(about, "X Patches", "Version " + Utils.getPatchesVersion() + ". Changes apply after restarting X.", null, null);
+        addRow(about, "Restart X", "Changes apply after a restart", null, v -> restart());
+        addRow(about, "X Patches", "Version " + Utils.getPatchesVersion(), null, null);
         addRow(about, "Source", SOURCE_URL.replace("https://", ""), null, v -> {
             try {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(SOURCE_URL));
@@ -198,6 +199,17 @@ public final class SettingsView {
                 .setNeutralButton("Clear", (dialog, which) -> onClear.run())
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private void restart() {
+        try {
+            Intent launch = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+            if (launch == null || launch.getComponent() == null) return;
+            context.startActivity(Intent.makeRestartActivityTask(launch.getComponent()));
+            Runtime.getRuntime().exit(0);
+        } catch (Exception e) {
+            android.util.Log.e(Utils.LOG_TAG, "Could not restart X", e);
+        }
     }
 
     private LinearLayout addCategory(LinearLayout list, String title) {

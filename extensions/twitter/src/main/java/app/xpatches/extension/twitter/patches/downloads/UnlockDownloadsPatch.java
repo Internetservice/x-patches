@@ -18,9 +18,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import app.xpatches.extension.twitter.Utils;
 import app.xpatches.extension.twitter.XLog;
@@ -32,17 +30,6 @@ import app.xpatches.extension.twitter.settings.Settings;
  */
 @SuppressWarnings("unused")
 public final class UnlockDownloadsPatch {
-    /**
-     * The qualities of the videos seen in the responses, by the URL of each quality.
-     */
-    private static final Map<String, List<MediaVariants.Variant>> RECENT_VARIANTS =
-            new LinkedHashMap<String, List<MediaVariants.Variant>>(32, 0.75f, true) {
-                @Override
-                protected boolean removeEldestEntry(Map.Entry<String, List<MediaVariants.Variant>> eldest) {
-                    return size() > 2048;
-                }
-            };
-
     /**
      * Set while the chosen variant is handed back to the downloader, so it is not intercepted again.
      */
@@ -117,22 +104,11 @@ public final class UnlockDownloadsPatch {
     }
 
     private static List<MediaVariants.Variant> knownVariants(String url) {
-        synchronized (RECENT_VARIANTS) {
-            return RECENT_VARIANTS.get(url);
-        }
+        return VariantStore.get(url);
     }
 
     private static void remember(List<MediaVariants.Variant> list) {
-        if (list.size() < 2) return;
-        synchronized (RECENT_VARIANTS) {
-            for (MediaVariants.Variant variant : list) {
-                // A list from the response is never replaced by the shorter one of the model.
-                List<MediaVariants.Variant> known = RECENT_VARIANTS.get(variant.url);
-                if (known == null || known.size() < list.size()) {
-                    RECENT_VARIANTS.put(variant.url, list);
-                }
-            }
-        }
+        VariantStore.put(list);
     }
 
     /**
@@ -268,7 +244,7 @@ public final class UnlockDownloadsPatch {
         new AlertDialog.Builder(activity, theme)
                 .setTitle("Download video")
                 .setItems(labels, (dialog, which) -> onChosen.onChosen(variants.get(which)))
-                .setNeutralButton("Copy best link", (dialog, which) -> copyLink(activity, variants.get(0)))
+                .setNeutralButton("Copy link", (dialog, which) -> copyLink(activity, variants.get(0)))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }

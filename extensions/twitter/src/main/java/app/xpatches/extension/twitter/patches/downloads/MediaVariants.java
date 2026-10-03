@@ -66,6 +66,17 @@ final class MediaVariants {
             return label.toString();
         }
 
+        org.json.JSONObject toJson() {
+            org.json.JSONObject object = new org.json.JSONObject();
+            try {
+                object.put("url", url);
+                if (bitRate > 0) object.put("bit_rate", bitRate);
+                object.put("content_type", contentType);
+            } catch (org.json.JSONException ignored) {
+            }
+            return object;
+        }
+
         @Override
         public int compareTo(Variant other) {
             int byPixels = Integer.compare(other.width * other.height, width * height);
