@@ -55,6 +55,26 @@ val videoSpeedPatch = bytecodePatch(
                     move-result v$register
                 """,
             )
+
+            // A feature variant resets the stored speed to 1x on launch. The decision is a flag
+            // checked when the stored speed is read, settled before the settings object is built.
+            val speedKeyIndex = indexOfFirstStringInstructionOrThrow(SPEED_KEY)
+            val resetCheckIndex = indexOfFirstInstructionOrThrow(speedKeyIndex, Opcode.IF_EQZ)
+            val resetRegister = getInstruction<OneRegisterInstruction>(resetCheckIndex).registerA
+            val settingsType = getInstruction(indexOfFirstInstructionOrThrow(speedKeyIndex, Opcode.INVOKE_DIRECT_RANGE))
+                .getReference<MethodReference>()?.definingClass
+                ?: throw PatchException("Could not find the video settings class")
+            val buildIndex = indexOfFirstInstructionOrThrow {
+                opcode == Opcode.NEW_INSTANCE && getReference<com.android.tools.smali.dexlib2.iface.reference.TypeReference>()?.type == settingsType
+            }
+            if (buildIndex > speedKeyIndex) throw PatchException("Unexpected layout of the video settings loader")
+            addInstructions(
+                buildIndex,
+                """
+                    invoke-static { v$resetRegister }, $EXTENSION_CLASS_DESCRIPTOR->shouldResetSpeed(Z)Z
+                    move-result v$resetRegister
+                """,
+            )
         }
 
         // endregion

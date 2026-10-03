@@ -10,6 +10,7 @@ import app.xpatches.patches.twitter.shared.hasAccessFlags
 import com.android.tools.smali.dexlib2.AccessFlags
 
 internal const val LOCKED_SPEED_KEY = "persistent_video_settings_has_locked_playback_speed"
+internal const val SPEED_KEY = "persistent_video_settings_playback_speed"
 
 /**
  * Loads the persistent video settings from the shared preferences, including the playback
@@ -20,7 +21,7 @@ internal object PersistentVideoSettingsLoadFingerprint : Fingerprint(
     returnType = "V",
     strings = listOf(
         LOCKED_SPEED_KEY,
-        "persistent_video_settings_playback_speed",
+        SPEED_KEY,
     ),
 )
 

@@ -84,6 +84,13 @@ public final class VideoSpeedPatch {
         return original || Settings.REMEMBER_VIDEO_SPEED.get();
     }
 
+    /**
+     * Injection point. Called with the decision of X to reset the stored speed to 1x on launch.
+     */
+    public static boolean shouldResetSpeed(boolean original) {
+        return original && !Settings.REMEMBER_VIDEO_SPEED.get();
+    }
+
     // region Speed levels
 
     /**
