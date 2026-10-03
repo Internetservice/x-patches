@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.25",
+  "version": "1.0.0-dev.26",
   "patches": [
     {
       "name": "Bring back Twitter",
@@ -1026,6 +1026,43 @@
     {
       "name": "Show sensitive media",
       "description": "Shows media marked as sensitive directly, without the warning overlays. Off by default in the X Patches settings.",
+      "default": true,
+      "category": null,
+      "dependencies": [
+        "BytecodePatch",
+        "ResourcePatch"
+      ],
+      "compatiblePackages": [
+        {
+          "packageName": "com.twitter.android",
+          "name": "X",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#000000",
+          "signatures": null,
+          "targets": [
+            {
+              "version": null,
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.30.0-prod.01",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Snooze topics longer",
+      "description": "Lets you snooze topics in \"For you\" for longer than X allows, up to forever.",
       "default": true,
       "category": null,
       "dependencies": [

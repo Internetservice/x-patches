@@ -1,3 +1,9 @@
+## [1.0.0-dev.26](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.25...v1.0.0-dev.26) (2026-10-03)
+
+### ✨ New Features
+
+* **X:** Snooze topics longer ([0cb8948](https://github.com/Internetservice/x-patches/commit/0cb894806c4cd2bc829cf74d4e25817c56637bf8))
+
 ## [1.0.0-dev.25](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.24...v1.0.0-dev.25) (2026-10-03)
 
 ### 🐛 Bug Fixes

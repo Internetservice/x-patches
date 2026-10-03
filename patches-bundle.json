@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-03T14:54:12",
-  "description": "## [1.0.0-dev.25](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.24...v1.0.0-dev.25) (2026-10-03)\n\n### 🐛 Bug Fixes\n\n* **X - Force enable translate:** Force the Grok translation switches, add auto translate ([81987e5](https://github.com/Internetservice/x-patches/commit/81987e5a14584e04db151dd738b9d33aa040d92c))",
-  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.25/patches-1.0.0-dev.25.mpp",
+  "created_at": "2026-10-03T15:33:40",
+  "description": "## [1.0.0-dev.26](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.25...v1.0.0-dev.26) (2026-10-03)\n\n### ✨ New Features\n\n* **X:** Snooze topics longer ([0cb8948](https://github.com/Internetservice/x-patches/commit/0cb894806c4cd2bc829cf74d4e25817c56637bf8))",
+  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.26/patches-1.0.0-dev.26.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.25"
+  "version": "1.0.0-dev.26"
 }
