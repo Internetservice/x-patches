@@ -81,14 +81,32 @@ public final class VideoSpeedPatch {
      * Injection point. Called with the stored "locked speed" flag of the video settings.
      */
     public static boolean isSpeedLocked(boolean original) {
-        return original || Settings.REMEMBER_VIDEO_SPEED.get();
+        boolean locked = original || Settings.REMEMBER_VIDEO_SPEED.get();
+        XLog.i("Video speed lock flag " + original + " -> " + locked);
+        return locked;
+    }
+
+    /**
+     * Injection point. Called with the stored level when the video settings are loaded, or null.
+     */
+    public static void onSpeedLoaded(Object level) {
+        XLog.i("Stored video speed loaded: " + level);
+    }
+
+    /**
+     * Injection point. Called with the level about to be stored.
+     */
+    public static void onSpeedSaved(Object level) {
+        XLog.i("Video speed saved: " + level + " from " + new Throwable().getStackTrace()[1]);
     }
 
     /**
      * Injection point. Called with the decision of X to reset the stored speed to 1x on launch.
      */
     public static boolean shouldResetSpeed(boolean original) {
-        return original && !Settings.REMEMBER_VIDEO_SPEED.get();
+        boolean reset = original && !Settings.REMEMBER_VIDEO_SPEED.get();
+        XLog.i("Video speed reset on launch " + original + " -> " + reset);
+        return reset;
     }
 
     // region Speed levels

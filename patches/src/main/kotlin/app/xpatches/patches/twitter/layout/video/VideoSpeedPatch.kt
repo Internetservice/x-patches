@@ -68,6 +68,16 @@ val videoSpeedPatch = bytecodePatch(
                 opcode == Opcode.NEW_INSTANCE && getReference<com.android.tools.smali.dexlib2.iface.reference.TypeReference>()?.type == settingsType
             }
             if (buildIndex > speedKeyIndex) throw PatchException("Unexpected layout of the video settings loader")
+
+            // The stored level, as resolved from its name, is logged to diagnose resets.
+            val loadIndex = indexOfFirstInstructionOrThrow(speedKeyIndex, Opcode.INVOKE_STATIC)
+            val loadedIndex = indexOfFirstInstructionOrThrow(loadIndex, Opcode.MOVE_RESULT_OBJECT)
+            val loadedRegister = getInstruction<OneRegisterInstruction>(loadedIndex).registerA
+            addInstructions(
+                loadedIndex + 1,
+                "invoke-static { v$loadedRegister }, $EXTENSION_CLASS_DESCRIPTOR->onSpeedLoaded(Ljava/lang/Object;)V",
+            )
+
             addInstructions(
                 buildIndex,
                 """
@@ -76,6 +86,12 @@ val videoSpeedPatch = bytecodePatch(
                 """,
             )
         }
+
+        // Every save of the speed is logged as well.
+        SaveSpeedFingerprint.method.addInstructions(
+            0,
+            "invoke-static/range { p1 .. p1 }, $EXTENSION_CLASS_DESCRIPTOR->onSpeedSaved(Ljava/lang/Object;)V",
+        )
 
         // endregion
 

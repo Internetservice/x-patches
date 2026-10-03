@@ -46,3 +46,18 @@ internal object EnumClassNameFingerprint : Fingerprint(
     returnType = "Ljava/lang/String;",
     parameters = listOf(),
 )
+
+/**
+ * Stores the playback speed in the shared preferences.
+ */
+internal object SaveSpeedFingerprint : Fingerprint(
+    returnType = "V",
+    parameters = listOf("L"),
+    strings = listOf(
+        SPEED_KEY,
+        "persistent_video_settings_speed_before_lock",
+    ),
+    custom = { method, _ ->
+        method.name != "<init>" && method.hasAccessFlags(AccessFlags.PUBLIC)
+    },
+)
