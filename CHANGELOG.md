@@ -1,3 +1,13 @@
+## [1.0.0-dev.11](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.10...v1.0.0-dev.11) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Settings:** Open as a dialog over X and match the app colors ([ffcd1d2](https://github.com/Internetservice/x-patches/commit/ffcd1d2ee00868dee0b25d58d302d6271fcf608d))
+
+### ✨ New Features
+
+* **X - Unlock downloads:** Force the model flag and pick the quality before downloading ([5df8b31](https://github.com/Internetservice/x-patches/commit/5df8b3163adb11d51e81d67999cd4fefe75866f5))
+
 ## [1.0.0-dev.10](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.9...v1.0.0-dev.10) (2026-10-03)
 
 ### ✨ New Features

@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.10",
+  "version": "1.0.0-dev.11",
   "patches": [
     {
       "name": "Bring back Twitter",
@@ -877,7 +877,7 @@
     },
     {
       "name": "Unlock downloads",
-      "description": "Unlocks the ability to download any video, including videos whose author disallowed downloads. GIFs can be downloaded via the menu on long press.",
+      "description": "Unlocks the ability to download any video, including videos whose author disallowed downloads, and lets you pick the quality or copy the video link before downloading. GIFs can be downloaded via the menu on long press.",
       "default": true,
       "category": null,
       "dependencies": [
