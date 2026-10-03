@@ -95,3 +95,28 @@ internal object MediaContentGifToStringFingerprint : Fingerprint(
         IS_DOWNLOADABLE_STRING,
     ),
 )
+
+/**
+ * Picks the variant to download out of the variants of a video: the highest bit rate that is
+ * not an HLS stream. Every download path calls it right before handing the URL to the downloader.
+ */
+internal object BestVariantFingerprint : Fingerprint(
+    returnType = "L",
+    parameters = listOf("L"),
+    strings = listOf("x-mpegURL"),
+    custom = { method, _ -> method.hasAccessFlags(AccessFlags.STATIC) },
+)
+
+/**
+ * The media downloader. Takes the URL and the file name of the media and downloads it with
+ * OkHttp to a file, which is the single point every download action ends in.
+ */
+internal object DownloaderFingerprint : Fingerprint(
+    returnType = "V",
+    parameters = listOf("Ljava/lang/String;", "Ljava/lang/String;", "L", "L"),
+    custom = { method, classDef ->
+        method.hasAccessFlags(AccessFlags.PUBLIC, AccessFlags.FINAL) &&
+                classDef.fields.any { it.type == "Lokhttp3/OkHttpClient;" } &&
+                classDef.methods.any { it.returnType == "Ljava/io/File;" }
+    },
+)

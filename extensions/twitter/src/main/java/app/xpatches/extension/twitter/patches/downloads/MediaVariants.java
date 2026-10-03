@@ -5,8 +5,6 @@
 
 package app.xpatches.extension.twitter.patches.downloads;
 
-import android.net.Uri;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -68,17 +66,6 @@ final class MediaVariants {
             return label.toString();
         }
 
-        String mimeType() {
-            return contentType.contains("/") ? contentType : "video/mp4";
-        }
-
-        String fileName() {
-            String name = Uri.parse(url).getLastPathSegment();
-            if (name == null || name.isEmpty()) name = "video.mp4";
-            if (!name.contains(".")) name += ".mp4";
-            return width > 0 ? width + "x" + height + "-" + name : name;
-        }
-
         @Override
         public int compareTo(Variant other) {
             int byPixels = Integer.compare(other.width * other.height, width * height);
@@ -111,7 +98,10 @@ final class MediaVariants {
         return Collections.emptyList();
     }
 
-    private static List<Variant> fromIterable(Iterable<?> elements) {
+    /**
+     * @return The downloadable variants in the list, best first, or an empty list if it is not a variant list.
+     */
+    static List<Variant> fromIterable(Iterable<?> elements) {
         List<Variant> variants = new ArrayList<>();
         Set<String> seen = new LinkedHashSet<>();
 

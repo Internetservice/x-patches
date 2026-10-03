@@ -51,7 +51,7 @@ val unlockDownloadsPatch = bytecodePatch(
         setExtensionIsPatchIncluded(EXTENSION_CLASS_DESCRIPTOR)
 
         // The download actions are only offered when the media model says it is downloadable,
-        // which the author of the post controls. Force the flag when the models are built.
+        // which the author of the post controls. Force the flag wherever it is read.
         forceDownloadable(MediaContentVideoToStringFingerprint)
         forceDownloadable(MediaContentGifToStringFingerprint)
 
@@ -92,12 +92,17 @@ val unlockDownloadsPatch = bytecodePatch(
         // which raise the video download upsell when they fail.
         unlockVideoDownloadUpsells(subscriptionsFeaturesClass)
 
-        // Offer the quality picker before the download starts. Inserted last, as it shifts
-        // the instruction indices of the matches above.
-        MediaGalleryDownloadFingerprint.method.addInstructionsWithLabels(
+        // Offer the quality picker before the download starts. The variant chooser runs right
+        // before every download and reveals the variants, the downloader receives the chosen URL.
+        BestVariantFingerprint.method.addInstructions(
+            0,
+            "invoke-static/range { p0 .. p0 }, $EXTENSION_CLASS_DESCRIPTOR->rememberVariants(Ljava/lang/Object;)V",
+        )
+
+        DownloaderFingerprint.method.addInstructionsWithLabels(
             0,
             """
-                invoke-static { p1 }, $EXTENSION_CLASS_DESCRIPTOR->showQualityPicker(Ljava/lang/Object;)Z
+                invoke-static/range { p0 .. p4 }, $EXTENSION_CLASS_DESCRIPTOR->interceptDownload(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)Z
                 move-result v0
                 if-eqz v0, :download
                 return-void
@@ -109,8 +114,9 @@ val unlockDownloadsPatch = bytecodePatch(
 }
 
 /**
- * Routes every write of the "isDownloadable" field of the media model through the extension,
- * which forces it on when the setting is on.
+ * Routes every read of the "isDownloadable" field of the media model through the extension,
+ * which forces it on when the setting is on. The register the field is read into is
+ * overwritten, which is safe as it was just written by the read itself.
  *
  * @param toStringFingerprint The toString of the media model, which reveals the field.
  */
@@ -122,28 +128,39 @@ private fun BytecodePatchContext.forceDownloadable(toStringFingerprint: Fingerpr
             ?: throw PatchException("Could not find the isDownloadable field")
     }
 
-    val constructors = toStringFingerprint.classDef.methods.filter { it.name == "<init>" }
-    var writes = 0
+    fun Instruction.readsField() = opcode == Opcode.IGET_BOOLEAN && getReference<FieldReference>().let {
+        it?.definingClass == field.definingClass && it.name == field.name
+    }
 
-    constructors.forEach { constructor ->
-        constructor.findInstructionIndicesReversed {
-            opcode == Opcode.IPUT_BOOLEAN && getReference<FieldReference>().let {
-                it?.definingClass == field.definingClass && it.name == field.name
+    // The model internals compare and print the field as it is.
+    val untouchedMethods = setOf("equals", "hashCode", "toString", "serialize")
+
+    val readers = mutableListOf<Pair<ClassDef, Method>>()
+    classDefForEach { classDef ->
+        classDef.methods.forEach { method ->
+            if (method.name in untouchedMethods) return@forEach
+            if (method.implementation?.instructions?.any { it.readsField() } == true) {
+                readers += classDef to method
             }
-        }.forEach { writeIndex ->
-            val register = constructor.getInstruction<TwoRegisterInstruction>(writeIndex).registerA
-            constructor.addInstructions(
-                writeIndex,
-                """
-                    invoke-static/range { v$register .. v$register }, $EXTENSION_CLASS_DESCRIPTOR->isDownloadable(Z)Z
-                    move-result v$register
-                """,
-            )
-            writes++
         }
     }
 
-    if (writes == 0) throw PatchException("Could not find any write of the isDownloadable field")
+    if (readers.isEmpty()) throw PatchException("Could not find any read of the isDownloadable field")
+
+    readers.forEach { (classDef, method) ->
+        mutableClassDefBy(classDef).findMutableMethodOf(method).apply {
+            findInstructionIndicesReversed { readsField() }.forEach { readIndex ->
+                val register = getInstruction<TwoRegisterInstruction>(readIndex).registerA
+                addInstructions(
+                    readIndex + 1,
+                    """
+                        invoke-static/range { v$register .. v$register }, $EXTENSION_CLASS_DESCRIPTOR->isDownloadable(Z)Z
+                        move-result v$register
+                    """,
+                )
+            }
+        }
+    }
 }
 
 /**

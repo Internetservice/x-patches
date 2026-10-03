@@ -34,6 +34,7 @@ import android.widget.Toolbar;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import app.xpatches.extension.twitter.CrashLog;
 import app.xpatches.extension.twitter.Utils;
 
 /**
@@ -162,6 +163,38 @@ public final class SettingsView {
             } catch (Exception ignored) {
             }
         });
+
+        String crash = CrashLog.read(context);
+        if (crash != null) {
+            addRow(about, "Last crash", crash.substring(0, Math.min(crash.length(), 80)).replace('\n', ' ') + "…",
+                    null, v -> showCrash(crash));
+        }
+    }
+
+    private void showCrash(String crash) {
+        TextView text = new TextView(context);
+        text.setText(crash);
+        text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+        text.setTypeface(android.graphics.Typeface.MONOSPACE);
+        text.setTextIsSelectable(true);
+        text.setPadding(dp(20), dp(8), dp(20), dp(8));
+        ScrollView scroll = new ScrollView(context);
+        scroll.addView(text);
+
+        new AlertDialog.Builder(context, night
+                ? android.R.style.Theme_DeviceDefault_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                .setTitle("Last crash")
+                .setView(scroll)
+                .setPositiveButton("Copy", (dialog, which) -> {
+                    android.content.ClipboardManager clipboard =
+                            (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                    clipboard.setPrimaryClip(android.content.ClipData.newPlainText("X Patches crash", crash));
+                    android.widget.Toast.makeText(context, "Copied", android.widget.Toast.LENGTH_SHORT).show();
+                })
+                .setNeutralButton("Clear", (dialog, which) -> CrashLog.clear(context))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private LinearLayout addCategory(LinearLayout list, String title) {

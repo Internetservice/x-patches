@@ -41,6 +41,7 @@ public final class Utils {
             currentActivity = new WeakReference<>((Activity) appContext);
         }
         registerActivityTracking();
+        CrashLog.install(context);
     }
 
     /**
