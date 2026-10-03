@@ -1,3 +1,9 @@
+## [1.0.0-dev.15](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.14...v1.0.0-dev.15) (2026-10-03)
+
+### ✨ New Features
+
+* **X - Settings:** Show a log of what the patches did ([454c4a0](https://github.com/Internetservice/x-patches/commit/454c4a067114593e81d3233e5d4cf3d498676cab))
+
 ## [1.0.0-dev.14](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.13...v1.0.0-dev.14) (2026-10-03)
 
 ### 🐛 Bug Fixes
