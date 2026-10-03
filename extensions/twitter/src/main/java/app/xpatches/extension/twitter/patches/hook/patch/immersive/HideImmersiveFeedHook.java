@@ -29,6 +29,30 @@ public final class HideImmersiveFeedHook extends BaseJsonHook {
         return false;
     }
 
+    /**
+     * Injection point. Called with the page count lambda of the vertical pager of the player.
+     *
+     * @return A lambda reporting a single page while the setting is on.
+     */
+    public static Object limitPageCount(Object original) {
+        return new PageCount(original);
+    }
+
+    private static final class PageCount implements kotlin.jvm.functions.Function0<Object> {
+        private final Object original;
+
+        PageCount(Object original) {
+            this.original = original;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public Object invoke() {
+            if (Settings.HIDE_IMMERSIVE_PLAYER.get()) return 1;
+            return ((kotlin.jvm.functions.Function0<Object>) original).invoke();
+        }
+    }
+
     @Override
     public void apply(JSONObject json) {
         if (!Settings.HIDE_IMMERSIVE_PLAYER.get()) return;
