@@ -23,13 +23,14 @@ public final class OpenSettingsAction implements Function0<Unit> {
     @Override
     public Unit invoke() {
         try {
-            // Start from the foreground activity so the settings join the task of X
-            // and "back" returns to the drawer instead of leaving the app.
+            // Shown as a dialog over the X activity, so leaving the settings never leaves X.
             Activity activity = Utils.getCurrentActivity();
-            if (activity != null) {
-                activity.startActivity(new Intent(activity, SettingsActivity.class));
+            if (activity != null && !activity.isFinishing()) {
+                activity.runOnUiThread(() -> SettingsDialog.show(activity));
                 return Unit.INSTANCE;
             }
+
+            Log.w(Utils.LOG_TAG, "No foreground activity, opening the settings activity");
             Context context = Utils.getContext();
             if (context != null) {
                 Intent intent = new Intent(context, SettingsActivity.class);

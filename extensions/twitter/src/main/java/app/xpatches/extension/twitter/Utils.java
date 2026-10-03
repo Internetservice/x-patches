@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -46,7 +47,45 @@ public final class Utils {
      * @return The activity in the foreground, or null if none is known.
      */
     public static Activity getCurrentActivity() {
-        return currentActivity.get();
+        Activity activity = currentActivity.get();
+        if (activity == null) {
+            activity = resumedActivity();
+            if (activity != null) {
+                currentActivity = new WeakReference<>(activity);
+            }
+        }
+        return activity;
+    }
+
+    /**
+     * @return The resumed activity of the process, read from the activity thread
+     * in case the lifecycle tracking missed it.
+     */
+    private static Activity resumedActivity() {
+        try {
+            Class<?> activityThread = Class.forName("android.app.ActivityThread");
+            Object thread = activityThread.getMethod("currentActivityThread").invoke(null);
+            java.lang.reflect.Field activitiesField = activityThread.getDeclaredField("mActivities");
+            activitiesField.setAccessible(true);
+            java.util.Map<?, ?> activities = (java.util.Map<?, ?>) activitiesField.get(thread);
+            if (activities == null) return null;
+
+            Activity fallback = null;
+            for (Object record : activities.values()) {
+                java.lang.reflect.Field pausedField = record.getClass().getDeclaredField("paused");
+                pausedField.setAccessible(true);
+                java.lang.reflect.Field activityField = record.getClass().getDeclaredField("activity");
+                activityField.setAccessible(true);
+                Activity activity = (Activity) activityField.get(record);
+                if (activity == null || activity.isFinishing()) continue;
+                if (!pausedField.getBoolean(record)) return activity;
+                fallback = activity;
+            }
+            return fallback;
+        } catch (Exception e) {
+            Log.w(LOG_TAG, "Could not read the resumed activity", e);
+            return null;
+        }
     }
 
     private static synchronized void registerActivityTracking() {
