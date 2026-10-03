@@ -142,3 +142,17 @@ internal object NetworkDownloaderFingerprint : Fingerprint(
         classDef.methods.any { it.returnType == "Landroid/app/DownloadManager\$Request;" }
     },
 )
+
+/**
+ * Shows an in-app notification banner, such as "Download started" which the post menu shows
+ * before it hands the video to the downloader.
+ */
+internal object ShowInAppNotificationFingerprint : Fingerprint(
+    returnType = "Ljava/lang/Object;",
+    parameters = listOf("L", "L", "Lkotlin/coroutines/Continuation;"),
+    custom = { method, classDef ->
+        method.hasAccessFlags(AccessFlags.PUBLIC, AccessFlags.FINAL) &&
+                classDef.fields.any { it.type == "Lkotlin/collections/ArrayDeque;" } &&
+                classDef.fields.any { it.type == "Ljava/util/concurrent/atomic/AtomicInteger;" }
+    },
+)

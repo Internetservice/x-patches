@@ -120,6 +120,21 @@ val unlockDownloadsPatch = bytecodePatch(
             """,
         )
 
+        // The "Download started" banner is shown before the downloader is reached,
+        // so it is held back while the picker is about to open.
+        ShowInAppNotificationFingerprint.method.addInstructionsWithLabels(
+            0,
+            """
+                invoke-static { }, $EXTENSION_CLASS_DESCRIPTOR->suppressNotification()Z
+                move-result v0
+                if-eqz v0, :show
+                const/4 v0, 0x0
+                return-object v0
+                :show
+                nop
+            """,
+        )
+
         // The network downloader, used by every other download path.
         NetworkDownloaderFingerprint.method.addInstructionsWithLabels(
             0,

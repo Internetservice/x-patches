@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -46,6 +47,11 @@ public final class UnlockDownloadsPatch {
      * Set while the chosen variant is handed back to the downloader, so it is not intercepted again.
      */
     private static final ThreadLocal<Boolean> CHOSEN = new ThreadLocal<>();
+
+    /**
+     * Until when the next in-app notification is held back, see {@link #suppressNotification()}.
+     */
+    private static volatile long suppressNotificationUntil;
 
     private UnlockDownloadsPatch() {
     }
@@ -85,9 +91,34 @@ public final class UnlockDownloadsPatch {
     public static void rememberVariants(Object variants) {
         try {
             if (!(variants instanceof Iterable)) return;
-            remember(MediaVariants.fromIterable((Iterable<?>) variants));
+            List<MediaVariants.Variant> list = MediaVariants.fromIterable((Iterable<?>) variants);
+            remember(list);
+
+            // A download is about to start. X shows its "Download started" banner before the
+            // downloader is reached, which the picker holds back until a quality is chosen.
+            if (Settings.DOWNLOAD_QUALITY_PICKER.get() && !list.isEmpty() && knownVariants(list.get(0).url) != null) {
+                suppressNotificationUntil = SystemClock.uptimeMillis() + 3000;
+            }
         } catch (Exception e) {
             XLog.e("Failed to read the video variants", e);
+        }
+    }
+
+    /**
+     * Injection point. Called when X is about to show an in-app notification banner.
+     *
+     * @return If the banner must not be shown.
+     */
+    public static boolean suppressNotification() {
+        if (SystemClock.uptimeMillis() > suppressNotificationUntil) return false;
+        suppressNotificationUntil = 0;
+        XLog.i("Holding back the download banner for the quality picker");
+        return true;
+    }
+
+    private static List<MediaVariants.Variant> knownVariants(String url) {
+        synchronized (RECENT_VARIANTS) {
+            return RECENT_VARIANTS.get(url);
         }
     }
 
@@ -142,10 +173,7 @@ public final class UnlockDownloadsPatch {
                 return false;
             }
 
-            List<MediaVariants.Variant> variants;
-            synchronized (RECENT_VARIANTS) {
-                variants = RECENT_VARIANTS.get(url);
-            }
+            List<MediaVariants.Variant> variants = knownVariants(url);
             // Not a video with several qualities, for example a photo or a processed file.
             if (variants == null) {
                 XLog.i("No variants known for the URL, letting the download through");
@@ -172,6 +200,7 @@ public final class UnlockDownloadsPatch {
                     chosenArguments[0] = variant.url;
                     System.arraycopy(arguments, 0, chosenArguments, 1, arguments.length);
                     download.invoke(downloader, chosenArguments);
+                    Toast.makeText(activity, "Downloading " + variant.label(), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     XLog.e("Failed to start the download", e);
                     Toast.makeText(activity, "Download failed", Toast.LENGTH_SHORT).show();
@@ -239,7 +268,7 @@ public final class UnlockDownloadsPatch {
         new AlertDialog.Builder(activity, theme)
                 .setTitle("Download video")
                 .setItems(labels, (dialog, which) -> onChosen.onChosen(variants.get(which)))
-                .setNeutralButton("Copy link", (dialog, which) -> copyLink(activity, variants.get(0)))
+                .setNeutralButton("Copy best link", (dialog, which) -> copyLink(activity, variants.get(0)))
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
