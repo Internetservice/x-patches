@@ -63,7 +63,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.24](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.24)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;30 patches total
+> **[v1.0.0-dev.25](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.25)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;30 patches total
 <details open>
 <summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;30 patches</summary>
 <br>
@@ -81,7 +81,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 | [Disable analytics](#disable-analytics) | Drops the client event uploads (scribes) X sends about your activity in the app. Off by default in the X Patches settings. |  |
 | [Dynamic color](#dynamic-color) | Replaces the default X (Formerly Twitter) Blue with the user's Material You palette. |  |
 | [Force HD video](#force-hd-video) | Plays videos in their highest available quality by removing the lower quality variants. Off by default in the X Patches settings. |  |
-| [Force enable translate](#force-enable-translate) | Offers the translate action on every post. Off by default in the X Patches settings. |  |
+| [Force enable translate](#force-enable-translate) | Offers the translate action on every post, also when X has not enabled translations for the account, and can turn on the automatic translation of posts. Off by default in the X Patches settings. |  |
 | [Handle custom twitter links](#handle-custom-twitter-links) | Opens fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X. On Android 12 and newer the links have to be enabled under "Open by default" in the app info. |  |
 | [Hide Community Notes](#hide-community-notes) | Hides the Community Notes attached to posts. Off by default in the X Patches settings. |  |
 | [Hide Grok](#hide-grok) | Turns off the Grok features: the Grok tab and sidebar entry, the Grok buttons on posts, Grok image generation and Grok translations. Off by default in the X Patches settings. |  |

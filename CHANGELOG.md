@@ -1,3 +1,9 @@
+## [1.0.0-dev.25](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.24...v1.0.0-dev.25) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Force enable translate:** Force the Grok translation switches, add auto translate ([81987e5](https://github.com/Internetservice/x-patches/commit/81987e5a14584e04db151dd738b9d33aa040d92c))
+
 ## [1.0.0-dev.24](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.23...v1.0.0-dev.24) (2026-10-03)
 
 ### 🐛 Bug Fixes

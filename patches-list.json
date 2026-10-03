@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.24",
+  "version": "1.0.0-dev.25",
   "patches": [
     {
       "name": "Bring back Twitter",
@@ -244,10 +244,11 @@
     },
     {
       "name": "Force enable translate",
-      "description": "Offers the translate action on every post. Off by default in the X Patches settings.",
+      "description": "Offers the translate action on every post, also when X has not enabled translations for the account, and can turn on the automatic translation of posts. Off by default in the X Patches settings.",
       "default": true,
       "category": null,
       "dependencies": [
+        "BytecodePatch",
         "BytecodePatch",
         "ResourcePatch"
       ],
