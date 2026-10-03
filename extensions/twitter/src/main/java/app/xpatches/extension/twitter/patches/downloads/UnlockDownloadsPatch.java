@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import app.xpatches.extension.twitter.Utils;
+import app.xpatches.extension.twitter.XLog;
 import app.xpatches.extension.twitter.settings.Settings;
 
 /**
@@ -71,8 +72,12 @@ public final class UnlockDownloadsPatch {
      */
     public static void rememberVariants(Object variants) {
         try {
-            if (!(variants instanceof Iterable)) return;
+            if (!(variants instanceof Iterable)) {
+                XLog.w("Variants are not iterable: " + (variants == null ? null : variants.getClass().getName()));
+                return;
+            }
             List<MediaVariants.Variant> list = MediaVariants.fromIterable((Iterable<?>) variants);
+            XLog.i("Variant chooser: " + list.size() + " downloadable variants out of " + variants);
             if (list.size() < 2) return;
             synchronized (RECENT_VARIANTS) {
                 for (MediaVariants.Variant variant : list) {
@@ -80,7 +85,7 @@ public final class UnlockDownloadsPatch {
                 }
             }
         } catch (Exception e) {
-            Log.e(Utils.LOG_TAG, "Failed to read the video variants", e);
+            XLog.e("Failed to read the video variants", e);
         }
     }
 
@@ -111,27 +116,39 @@ public final class UnlockDownloadsPatch {
      */
     private static boolean intercept(Object downloader, String url, Object[] arguments) {
         try {
-            if (Boolean.TRUE.equals(CHOSEN.get())) return false;
-            if (!Settings.DOWNLOAD_QUALITY_PICKER.get() || url == null) return false;
+            XLog.i("Download requested by " + downloader.getClass().getName() + " of " + url
+                    + " with " + java.util.Arrays.toString(arguments) + " on " + Thread.currentThread().getName());
+            if (Boolean.TRUE.equals(CHOSEN.get())) {
+                XLog.i("Downloading the chosen variant");
+                return false;
+            }
+            if (!Settings.DOWNLOAD_QUALITY_PICKER.get() || url == null) {
+                XLog.i("Quality picker is off");
+                return false;
+            }
 
             List<MediaVariants.Variant> variants;
             synchronized (RECENT_VARIANTS) {
                 variants = RECENT_VARIANTS.get(url);
             }
             // Not a video with several qualities, for example a photo or a processed file.
-            if (variants == null) return false;
+            if (variants == null) {
+                XLog.i("No variants known for the URL, letting the download through");
+                return false;
+            }
 
             Activity activity = Utils.getCurrentActivity();
             if (activity == null) {
-                Log.w(Utils.LOG_TAG, "No activity to show the quality picker");
+                XLog.w("No activity to show the quality picker");
                 return false;
             }
 
             Method download = findDownloadMethod(downloader, arguments);
             if (download == null) {
-                Log.w(Utils.LOG_TAG, "Could not find the download method of " + downloader.getClass().getName());
+                XLog.w("Could not find the download method of " + downloader.getClass().getName());
                 return false;
             }
+            XLog.i("Showing the quality picker with " + variants.size() + " variants");
 
             Runnable show = () -> showPicker(activity, variants, variant -> {
                 try {
@@ -141,7 +158,7 @@ public final class UnlockDownloadsPatch {
                     System.arraycopy(arguments, 0, chosenArguments, 1, arguments.length);
                     download.invoke(downloader, chosenArguments);
                 } catch (Exception e) {
-                    Log.e(Utils.LOG_TAG, "Failed to start the download", e);
+                    XLog.e("Failed to start the download", e);
                     Toast.makeText(activity, "Download failed", Toast.LENGTH_SHORT).show();
                 } finally {
                     CHOSEN.set(false);
@@ -154,7 +171,7 @@ public final class UnlockDownloadsPatch {
             }
             return true;
         } catch (Exception e) {
-            Log.e(Utils.LOG_TAG, "Failed to show the quality picker", e);
+            XLog.e("Failed to show the quality picker", e);
             return false;
         }
     }

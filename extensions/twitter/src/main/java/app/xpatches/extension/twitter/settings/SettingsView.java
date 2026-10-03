@@ -36,6 +36,7 @@ import java.util.Map;
 
 import app.xpatches.extension.twitter.CrashLog;
 import app.xpatches.extension.twitter.Utils;
+import app.xpatches.extension.twitter.XLog;
 
 /**
  * The settings screen, built in code so it can be hosted by the activity behind the
@@ -167,13 +168,15 @@ public final class SettingsView {
         String crash = CrashLog.read(context);
         if (crash != null) {
             addRow(about, "Last crash", crash.substring(0, Math.min(crash.length(), 80)).replace('\n', ' ') + "…",
-                    null, v -> showCrash(crash));
+                    null, v -> showText("Last crash", crash, () -> CrashLog.clear(context)));
         }
+        addRow(about, "Log", "What the patches did since X was started", null,
+                v -> showText("Log", XLog.dump().isEmpty() ? "Nothing logged yet." : XLog.dump(), XLog::clear));
     }
 
-    private void showCrash(String crash) {
+    private void showText(String title, String content, Runnable onClear) {
         TextView text = new TextView(context);
-        text.setText(crash);
+        text.setText(content);
         text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
         text.setTypeface(android.graphics.Typeface.MONOSPACE);
         text.setTextIsSelectable(true);
@@ -184,15 +187,15 @@ public final class SettingsView {
         new AlertDialog.Builder(context, night
                 ? android.R.style.Theme_DeviceDefault_Dialog_Alert
                 : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
-                .setTitle("Last crash")
+                .setTitle(title)
                 .setView(scroll)
                 .setPositiveButton("Copy", (dialog, which) -> {
                     android.content.ClipboardManager clipboard =
                             (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    clipboard.setPrimaryClip(android.content.ClipData.newPlainText("X Patches crash", crash));
+                    clipboard.setPrimaryClip(android.content.ClipData.newPlainText("X Patches " + title, content));
                     android.widget.Toast.makeText(context, "Copied", android.widget.Toast.LENGTH_SHORT).show();
                 })
-                .setNeutralButton("Clear", (dialog, which) -> CrashLog.clear(context))
+                .setNeutralButton("Clear", (dialog, which) -> onClear.run())
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
