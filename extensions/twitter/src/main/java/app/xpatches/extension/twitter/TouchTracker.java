@@ -14,6 +14,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import app.xpatches.extension.twitter.patches.media.SwipeToCloseMediaPatch;
+
 /**
  * Remembers where the screen was last touched, by wrapping the window callback of every
  * activity. Used to tell on which half of a video a hold gesture started.
@@ -21,6 +23,9 @@ import java.lang.reflect.Proxy;
 public final class TouchTracker {
     private static volatile float lastDownX = -1;
     private static volatile int lastWidth;
+    private static float downY;
+    private static long downTime;
+    private static int lastHeight;
 
     private TouchTracker() {
     }
@@ -31,6 +36,20 @@ public final class TouchTracker {
      */
     public static float lastDownFraction() {
         return lastWidth <= 0 || lastDownX < 0 ? -1 : lastDownX / lastWidth;
+    }
+
+    /**
+     * A quick, mostly horizontal drag to the right that did not start on the bottom edge,
+     * where seek bars live.
+     */
+    private static void detectSwipeRight(MotionEvent up) {
+        if (lastWidth <= 0 || lastHeight <= 0) return;
+        float dx = up.getX() - lastDownX;
+        float dy = Math.abs(up.getY() - downY);
+        long duration = up.getEventTime() - downTime;
+        if (dx > lastWidth * 0.2f && dy < dx * 0.5f && duration < 600 && downY < lastHeight * 0.85f) {
+            if (SwipeToCloseMediaPatch.isPatchIncluded()) SwipeToCloseMediaPatch.onSwipeRight();
+        }
     }
 
     static void install(Activity activity) {
@@ -65,10 +84,16 @@ public final class TouchTracker {
             if ("dispatchTouchEvent".equals(method.getName()) && args != null && args.length == 1
                     && args[0] instanceof MotionEvent) {
                 MotionEvent event = (MotionEvent) args[0];
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                int action = event.getActionMasked();
+                if (action == MotionEvent.ACTION_DOWN) {
                     View decor = window.getDecorView();
                     lastWidth = decor.getWidth();
+                    lastHeight = decor.getHeight();
                     lastDownX = event.getX();
+                    downY = event.getY();
+                    downTime = event.getEventTime();
+                } else if (action == MotionEvent.ACTION_UP && event.getPointerCount() == 1) {
+                    detectSwipeRight(event);
                 }
             }
             try {

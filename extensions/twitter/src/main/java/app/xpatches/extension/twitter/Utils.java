@@ -14,6 +14,7 @@ import android.util.Log;
 import java.lang.ref.WeakReference;
 
 import app.xpatches.extension.twitter.patches.links.HandleCustomLinksPatch;
+import app.xpatches.extension.twitter.patches.media.SwipeToCloseMediaPatch;
 import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 
 /**
@@ -46,7 +47,7 @@ public final class Utils {
             if (HandleCustomLinksPatch.isPatchIncluded()) {
                 HandleCustomLinksPatch.rewriteIntent(activity.getIntent());
             }
-            if (VideoSpeedPatch.isPatchIncluded()) {
+            if (VideoSpeedPatch.isPatchIncluded() || SwipeToCloseMediaPatch.isPatchIncluded()) {
                 TouchTracker.install(activity);
             }
         }
@@ -106,7 +107,7 @@ public final class Utils {
             @Override
             public void onActivityResumed(Activity activity) {
                 currentActivity = new WeakReference<>(activity);
-                if (VideoSpeedPatch.isPatchIncluded()) {
+                if (VideoSpeedPatch.isPatchIncluded() || SwipeToCloseMediaPatch.isPatchIncluded()) {
                     TouchTracker.install(activity);
                 }
             }

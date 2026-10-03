@@ -33,6 +33,7 @@ import app.xpatches.extension.twitter.patches.hook.patch.links.NoShortenedUrlHoo
 import app.xpatches.extension.twitter.patches.hook.patch.poll.ShowPollResultsHook;
 import app.xpatches.extension.twitter.patches.hook.patch.replies.HideHiddenRepliesHook;
 import app.xpatches.extension.twitter.patches.links.HandleCustomLinksPatch;
+import app.xpatches.extension.twitter.patches.media.SwipeToCloseMediaPatch;
 import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 import app.xpatches.extension.twitter.patches.links.CustomizeSharingLinkPatch;
 import app.xpatches.extension.twitter.patches.toggles.DisableAnalyticsPatch;
@@ -154,6 +155,9 @@ public final class Settings {
             "Open links externally", "Always use the external browser", false, OpenLinksExternallyPatch::isPatchIncluded);
     public static final Toggle HANDLE_CUSTOM_LINKS = new Toggle("handle_custom_links", CATEGORY_APP,
             "Handle custom twitter links", "Open fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X. Enable them under \"Open by default\" in the app info", true, HandleCustomLinksPatch::isPatchIncluded);
+
+    public static final Toggle SWIPE_TO_CLOSE_MEDIA = new Toggle("swipe_to_close_media", CATEGORY_APP,
+            "Swipe right to close media", "On the first photo of a post or anywhere on a full screen video", true, SwipeToCloseMediaPatch::isPatchIncluded);
 
     public static final Toggle REMEMBER_VIDEO_SPEED = new Toggle("remember_video_speed", CATEGORY_VIDEO,
             "Remember video speed", "Keep the chosen playback speed for every video", true, VideoSpeedPatch::isPatchIncluded);
