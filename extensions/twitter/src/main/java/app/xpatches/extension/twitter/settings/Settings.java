@@ -170,6 +170,7 @@ public final class Settings {
      * The playback speeds offered by the video player, one per line.
      */
     public static final String KEY_VIDEO_SPEEDS = "video_speeds";
+    public static final String KEY_SNOOZE_MINUTES = "snooze_topics_minutes";
     public static final String KEY_HOLD_SPEED_LEFT = "hold_speed_left";
     public static final String KEY_HOLD_SPEED_RIGHT = "hold_speed_right";
 

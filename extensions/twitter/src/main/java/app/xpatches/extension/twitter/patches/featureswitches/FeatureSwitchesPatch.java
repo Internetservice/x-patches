@@ -5,6 +5,7 @@
 
 package app.xpatches.extension.twitter.patches.featureswitches;
 
+import app.xpatches.extension.twitter.patches.home.SnoozeTopicsPatch;
 import app.xpatches.extension.twitter.settings.Settings;
 
 /**
@@ -16,6 +17,23 @@ import app.xpatches.extension.twitter.settings.Settings;
 public final class FeatureSwitchesPatch {
 
     private FeatureSwitchesPatch() {
+    }
+
+    /**
+     * Injection point.
+     *
+     * @param key The feature switch key.
+     * @return The forced value of the integer switch, or null to use the value the app resolved.
+     */
+    public static Integer getIntOverride(String key) {
+        if (key == null) return null;
+
+        if (key.equals(SnoozeTopicsPatch.SNOOZE_PERIOD_SWITCH)) {
+            int minutes = SnoozeTopicsPatch.snoozeMinutes();
+            if (minutes > 0) return minutes;
+        }
+
+        return null;
     }
 
     /**

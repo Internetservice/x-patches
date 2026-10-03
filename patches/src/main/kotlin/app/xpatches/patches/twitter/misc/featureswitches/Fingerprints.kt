@@ -28,3 +28,23 @@ internal object PeekBooleanFeatureSwitchFingerprint : Fingerprint(
     returnType = "Z",
     parameters = listOf("Ljava/lang/String;", "Z"),
 )
+
+/**
+ * Resolves an integer feature switch, logging the impression.
+ */
+internal object GetIntFeatureSwitchFingerprint : Fingerprint(
+    definingClass = FEATURE_SWITCHES_REPOSITORY_CLASS,
+    name = "getInt",
+    returnType = "I",
+    parameters = listOf("Ljava/lang/String;", "I"),
+)
+
+/**
+ * Resolves an integer feature switch without logging the impression.
+ */
+internal object PeekIntFeatureSwitchFingerprint : Fingerprint(
+    definingClass = FEATURE_SWITCHES_REPOSITORY_CLASS,
+    name = "peekInt",
+    returnType = "I",
+    parameters = listOf("Ljava/lang/String;", "I"),
+)

@@ -39,6 +39,7 @@ import java.util.Set;
 
 import app.xpatches.extension.twitter.CrashLog;
 import app.xpatches.extension.twitter.patches.drawer.CustomizeDrawerPatch;
+import app.xpatches.extension.twitter.patches.home.SnoozeTopicsPatch;
 import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 import app.xpatches.extension.twitter.Utils;
 import app.xpatches.extension.twitter.XLog;
@@ -148,6 +149,14 @@ public final class SettingsView {
             addSwitch(category, toggle.title, toggle.summary,
                     preferences.getBoolean(toggle.key, toggle.defaultValue),
                     checked -> preferences.edit().putBoolean(toggle.key, checked).apply());
+        }
+
+        if (SnoozeTopicsPatch.isPatchIncluded()) {
+            LinearLayout category = categories.get(Settings.CATEGORY_TIMELINE);
+            if (category == null) category = addCategory(list, Settings.CATEGORY_TIMELINE);
+            TextView[] summary = new TextView[1];
+            summary[0] = addRow(category, "Snooze topics for", SnoozeTopicsPatch.summary(), null,
+                    v -> editSnooze(summary[0]))[1];
         }
 
         if (VideoSpeedPatch.isPatchIncluded()) {
@@ -339,6 +348,20 @@ public final class SettingsView {
                     for (int i = 0; i < titles.size(); i++) if (checked[i]) selected.add(titles.get(i));
                     CustomizeDrawerPatch.setHiddenTitles(selected);
                     summary.setText(drawerSummary());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void editSnooze(TextView summary) {
+        new AlertDialog.Builder(context, night
+                ? android.R.style.Theme_DeviceDefault_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                .setTitle("Snooze topics for")
+                .setSingleChoiceItems(SnoozeTopicsPatch.LABELS, SnoozeTopicsPatch.selectedIndex(), (dialog, which) -> {
+                    SnoozeTopicsPatch.setSnoozeMinutes(SnoozeTopicsPatch.MINUTES[which]);
+                    summary.setText(SnoozeTopicsPatch.summary());
+                    dialog.dismiss();
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
