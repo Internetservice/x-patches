@@ -54,7 +54,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.9](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.9)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;24 patches total
+> **[v1.0.0-dev.10](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.10)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;24 patches total
 <details open>
 <summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;24 patches</summary>
 <br>
@@ -89,7 +89,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 | [Remove premium upsell](#remove-premium-upsell) | Removes the premium upsell sheets, the premium prompts in timelines and the upsell cards in the drawer and on profiles. |  |
 | [Settings](#settings) | Adds the X Patches settings screen, reachable from the navigation drawer, by long pressing the app icon or by opening xpatches://settings. Every other patch can be switched off there without patching again. |  |
 | [Show sensitive media](#show-sensitive-media) | Shows media marked as sensitive directly, without the warning overlays. Off by default in the X Patches settings. |  |
-| [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video. GIFs can be downloaded via the menu on long press. |  |
+| [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video, including videos whose author disallowed downloads. GIFs can be downloaded via the menu on long press. |  |
 
 </details>
 
