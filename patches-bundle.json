@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-03T17:31:27",
-  "description": "## [1.0.0-dev.28](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.27...v1.0.0-dev.28) (2026-10-03)\n\n### 🐛 Bug Fixes\n\n* **X - Swipe to close media:** Pick the close event of the video tab among its own events ([82e08e1](https://github.com/Internetservice/x-patches/commit/82e08e12a9c9d13176f6f03b83343da2d23f41a9))",
-  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.28/patches-1.0.0-dev.28.mpp",
+  "created_at": "2026-10-03T18:32:53",
+  "description": "## [1.0.0-dev.29](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.28...v1.0.0-dev.29) (2026-10-03)\n\n### ✨ New Features\n\n* **X:** Hide new posts pill, navigation bar badges, update screen, debug menu, auto advance, download folder, external downloader ([fe00cd2](https://github.com/Internetservice/x-patches/commit/fe00cd26708b9a7012b1cbaab54219b77f6c8cfb))",
+  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.29/patches-1.0.0-dev.29.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.28"
+  "version": "1.0.0-dev.29"
 }

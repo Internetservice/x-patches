@@ -1,3 +1,9 @@
+## [1.0.0-dev.29](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.28...v1.0.0-dev.29) (2026-10-03)
+
+### ✨ New Features
+
+* **X:** Hide new posts pill, navigation bar badges, update screen, debug menu, auto advance, download folder, external downloader ([fe00cd2](https://github.com/Internetservice/x-patches/commit/fe00cd26708b9a7012b1cbaab54219b77f6c8cfb))
+
 ## [1.0.0-dev.28](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.27...v1.0.0-dev.28) (2026-10-03)
 
 ### 🐛 Bug Fixes
