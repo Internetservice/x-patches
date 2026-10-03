@@ -38,7 +38,6 @@ import app.xpatches.extension.twitter.patches.video.VideoSpeedPatch;
 import app.xpatches.extension.twitter.patches.links.CustomizeSharingLinkPatch;
 import app.xpatches.extension.twitter.patches.hook.patch.home.HideNewPostsPillHook;
 import app.xpatches.extension.twitter.patches.toggles.BlockUpdateScreenPatch;
-import app.xpatches.extension.twitter.patches.toggles.DebugMenuPatch;
 import app.xpatches.extension.twitter.patches.toggles.DisableAnalyticsPatch;
 import app.xpatches.extension.twitter.patches.toggles.HideNavigationBadgesPatch;
 import app.xpatches.extension.twitter.patches.toggles.HideExtraHomeTabsPatch;
@@ -163,8 +162,6 @@ public final class Settings {
             "Block update screen", "No in-app update prompts for this patched version", true, BlockUpdateScreenPatch::isPatchIncluded);
     public static final Toggle HIDE_NAV_BADGES = new Toggle("hide_nav_badges", CATEGORY_APP,
             "Hide navigation bar badges", "No unread counts and dots on the navigation bar icons", false, HideNavigationBadgesPatch::isPatchIncluded);
-    public static final Toggle SHOW_DEBUG_MENU = new Toggle("show_debug_menu", CATEGORY_APP,
-            "Show debug menu", "The hidden Debug Menu entry of X in the side menu. Parts of it may not work in this build", false, DebugMenuPatch::isPatchIncluded);
     public static final Toggle HANDLE_CUSTOM_LINKS = new Toggle("handle_custom_links", CATEGORY_APP,
             "Handle custom twitter links", "Open fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X. Enable them under \"Open by default\" in the app info", true, HandleCustomLinksPatch::isPatchIncluded);
 
