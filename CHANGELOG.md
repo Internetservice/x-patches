@@ -1,3 +1,9 @@
+## [1.0.0-dev.31](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.30...v1.0.0-dev.31) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Hide immersive feed:** Limit the vertical pager to one page ([9b18e50](https://github.com/Internetservice/x-patches/commit/9b18e50c6d6867fe1ae7aaa76494df26ec93ce0f))
+
 ## [1.0.0-dev.30](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.29...v1.0.0-dev.30) (2026-10-03)
 
 ### ✨ New Features
