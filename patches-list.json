@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0-dev.29",
+  "version": "1.0.0-dev.30",
   "patches": [
     {
       "name": "Block update screen",
@@ -45,42 +45,6 @@
       "default": false,
       "category": null,
       "dependencies": [],
-      "compatiblePackages": [
-        {
-          "packageName": "com.twitter.android",
-          "name": "X",
-          "description": null,
-          "apkFileType": "APK",
-          "appIconColor": "#000000",
-          "signatures": null,
-          "targets": [
-            {
-              "version": null,
-              "versionCodes": null,
-              "isExperimental": true,
-              "minSdk": null,
-              "description": null
-            },
-            {
-              "version": "12.30.0-prod.01",
-              "versionCodes": null,
-              "isExperimental": false,
-              "minSdk": null,
-              "description": null
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "name": "Control video auto advance",
-      "description": "Lets you stop the immersive video player from advancing to the next video on its own.",
-      "default": true,
-      "category": null,
-      "dependencies": [
-        "ResourcePatch"
-      ],
       "compatiblePackages": [
         {
           "packageName": "com.twitter.android",
@@ -285,42 +249,6 @@
       "category": null,
       "dependencies": [
         "BytecodePatch"
-      ],
-      "compatiblePackages": [
-        {
-          "packageName": "com.twitter.android",
-          "name": "X",
-          "description": null,
-          "apkFileType": "APK",
-          "appIconColor": "#000000",
-          "signatures": null,
-          "targets": [
-            {
-              "version": null,
-              "versionCodes": null,
-              "isExperimental": true,
-              "minSdk": null,
-              "description": null
-            },
-            {
-              "version": "12.30.0-prod.01",
-              "versionCodes": null,
-              "isExperimental": false,
-              "minSdk": null,
-              "description": null
-            }
-          ]
-        }
-      ],
-      "options": []
-    },
-    {
-      "name": "Enable debug menu",
-      "description": "Shows the hidden Debug Menu entry of X in the side menu. Off by default in the X Patches settings.",
-      "default": true,
-      "category": null,
-      "dependencies": [
-        "ResourcePatch"
       ],
       "compatiblePackages": [
         {
@@ -652,6 +580,43 @@
     {
       "name": "Hide hidden replies",
       "description": "Hides the \"Show more replies\" and \"Show additional replies\" prompts under posts.",
+      "default": true,
+      "category": null,
+      "dependencies": [
+        "BytecodePatch",
+        "ResourcePatch"
+      ],
+      "compatiblePackages": [
+        {
+          "packageName": "com.twitter.android",
+          "name": "X",
+          "description": null,
+          "apkFileType": "APK",
+          "appIconColor": "#000000",
+          "signatures": null,
+          "targets": [
+            {
+              "version": null,
+              "versionCodes": null,
+              "isExperimental": true,
+              "minSdk": null,
+              "description": null
+            },
+            {
+              "version": "12.30.0-prod.01",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Hide immersive feed",
+      "description": "Keeps the full screen video player on the video you opened, with no swiping to more videos.",
       "default": true,
       "category": null,
       "dependencies": [
@@ -1319,7 +1284,7 @@
     },
     {
       "name": "Swipe to close media",
-      "description": "Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video. Also lets you disable the swipe up to the immersive video player.",
+      "description": "Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video.",
       "default": true,
       "category": null,
       "dependencies": [

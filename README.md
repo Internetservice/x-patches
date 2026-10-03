@@ -72,9 +72,9 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0-dev.29](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.29)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;38 patches total
+> **[v1.0.0-dev.30](https://github.com/Internetservice/x-patches/releases/tag/v1.0.0-dev.30)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;37 patches total
 <details open>
-<summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;38 patches</summary>
+<summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;37 patches</summary>
 <br>
 
 **🎯 Supported versions:**
@@ -86,13 +86,11 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 |----------|----------------|-----------|
 | [Block update screen](#block-update-screen) | Blocks the in-app update prompts and the "Update your X app" screen. |  |
 | [Bring back Twitter](#bring-back-twitter) | Brings back the Twitter bird launcher icon and the Twitter app name. |  |
-| [Control video auto advance](#control-video-auto-advance) | Lets you stop the immersive video player from advancing to the next video on its own. |  |
 | [Custom download folder](#custom-download-folder) | Lets you choose the folder media is downloaded to, instead of Download/X. |  |
 | [Customize sharing link](#customize-sharing-link) | Changes the domain name used when sharing links, and optionally includes the username in the link. | • Return username<br>• Domain name |
 | [Customize side bar items](#customize-side-bar-items) | Lets you hide entries of the side menu, such as Premium, Communities or Spaces, from the X Patches settings. |  |
 | [Disable analytics](#disable-analytics) | Drops the client event uploads (scribes) X sends about your activity in the app. Off by default in the X Patches settings. |  |
 | [Dynamic color](#dynamic-color) | Replaces the default X (Formerly Twitter) Blue with the user's Material You palette. |  |
-| [Enable debug menu](#enable-debug-menu) | Shows the hidden Debug Menu entry of X in the side menu. Off by default in the X Patches settings. |  |
 | [Force HD video](#force-hd-video) | Plays videos in their highest available quality by removing the lower quality variants. Off by default in the X Patches settings. |  |
 | [Force enable translate](#force-enable-translate) | Offers the translate action on every post, also when X has not enabled translations for the account, and can turn on the automatic translation of posts. Off by default in the X Patches settings. |  |
 | [Handle custom twitter links](#handle-custom-twitter-links) | Opens fxtwitter, vxtwitter, fixupx, fixvx and twittpr links in X. On Android 12 and newer the links have to be enabled under "Open by default" in the app info. |  |
@@ -102,6 +100,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 | [Hide ads](#hide-ads) | Hides promoted posts, promoted trends, video pre-rolls and third party ads in the timelines. |  |
 | [Hide extra home tabs](#hide-extra-home-tabs) | Hides the Subscribed, ranked Following, sports and pinned tabs next to "For you" and "Following". |  |
 | [Hide hidden replies](#hide-hidden-replies) | Hides the "Show more replies" and "Show additional replies" prompts under posts. |  |
+| [Hide immersive feed](#hide-immersive-feed) | Keeps the full screen video player on the video you opened, with no swiping to more videos. |  |
 | [Hide navigation bar badges](#hide-navigation-bar-badges) | Hides the unread counts and dots on the navigation bar icons. |  |
 | [Hide new posts pill](#hide-new-posts-pill) | Hides the "New posts" pill at the top of the timelines. |  |
 | [Hide post metrics](#hide-post-metrics) | Hides the reply, repost, like and bookmark counts of posts. Off by default in the X Patches settings. |  |
@@ -119,7 +118,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 | [Show poll results](#show-poll-results) | Shows the results of polls without voting. Polls are shown as final while the setting is on, so voting is not possible. |  |
 | [Show sensitive media](#show-sensitive-media) | Shows media marked as sensitive directly, without the warning overlays. Off by default in the X Patches settings. |  |
 | [Snooze topics longer](#snooze-topics-longer) | Lets you snooze topics in "For you" for longer than X allows, up to forever. |  |
-| [Swipe to close media](#swipe-to-close-media) | Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video. Also lets you disable the swipe up to the immersive video player. |  |
+| [Swipe to close media](#swipe-to-close-media) | Closes a full screen photo or video by swiping right, on the first photo of a post or anywhere on a video. |  |
 | [Unlock downloads](#unlock-downloads) | Unlocks the ability to download any video, including videos whose author disallowed downloads, and lets you pick the quality or copy the video link before downloading. GIFs can be downloaded via the menu on long press. |  |
 | [Video speed](#video-speed) | Remembers the playback speed for every video, lets you set your own speed levels, such as 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5 and 3, and changes the speed while a video is held: the right half speeds up, the left half slows down, both adjustable. |  |
 

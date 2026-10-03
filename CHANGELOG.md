@@ -1,3 +1,9 @@
+## [1.0.0-dev.30](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.29...v1.0.0-dev.30) (2026-10-03)
+
+### ✨ New Features
+
+* **X:** Hide immersive feed ([8aaa8e4](https://github.com/Internetservice/x-patches/commit/8aaa8e40ab1b33ee4edbe574bf8cb50e09e44fda))
+
 ## [1.0.0-dev.29](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.28...v1.0.0-dev.29) (2026-10-03)
 
 ### ✨ New Features

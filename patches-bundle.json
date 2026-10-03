@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-10-03T18:32:53",
-  "description": "## [1.0.0-dev.29](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.28...v1.0.0-dev.29) (2026-10-03)\n\n### ✨ New Features\n\n* **X:** Hide new posts pill, navigation bar badges, update screen, debug menu, auto advance, download folder, external downloader ([fe00cd2](https://github.com/Internetservice/x-patches/commit/fe00cd26708b9a7012b1cbaab54219b77f6c8cfb))",
-  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.29/patches-1.0.0-dev.29.mpp",
+  "created_at": "2026-10-03T19:19:23",
+  "description": "## [1.0.0-dev.30](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.29...v1.0.0-dev.30) (2026-10-03)\n\n### ✨ New Features\n\n* **X:** Hide immersive feed ([8aaa8e4](https://github.com/Internetservice/x-patches/commit/8aaa8e40ab1b33ee4edbe574bf8cb50e09e44fda))",
+  "download_url": "https://github.com/Internetservice/x-patches/releases/download/v1.0.0-dev.30/patches-1.0.0-dev.30.mpp",
   "signature_download_url": "",
-  "version": "1.0.0-dev.29"
+  "version": "1.0.0-dev.30"
 }
