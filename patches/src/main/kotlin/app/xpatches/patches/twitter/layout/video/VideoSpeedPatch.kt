@@ -57,17 +57,12 @@ val videoSpeedPatch = bytecodePatch(
             )
 
             // A feature variant resets the stored speed to 1x on launch. The decision is a flag
-            // checked when the stored speed is read, settled before the settings object is built.
+            // checked right after the key of the stored speed is loaded. The check itself is
+            // hooked, as the instruction the flag is settled at is a branch target of the other
+            // variants, which an insertion before it would be skipped by.
             val speedKeyIndex = indexOfFirstStringInstructionOrThrow(SPEED_KEY)
             val resetCheckIndex = indexOfFirstInstructionOrThrow(speedKeyIndex, Opcode.IF_EQZ)
             val resetRegister = getInstruction<OneRegisterInstruction>(resetCheckIndex).registerA
-            val settingsType = getInstruction(indexOfFirstInstructionOrThrow(speedKeyIndex, Opcode.INVOKE_DIRECT_RANGE))
-                .getReference<MethodReference>()?.definingClass
-                ?: throw PatchException("Could not find the video settings class")
-            val buildIndex = indexOfFirstInstructionOrThrow {
-                opcode == Opcode.NEW_INSTANCE && getReference<com.android.tools.smali.dexlib2.iface.reference.TypeReference>()?.type == settingsType
-            }
-            if (buildIndex > speedKeyIndex) throw PatchException("Unexpected layout of the video settings loader")
 
             // The stored level, as resolved from its name, is logged to diagnose resets.
             val loadIndex = indexOfFirstInstructionOrThrow(speedKeyIndex, Opcode.INVOKE_STATIC)
@@ -79,7 +74,7 @@ val videoSpeedPatch = bytecodePatch(
             )
 
             addInstructions(
-                buildIndex,
+                resetCheckIndex,
                 """
                     invoke-static { v$resetRegister }, $EXTENSION_CLASS_DESCRIPTOR->shouldResetSpeed(Z)Z
                     move-result v$resetRegister
@@ -87,11 +82,17 @@ val videoSpeedPatch = bytecodePatch(
             )
         }
 
-        // Every save of the speed is logged as well.
-        SaveSpeedFingerprint.method.addInstructions(
+        // Every save of the speed is logged as well: the setter of the loader class taking a level.
+        PersistentVideoSettingsLoadFingerprint.classDef.methods.firstOrNull { method ->
+            method.name != "<init>" && method.parameterTypes.size == 1 && method.returnType == "V" &&
+                    method.implementation?.instructions?.any {
+                        (it as? com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction)?.reference
+                            ?.let { reference -> (reference as? com.android.tools.smali.dexlib2.iface.reference.StringReference)?.string } == SPEED_KEY
+                    } == true
+        }?.addInstructions(
             0,
             "invoke-static/range { p1 .. p1 }, $EXTENSION_CLASS_DESCRIPTOR->onSpeedSaved(Ljava/lang/Object;)V",
-        )
+        ) ?: throw PatchException("Could not find the speed setter")
 
         // endregion
 
