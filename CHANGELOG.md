@@ -1,3 +1,9 @@
+## [1.0.0-dev.17](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.16...v1.0.0-dev.17) (2026-10-03)
+
+### 🐛 Bug Fixes
+
+* **X - Unlock downloads:** Hold back the download banner until a quality is chosen ([486dcfc](https://github.com/Internetservice/x-patches/commit/486dcfc3ad2c916a00f46a87d28375ea2ceaaf26))
+
 ## [1.0.0-dev.16](https://github.com/Internetservice/x-patches/compare/v1.0.0-dev.15...v1.0.0-dev.16) (2026-10-03)
 
 ### 🐛 Bug Fixes
