@@ -23,10 +23,31 @@ public final class FeatureSwitchesPatch {
      * Injection point.
      *
      * @param key The feature switch key.
+     * @return The forced value of the string switch, or null to use the value the app resolved.
+     */
+    public static String getStringOverride(String key) {
+        if (key == null) return null;
+
+        // Newer builds list the versions the update prompts apply to.
+        if (key.startsWith("x_lite_in_app_update_") && key.endsWith("_versions") && Settings.BLOCK_UPDATE_SCREEN.get()) {
+            return "";
+        }
+
+        return null;
+    }
+
+    /**
+     * Injection point.
+     *
+     * @param key The feature switch key.
      * @return The forced value of the integer switch, or null to use the value the app resolved.
      */
     public static Integer getIntOverride(String key) {
         if (key == null) return null;
+
+        if (key.equals("x_lite_in_app_update_min_releases_behind") && Settings.BLOCK_UPDATE_SCREEN.get()) {
+            return Integer.MAX_VALUE / 2;
+        }
 
         if (key.equals(SnoozeTopicsPatch.SNOOZE_PERIOD_SWITCH)) {
             int minutes = SnoozeTopicsPatch.snoozeMinutes();
@@ -57,7 +78,7 @@ public final class FeatureSwitchesPatch {
             return true;
         }
 
-        if (key.equals("x_lite_in_app_update_enabled") && Settings.BLOCK_UPDATE_SCREEN.get()) {
+        if (key.startsWith("x_lite_in_app_update") && key.endsWith("_enabled") && Settings.BLOCK_UPDATE_SCREEN.get()) {
             return false;
         }
 

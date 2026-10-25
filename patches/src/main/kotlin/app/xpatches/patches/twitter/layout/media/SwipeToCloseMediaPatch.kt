@@ -69,7 +69,11 @@ val swipeToCloseMediaPatch = bytecodePatch(
             "immersiveEvent" to ("DidSwipeToImmersive" to mediaEventInterface),
         ).forEach { (method, event) ->
             val (toStringPrefix, eventInterface) = event
-            extensionStringFingerprint(method).method.returnEarly(javaClassName(classWithToString(toStringPrefix, eventInterface)))
+            // The swipe to the immersive player is gone from newer builds.
+            val optional = method == "immersiveEvent"
+            val type = classWithToStringOrNull(toStringPrefix, eventInterface)
+                ?: if (optional) null else throw PatchException("Could not find the $eventInterface event printing $toStringPrefix")
+            extensionStringFingerprint(method).method.returnEarly(type?.let(::javaClassName) ?: "")
         }
 
         // The handlers tell the extension about every event, which may consume it,
@@ -93,7 +97,7 @@ val swipeToCloseMediaPatch = bytecodePatch(
 /**
  * @return The type of the class implementing [eventInterface] whose toString starts with [prefix].
  */
-private fun BytecodePatchContext.classWithToString(prefix: String, eventInterface: CharSequence): String {
+private fun BytecodePatchContext.classWithToStringOrNull(prefix: String, eventInterface: CharSequence): String? {
     var found: String? = null
     classDefForEach { classDef ->
         if (found != null || eventInterface !in classDef.interfaces) return@classDefForEach
@@ -103,7 +107,7 @@ private fun BytecodePatchContext.classWithToString(prefix: String, eventInterfac
         } == true
         if (startsWithPrefix) found = classDef.type
     }
-    return found ?: throw PatchException("Could not find the $eventInterface event printing $prefix")
+    return found
 }
 
 private fun javaClassName(type: String) = type.substring(1, type.length - 1).replace('/', '.')

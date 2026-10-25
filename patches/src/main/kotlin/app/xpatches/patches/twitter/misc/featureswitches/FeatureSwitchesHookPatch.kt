@@ -16,7 +16,7 @@ private const val EXTENSION_CLASS_DESCRIPTOR =
     "Lapp/xpatches/extension/twitter/patches/featureswitches/FeatureSwitchesPatch;"
 
 /**
- * Lets the extension override the boolean and integer feature switches of the app.
+ * Lets the extension override the boolean, integer and string feature switches of the app.
  * Patches turn switches off by enabling their toggle in the extension.
  */
 val featureSwitchesHookPatch = bytecodePatch(
@@ -86,6 +86,25 @@ val featureSwitchesHookPatch = bytecodePatch(
             } else {
                 // peekInt is optional.
             }
+        }
+
+        GetStringFeatureSwitchFingerprint.method.apply {
+            val implementation = implementation ?: throw PatchException("Feature switch method has no code")
+            if (implementation.registerCount - 3 < 1) {
+                throw PatchException("Feature switch method has no free register")
+            }
+
+            addInstructionsWithLabels(
+                0,
+                """
+                    invoke-static { p1 }, $EXTENSION_CLASS_DESCRIPTOR->getStringOverride(Ljava/lang/String;)Ljava/lang/String;
+                    move-result-object v0
+                    if-eqz v0, :original
+                    return-object v0
+                    :original
+                    nop
+                """,
+            )
         }
     }
 }
