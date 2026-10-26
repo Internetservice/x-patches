@@ -26,6 +26,8 @@ public final class TouchTracker {
     private static float downY;
     private static long downTime;
     private static int lastHeight;
+    /** If the current gesture used more than one finger or dragged a zoomed in photo. */
+    private static volatile boolean notASwipe;
 
     private TouchTracker() {
     }
@@ -39,11 +41,18 @@ public final class TouchTracker {
     }
 
     /**
+     * Called when a drag is about to move a zoomed in photo, so the gesture is not a swipe.
+     */
+    public static void onZoomedDrag() {
+        notASwipe = true;
+    }
+
+    /**
      * A quick, mostly horizontal drag to the right that did not start on the bottom edge,
-     * where seek bars live.
+     * where seek bars live, and that neither pinched nor moved a zoomed in photo.
      */
     private static void detectSwipeRight(MotionEvent up) {
-        if (lastWidth <= 0 || lastHeight <= 0) return;
+        if (lastWidth <= 0 || lastHeight <= 0 || notASwipe) return;
         float dx = up.getX() - lastDownX;
         float dy = Math.abs(up.getY() - downY);
         long duration = up.getEventTime() - downTime;
@@ -92,6 +101,9 @@ public final class TouchTracker {
                     lastDownX = event.getX();
                     downY = event.getY();
                     downTime = event.getEventTime();
+                    notASwipe = false;
+                } else if (action == MotionEvent.ACTION_POINTER_DOWN) {
+                    notASwipe = true;
                 } else if (action == MotionEvent.ACTION_UP && event.getPointerCount() == 1) {
                     detectSwipeRight(event);
                 }

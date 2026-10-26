@@ -6,6 +6,7 @@
 package app.xpatches.patches.twitter.layout.media
 
 import app.morphe.patcher.Fingerprint
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructionsWithLabels
 import app.morphe.patcher.patch.BytecodePatchContext
 import app.morphe.patcher.patch.PatchException
@@ -36,6 +37,16 @@ internal object VideoTabEventFingerprint : Fingerprint(
     returnType = "V",
     parameters = listOf("L"),
     strings = listOf("long_press_to_speed_up", "double_tap_to_like"),
+)
+
+/**
+ * canConsumePanChange of the zoomable state of the Telephoto library, which the photo viewer
+ * uses. Asked before every drag of a photo whether the zoomed content can move that way.
+ */
+internal object ZoomablePanCheckFingerprint : Fingerprint(
+    returnType = "Z",
+    parameters = listOf("J"),
+    strings = listOf("panDelta"),
 )
 
 private fun extensionStringFingerprint(name: String) = Fingerprint(
@@ -74,6 +85,26 @@ val swipeToCloseMediaPatch = bytecodePatch(
             val type = classWithToStringOrNull(toStringPrefix, eventInterface)
                 ?: if (optional) null else throw PatchException("Could not find the $eventInterface event printing $toStringPrefix")
             extensionStringFingerprint(method).method.returnEarly(type?.let(::javaClassName) ?: "")
+        }
+
+        // Dragging a zoomed in photo around is not a swipe. The zoom state reports its zoom
+        // fraction to the extension whenever a drag is about to move the photo.
+        ZoomablePanCheckFingerprint.let { fingerprint ->
+            val method = fingerprint.method
+            val zoomFraction = fingerprint.classDef.methods.single {
+                it.returnType == "Ljava/lang/Float;" && it.parameterTypes.isEmpty()
+            }
+            val implementation = method.implementation ?: throw PatchException("Pan check has no code")
+            // Three parameter registers: this and the Offset long. v0 is free scratch.
+            if (implementation.registerCount < 4) throw PatchException("Pan check has no scratch register")
+            method.addInstructions(
+                0,
+                """
+                    invoke-virtual { p0 }, ${fingerprint.classDef.type}->${zoomFraction.name}()Ljava/lang/Float;
+                    move-result-object v0
+                    invoke-static { v0 }, $EXTENSION_CLASS_DESCRIPTOR->onZoomFraction(Ljava/lang/Float;)V
+                """,
+            )
         }
 
         // The handlers tell the extension about every event, which may consume it,
