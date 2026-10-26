@@ -24,6 +24,7 @@ import app.xpatches.patches.twitter.misc.extension.sharedExtensionPatch
 import app.xpatches.patches.twitter.misc.settings.settingsPatch
 import app.xpatches.patches.twitter.shared.Constants.COMPATIBILITY_X
 import com.android.tools.smali.dexlib2.Opcode
+import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.TwoRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.reference.FieldReference
@@ -98,15 +99,15 @@ private fun BytecodePatchContext.patchShareSheets() {
         val shareRequestIndex = indexOfFirstInstructionReversedOrThrow(statusStringIndex, Opcode.CHECK_CAST)
         val shareRequestRegister = getInstruction<OneRegisterInstruction>(shareRequestIndex).registerA
 
-        // The link is the result of StringBuilder.toString() right after the status prefix.
-        val toStringIndex = indexOfFirstInstructionOrThrow(
-            statusStringIndex,
-            methodCall(smali = "Ljava/lang/StringBuilder;->toString()Ljava/lang/String;"),
-        )
-        val linkIndex = toStringIndex + 1
+        // The link is the String returned by the first call after the status prefix: a
+        // StringBuilder.toString() in older builds, a helper joining prefix and id in newer ones.
+        val buildIndex = indexOfFirstInstructionOrThrow(statusStringIndex) {
+            getReference<MethodReference>()?.returnType == "Ljava/lang/String;"
+        }
+        val linkIndex = buildIndex + 1
         val linkInstruction = getInstruction<OneRegisterInstruction>(linkIndex)
         if (linkInstruction.opcode != Opcode.MOVE_RESULT_OBJECT) {
-            throw PatchException("Unexpected instruction after StringBuilder.toString(): $linkInstruction")
+            throw PatchException("Unexpected instruction after building the link: $linkInstruction")
         }
         val linkRegister = linkInstruction.registerA
 

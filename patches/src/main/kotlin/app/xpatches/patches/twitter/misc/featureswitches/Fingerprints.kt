@@ -48,3 +48,13 @@ internal object PeekIntFeatureSwitchFingerprint : Fingerprint(
     returnType = "I",
     parameters = listOf("Ljava/lang/String;", "I"),
 )
+
+/**
+ * Resolves a string feature switch, logging the impression.
+ */
+internal object GetStringFeatureSwitchFingerprint : Fingerprint(
+    definingClass = FEATURE_SWITCHES_REPOSITORY_CLASS,
+    name = "getString",
+    returnType = "Ljava/lang/String;",
+    parameters = listOf("Ljava/lang/String;", "Ljava/lang/String;"),
+)

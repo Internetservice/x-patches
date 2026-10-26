@@ -23,12 +23,12 @@ import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 private const val HOOK_CLASS_DESCRIPTOR = "Lapp/xpatches/extension/twitter/patches/hook/patch/immersive/HideImmersiveFeedHook;"
-private const val PAGER_STATE = "Landroidx/compose/foundation/pager/d;"
+private const val PAGER_PACKAGE = "Landroidx/compose/foundation/pager/"
 private val REMEMBER_PAGER_STATE_PARAMETERS = listOf("I", "Lkotlin/jvm/functions/Function0;", "Landroidx/compose/runtime/Composer;", "I", "I")
 
 private fun Method.remembersPagerState() = implementation?.instructions?.any { instruction ->
     instruction.getReference<MethodReference>()?.let {
-        it.returnType == PAGER_STATE && it.parameterTypes == REMEMBER_PAGER_STATE_PARAMETERS
+        it.returnType.startsWith(PAGER_PACKAGE) && it.parameterTypes == REMEMBER_PAGER_STATE_PARAMETERS
     } == true
 } == true
 
@@ -64,7 +64,7 @@ val hideImmersiveFeedPatch = bytecodePatch(
         ImmersivePagerFingerprint.method.apply {
             val rememberIndex = indexOfFirstInstructionOrThrow {
                 opcode == Opcode.INVOKE_STATIC && getReference<MethodReference>()?.let {
-                    it.returnType == PAGER_STATE && it.parameterTypes == REMEMBER_PAGER_STATE_PARAMETERS
+                    it.returnType.startsWith(PAGER_PACKAGE) && it.parameterTypes == REMEMBER_PAGER_STATE_PARAMETERS
                 } == true
             }
             val pageCountRegister = getInstruction<FiveRegisterInstruction>(rememberIndex).registerD

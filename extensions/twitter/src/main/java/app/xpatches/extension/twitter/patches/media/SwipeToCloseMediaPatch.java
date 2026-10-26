@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
+import app.xpatches.extension.twitter.TouchTracker;
 import app.xpatches.extension.twitter.Utils;
 import app.xpatches.extension.twitter.XLog;
 import app.xpatches.extension.twitter.settings.Settings;
@@ -93,6 +94,14 @@ public final class SwipeToCloseMediaPatch {
             XLog.e("Could not track the media viewer", e);
         }
         return false;
+    }
+
+    /**
+     * Injection point. Called with the zoom fraction of a photo, 0 when it fits the screen,
+     * whenever a drag is about to move it.
+     */
+    public static void onZoomFraction(Float fraction) {
+        if (fraction != null && fraction > 0.01f) TouchTracker.onZoomedDrag();
     }
 
     /**
