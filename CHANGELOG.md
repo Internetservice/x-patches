@@ -1,3 +1,9 @@
+## [1.1.0-dev.2](https://github.com/Internetservice/x-patches/compare/v1.1.0-dev.1...v1.1.0-dev.2) (2026-10-26)
+
+### 🐛 Bug Fixes
+
+* **X - Swipe to close media:** Ignore drags of a zoomed in photo and pinches ([eff1e3f](https://github.com/Internetservice/x-patches/commit/eff1e3f429b29d0ac17669229420bc7e62b3f3df))
+
 ## [1.1.0-dev.1](https://github.com/Internetservice/x-patches/compare/v1.0.0...v1.1.0-dev.1) (2026-10-25)
 
 ### ✨ New Features

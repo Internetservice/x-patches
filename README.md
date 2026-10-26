@@ -72,7 +72,7 @@ Pre-releases from the `dev` branch can be used by enabling *pre-release* on the 
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.1.0-dev.1](https://github.com/Internetservice/x-patches/releases/tag/v1.1.0-dev.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;37 patches total
+> **[v1.1.0-dev.2](https://github.com/Internetservice/x-patches/releases/tag/v1.1.0-dev.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;37 patches total
 <details open>
 <summary>📦 X&nbsp;&nbsp;•&nbsp;&nbsp;37 patches</summary>
 <br>
